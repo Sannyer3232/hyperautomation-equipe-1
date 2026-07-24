@@ -1,2 +1,3 @@
-python-docx 
+python-docx
 python-dotenv
+playwright

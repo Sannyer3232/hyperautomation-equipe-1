@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2026/07/24-18:07:32.507 61d8 Reusing MANIFEST C:\Users\Turma02\Documents\Sannyer Carvalho\ROTEIRO-08-HYPERAUTOMATION\HyperAutomation\resources\browser_data\Default\Site Characteristics Database/MANIFEST-000001
 2026/07/24-18:07:32.510 61d8 Recovering log #6
 2026/07/24-18:07:32.511 61d8 Reusing old log C:\Users\Turma02\Documents\Sannyer Carvalho\ROTEIRO-08-HYPERAUTOMATION\HyperAutomation\resources\browser_data\Default\Site Characteristics Database/000006.log 
+=======
+2026/07/27-09:08:41.897 1f99 Reusing MANIFEST /home/sannyer-carvalho/Documentos/Projects/ROTEIRO-08-HYPERAUTOMATION/HyperAutomation/resources/browser_data/Default/Site Characteristics Database/MANIFEST-000001
+2026/07/27-09:08:41.906 1f99 Recovering log #3
+2026/07/27-09:08:41.906 1f99 Reusing old log /home/sannyer-carvalho/Documentos/Projects/ROTEIRO-08-HYPERAUTOMATION/HyperAutomation/resources/browser_data/Default/Site Characteristics Database/000003.log 
+>>>>>>> deploy

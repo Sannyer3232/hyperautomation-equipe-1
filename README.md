@@ -47,12 +47,22 @@ HyperAutomation/
 │   ├── cadastros_portal_fake_20.csv # Base de dados de exemplo em CSV
 │   └── portal_fake/               # Aplicação Web estática (Portal Fake)
 │
-├── .env                    # Variáveis de ambiente com credenciais (Não versionado)
-├── .env.example            # Modelo de variáveis de ambiente
-├── .gitignore              # Arquivos ignorados pelo Git
-├── requirements.txt        # Dependências do projeto Python
+├── bot.yaml                # Arquivo de configuração de manifesto para BotCity Maestro
+├── pack_bot.py             # Script de empacotamento do robô para BotCity (.zip)
+├── HyperAutomation.zip     # Pacote pronto para deploy no BotCity Maestro
+├── requirements.txt        # Dependências do projeto Python (incluindo botcity-maestro-sdk)
 └── README.md               # Documentação do projeto
 ```
+
+---
+
+## 🤖 Deploy no BotCity Maestro
+
+Esta automação foi preparada para execução local e integração completa com o **BotCity Maestro**:
+
+1. **Manifesto `bot.yaml`**: Define a chave da automação (`HyperAutomation`), linguagem Python e ponto de entrada (`source/orquestrador.py`).
+2. **Integração BotMaestroSDK**: O orquestrador detecta automaticamente se está sendo executado via **BotCity Runner**, lê parâmetros (`modo`, `row_index`, `email_destino`), busca credenciais no **Maestro Vault** (`GMAIL_CREDS`) e reporta status (`SUCCESS` / `FAILED`) e artefatos (`.docx`).
+3. **Empacotamento automático**: Execute o script `pack_bot.py` para gerar o arquivo `HyperAutomation.zip` pronto para upload no BotCity Maestro.
 
 ---
 

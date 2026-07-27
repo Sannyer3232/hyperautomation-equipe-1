@@ -2,4 +2,4 @@
 bot_id: "HyperAutomation"
 version: "1.0.0"
 project_type: "python"
-main_file: "source/orquestrador.py"
+main_file: "bot.py"

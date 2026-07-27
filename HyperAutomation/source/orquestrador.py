@@ -11,7 +11,7 @@ BROWSER_DATA_DIR = PATH_ROOT / "resources" / "browser_data"
 sys.path.append(str(BASE_DIR))
 sys.path.append(str(PATH_ROOT / "resources"))
 
-from bot import carregar_usuarios, preencher_portal_rapido, INDEX_HTML
+from portal_bot import carregar_usuarios, preencher_portal_rapido, INDEX_HTML
 from extracao import extrair_dados, extrair_todos_dados
 from documento_email import criar_documento, enviar_email
 
@@ -30,7 +30,7 @@ def main():
     if maestro.is_online:
         execution = maestro.get_execution()
         task_id = execution.task_id
-        print(f"🤖 BotCity Maestro detectado! Task ID: {task_id}")
+        print(f"[BOTCITY] Maestro detectado! Task ID: {task_id}")
         
         # Leitura de parâmetros do Maestro (se configurados na execução)
         params = execution.parameters or {}
@@ -70,7 +70,7 @@ def main():
                 message="Orquestração concluída com sucesso no BotCity Maestro."
             )
     except Exception as e:
-        print(f"❌ Erro durante a execução: {e}")
+        print(f"[ERRO] Erro durante a execucao: {e}")
         if maestro.is_online and task_id:
             maestro.finish_task(
                 task_id=task_id,
@@ -87,7 +87,7 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
     - modo="todos": Extrai e gera documento para TODOS os cadastros do portal.
     """
     print("=" * 65)
-    print("🚀 INICIANDO ORQUESTRAÇÃO RPA COMPLETA (HYPERAUTOMATION)")
+    print("INICIANDO ORQUESTRAÇÃO RPA COMPLETA (HYPERAUTOMATION)")
     print("=" * 65)
 
     usuarios = carregar_usuarios()
@@ -107,6 +107,19 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
         print("\n[Etapa 1] Executando preenchimento ultra-rápido dos dados no portal...")
         preencher_portal_rapido(page, usuarios, qtd=10)
 
+        # Captura Print 1: Portal preenchido
+        screenshots_dir = PATH_ROOT / "resources" / "screenshots"
+        screenshots_dir.mkdir(parents=True, exist_ok=True)
+        print_portal = screenshots_dir / "01_portal_preenchido.png"
+        page.screenshot(path=str(print_portal), full_page=True)
+        print(f"  [SCREENSHOT] Salvo: {print_portal.name}")
+
+        if maestro and maestro.is_online and task_id:
+            try:
+                maestro.post_artifact(task_id=task_id, artifact_name=print_portal.name, filepath=str(print_portal))
+            except Exception:
+                pass
+
         # 2. Extração dos dados
         if modo == "todos":
             print("\n[Etapa 2] Extraindo dados de TODOS os cadastros...")
@@ -115,13 +128,24 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
             print(f"\n[Etapa 2] Extraindo dados do cadastro na linha {row_index}...")
             lista_clientes = [extrair_dados(page, row_index=row_index)]
 
+        # Captura Print 2: Após extração dos dados
+        print_extracao = screenshots_dir / "02_extracao_dados.png"
+        page.screenshot(path=str(print_extracao), full_page=True)
+        print(f"  [SCREENSHOT] Salvo: {print_extracao.name}")
+
+        if maestro and maestro.is_online and task_id:
+            try:
+                maestro.post_artifact(task_id=task_id, artifact_name=print_extracao.name, filepath=str(print_extracao))
+            except Exception:
+                pass
+
         context.close()
 
     # 3. Geração de documentos, envio de e-mail e exclusão automática da ficha
     for i, cliente in enumerate(lista_clientes, start=1):
         print(f"\n[Etapa 3 - Cliente {i}/{len(lista_clientes)}] Processando: {cliente.get('Nome')} {cliente.get('Sobrenome')}")
         arquivo_docx = criar_documento(cliente)
-        print(f"  📄 Documento Word gerado: {arquivo_docx}")
+        print(f"  Documento Word gerado: {arquivo_docx}")
 
         # Postar o documento como artefato no BotCity Maestro se estiver online
         if maestro and maestro.is_online and task_id:
@@ -131,17 +155,17 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
                     artifact_name=Path(arquivo_docx).name,
                     filepath=arquivo_docx
                 )
-                print(f"  📤 Artefato publicado no BotCity Maestro: {Path(arquivo_docx).name}")
+                print(f"  Artefato publicado no BotCity Maestro: {Path(arquivo_docx).name}")
             except Exception as e_art:
-                print(f"  ⚠️ Não foi possível enviar artefato ao Maestro: {e_art}")
+                print(f"  Aviso: Nao foi possivel enviar artefato ao Maestro: {e_art}")
 
-        print(f"  ✉️ Enviando e-mail para {email_destino}...")
+        print(f"  Enviando e-mail para {email_destino}...")
         try:
             enviar_email(email_destino, arquivo_docx, apagar_apos_envio=True, remetente=remetente, senha=senha)
         except Exception as e:
-            print(f"  ⚠️ Falha ao enviar e-mail do cliente {cliente.get('Nome')}: {e}")
+            print(f"  Aviso: Falha ao enviar e-mail do cliente {cliente.get('Nome')}: {e}")
 
-    print("\n✅ ORQUESTRAÇÃO FINALIZADA COM SUCESSO!")
+    print("\nORQUESTRAÇÃO FINALIZADA COM SUCESSO!")
 
 if __name__ == "__main__":
     main()

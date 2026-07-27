@@ -6,6 +6,7 @@ ZIP_FILE = BASE_DIR / "HyperAutomation.zip"
 
 # Arquivos e pastas a incluir no pacote BotCity
 INCLUDES = [
+    "bot.py",
     "bot.yaml",
     "requirements.txt",
     "source",
@@ -29,12 +30,12 @@ def should_exclude(path: Path) -> bool:
     return False
 
 def pack():
-    print(f"📦 Criando pacote para BotCity Maestro: {ZIP_FILE.name}...")
+    print(f"Criando pacote para BotCity Maestro: {ZIP_FILE.name}...")
     with zipfile.ZipFile(ZIP_FILE, "w", zipfile.ZIP_DEFLATED) as zipf:
         for item_name in INCLUDES:
             item_path = BASE_DIR / item_name
             if not item_path.exists():
-                print(f"⚠️ Aviso: {item_name} não encontrado.")
+                print(f"Aviso: {item_name} nao encontrado.")
                 continue
 
             if item_path.is_file():
@@ -48,7 +49,7 @@ def pack():
                         zipf.write(file_path, arcname=arcname)
                         print(f"  + Adicionado: {arcname}")
 
-    print(f"\n✅ Pacote BotCity gerado com sucesso: {ZIP_FILE}")
+    print(f"\nPacote BotCity gerado com sucesso: {ZIP_FILE}")
 
 if __name__ == "__main__":
     pack()

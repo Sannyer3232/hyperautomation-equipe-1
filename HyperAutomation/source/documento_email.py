@@ -101,7 +101,7 @@ def enviar_email(email_cliente, arquivo, apagar_apos_envio=True, remetente=None,
     finally:
         if apagar_apos_envio and os.path.exists(arquivo):
             os.remove(arquivo)
-            print(f"🗑️ Arquivo temporário '{Path(arquivo).name}' removido após o envio.")
+            print(f"Arquivo temporario '{Path(arquivo).name}' removido apos o envio.")
 
 if __name__ == "__main__":
     dados_exemplo = {

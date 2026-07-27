@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 
-# Localiza o arquivo .env na pasta do projeto
+# Localiza o arquivo .env na pasta common ou na pasta raiz do source
 BASE_DIR = Path(__file__).resolve().parent
-ENV_PATH = BASE_DIR / ".env"
+ENV_PATH = BASE_DIR / ".env" if (BASE_DIR / ".env").exists() else BASE_DIR.parent / ".env"
 load_dotenv(ENV_PATH)
 
 def criar_documento(dados=None):

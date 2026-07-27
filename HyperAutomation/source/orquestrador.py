@@ -12,8 +12,8 @@ sys.path.append(str(BASE_DIR))
 sys.path.append(str(PATH_ROOT / "resources"))
 
 from portal_bot import carregar_usuarios, preencher_portal_rapido, INDEX_HTML
-from extracao import extrair_dados, extrair_todos_dados
-from documento_email import criar_documento, enviar_email
+from common.extracao import extrair_dados, extrair_todos_dados
+from common.documento_email import criar_documento, enviar_email
 
 def main():
     # Inicializa conexão com o BotCity Maestro SDK (se executado via Runner)

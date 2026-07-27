@@ -1,7 +1,7 @@
 from playwright.sync_api import sync_playwright
 from pathlib import Path
 
-PATH_ROOT = Path(__file__).resolve().parent.parent
+PATH_ROOT = Path(__file__).resolve().parent.parent.parent
 PORTAL_PATH = PATH_ROOT / "resources" / "portal_fake" / "index.html"
 BROWSER_DATA_DIR = PATH_ROOT / "resources" / "browser_data"
 

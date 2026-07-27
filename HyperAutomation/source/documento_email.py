@@ -54,14 +54,16 @@ def criar_documento(dados=None):
     documento.save(str(arquivo))
     return str(arquivo)
 
-def enviar_email(email_cliente, arquivo, apagar_apos_envio=True):
-    remetente = os.getenv("EMAIL_REMETENTE")
-    senha = os.getenv("EMAIL_SENHA")
+def enviar_email(email_cliente, arquivo, apagar_apos_envio=True, remetente=None, senha=None):
+    if not remetente:
+        remetente = os.getenv("EMAIL_REMETENTE")
+    if not senha:
+        senha = os.getenv("EMAIL_SENHA")
 
     if not remetente:
-        raise Exception("EMAIL_REMETENTE não encontrado no arquivo .env")
+        raise Exception("EMAIL_REMETENTE não informado e não encontrado nas variáveis de ambiente.")
     if not senha:
-        raise Exception("EMAIL_SENHA não encontrada no arquivo .env")
+        raise Exception("EMAIL_SENHA não informada e não encontrada nas variáveis de ambiente.")
 
     print(f"Remetente: {remetente}")
     print(f"Destinatário: {email_cliente}")

@@ -1,4 +1,5 @@
-python-docx
-python-dotenv
-playwright
-botcity-maestro-sdk
+# Dependências Principais - HyperAutomation Processo 1 (Atendimento)
+playwright>=1.40.0
+botcity-maestro-sdk>=0.5.0
+python-docx>=1.1.0
+python-dotenv>=1.0.0

@@ -14,6 +14,8 @@ sys.path.append(str(PATH_ROOT / "resources"))
 from portal_bot import carregar_usuarios, preencher_portal_rapido, INDEX_HTML
 from common.extracao import extrair_dados, extrair_todos_dados
 from common.documento_email import criar_documento, enviar_email
+from processo_atendimento.gestor_arquivos import GestorArquivos
+from processo_atendimento.resposta_cliente import NotificadorCliente
 
 def main():
     # Inicializa conexão com o BotCity Maestro SDK (se executado via Runner)
@@ -87,8 +89,16 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
     - modo="todos": Extrai e gera documento para TODOS os cadastros do portal.
     """
     print("=" * 65)
-    print("INICIANDO ORQUESTRAÇÃO RPA COMPLETA (HYPERAUTOMATION)")
+    print("INICIANDO ORQUESTRAÇÃO RPA COMPLETA (HYPERAUTOMATION - PROCESSO 1)")
     print("=" * 65)
+
+    # 0. Inicializa Módulos do Processo 1 (Gestor ERP e Notificador)
+    gestor_erp = GestorArquivos()
+    gestor_erp.garantir_estrutura_pastas()
+    notificador = NotificadorCliente()
+    if remetente and senha:
+        notificador.remetente = remetente
+        notificador.senha = senha
 
     usuarios = carregar_usuarios()
 
@@ -141,29 +151,50 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
 
         context.close()
 
-    # 3. Geração de documentos, envio de e-mail e exclusão automática da ficha
+    # 3. Geração de documentos, organização no ERP e envio de notificação ao cliente
     for i, cliente in enumerate(lista_clientes, start=1):
-        print(f"\n[Etapa 3 - Cliente {i}/{len(lista_clientes)}] Processando: {cliente.get('Nome')} {cliente.get('Sobrenome')}")
+        nome_completo = f"{cliente.get('Nome')} {cliente.get('Sobrenome')}"
+        protocolo = f"2026-{i:04d}"
+        print(f"\n[Etapa 3 - Cliente {i}/{len(lista_clientes)}] Processando: {nome_completo} (Protocolo: #{protocolo})")
+        
+        # Geração da Ficha Word
         arquivo_docx = criar_documento(cliente)
-        print(f"  Documento Word gerado: {arquivo_docx}")
+        path_docx = Path(arquivo_docx)
+        print(f"  Documento Word gerado: {path_docx.name}")
+
+        # Movimentação física no ERP Simulado
+        # Coloca em Downloads e em seguida move para Documentos_OK
+        dest_downloads = gestor_erp.dir_downloads / path_docx.name
+        if path_docx.exists():
+            import shutil
+            shutil.copy(str(path_docx), str(dest_downloads))
+            gestor_erp.mover_para_status(path_docx.name, status_ok=True)
+            gestor_erp.mover_para_encaminhados(path_docx.name)
 
         # Postar o documento como artefato no BotCity Maestro se estiver online
         if maestro and maestro.is_online and task_id:
             try:
                 maestro.post_artifact(
                     task_id=task_id,
-                    artifact_name=Path(arquivo_docx).name,
-                    filepath=arquivo_docx
+                    artifact_name=path_docx.name,
+                    filepath=str(path_docx)
                 )
-                print(f"  Artefato publicado no BotCity Maestro: {Path(arquivo_docx).name}")
+                print(f"  Artefato publicado no BotCity Maestro: {path_docx.name}")
             except Exception as e_art:
                 print(f"  Aviso: Nao foi possivel enviar artefato ao Maestro: {e_art}")
 
-        print(f"  Enviando e-mail para {email_destino}...")
+        # Notificação HTML via NotificadorCliente
+        print(f"  Enviando notificação por e-mail para {email_destino}...")
         try:
+            notificador.enviar_resposta(
+                email_destino=email_destino,
+                protocolo=protocolo,
+                aprovado=True
+            )
+            # Envio legado do anexo .docx
             enviar_email(email_destino, arquivo_docx, apagar_apos_envio=True, remetente=remetente, senha=senha)
         except Exception as e:
-            print(f"  Aviso: Falha ao enviar e-mail do cliente {cliente.get('Nome')}: {e}")
+            print(f"  Aviso: Falha no processo de notificação do cliente {nome_completo}: {e}")
 
     print("\nORQUESTRAÇÃO FINALIZADA COM SUCESSO!")
 

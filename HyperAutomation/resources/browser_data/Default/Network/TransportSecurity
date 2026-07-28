@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"sts":[{"expiry":1816460971.955394,"host":"5EdUoB7YUY9zZV+2DkgVXgho8WUvp+D+6KpeUOhNQIM=","mode":"force-https","sts_include_subdomains":false,"sts_observed":1784924971.955397},{"expiry":1816460972.103813,"host":"8/RrMmQlCD2Gsp14wUCE1P8r7B2C5+yE0+g79IPyRsc=","mode":"force-https","sts_include_subdomains":true,"sts_observed":1784924972.103816}],"version":2}
-=======
-{"sts":[{"expiry":1816714128.552537,"host":"5EdUoB7YUY9zZV+2DkgVXgho8WUvp+D+6KpeUOhNQIM=","mode":"force-https","sts_include_subdomains":false,"sts_observed":1785178128.552542},{"expiry":1816714129.469643,"host":"8/RrMmQlCD2Gsp14wUCE1P8r7B2C5+yE0+g79IPyRsc=","mode":"force-https","sts_include_subdomains":true,"sts_observed":1785178129.469647}],"version":2}
->>>>>>> deploy
+{"sts":[{"expiry":1816782355.714228,"host":"5EdUoB7YUY9zZV+2DkgVXgho8WUvp+D+6KpeUOhNQIM=","mode":"force-https","sts_include_subdomains":false,"sts_observed":1785246355.714233},{"expiry":1816782355.924835,"host":"8/RrMmQlCD2Gsp14wUCE1P8r7B2C5+yE0+g79IPyRsc=","mode":"force-https","sts_include_subdomains":true,"sts_observed":1785246355.924837}],"version":2}

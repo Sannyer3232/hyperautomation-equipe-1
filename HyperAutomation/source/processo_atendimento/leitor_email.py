@@ -31,7 +31,7 @@ class LeitorEmail:
     def ler_emails_pendentes(self, marcar_como_lido: bool = True) -> list:
         """
         Monitora a caixa de entrada exclusivamente por e-mails NÃO LIDOS (UNSEEN) contendo respostas de clientes.
-        Marca as mensagens como lidas (\Seen) após extração para evitar duplicidade de processamento.
+        Marca as mensagens como lidas (\\Seen) após extração para evitar duplicidade de processamento.
         """
         solicitacoes = []
 

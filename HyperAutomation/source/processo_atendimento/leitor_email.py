@@ -1,5 +1,5 @@
 """
-Módulo responsável pela leitura de e-mails de solicitação dos clientes e download de anexos.
+Módulo responsável pelo monitoramento da caixa de entrada, leitura de e-mails com respostas de clientes e download dos PDFs unificados com a Ficha Assinada.
 """
 import os
 import imaplib
@@ -12,8 +12,8 @@ load_dotenv()
 
 class LeitorEmail:
     """
-    Classe responsável por conectar à caixa de entrada (IMAP) ou simular a leitura de solicitações
-    recebidas por e-mail dos clientes e salvar os anexos no diretório Downloads do ERP.
+    Classe responsável por conectar à caixa de entrada (IMAP) e monitorar e-mails de retorno
+    enviados pelos clientes contendo a Ficha Assinada e os Documentos em um único PDF.
     """
     def __init__(self, download_dir: Path = None):
         self.imap_server = os.getenv("IMAP_SERVER", "imap.gmail.com")
@@ -24,28 +24,27 @@ class LeitorEmail:
             self.download_dir = Path(download_dir)
         else:
             self.download_dir = (Path(__file__).resolve().parents[3] / "ERP_Portal_Fake" / "Downloads").resolve()
-        
+
         self.download_dir.mkdir(parents=True, exist_ok=True)
 
     def ler_emails_pendentes(self) -> list:
         """
-        Lê os e-mails pendentes/não lidos da caixa de entrada.
-        Retorna uma lista de dicionários contendo os metadados e caminhos dos anexos baixados.
-        Possui fallback automático para solicitações simuladas se o IMAP não estiver disponível.
+        Monitora a caixa de entrada por e-mails de resposta dos clientes contendo os documentos e a ficha assinada.
         """
         solicitacoes = []
 
         if self.email_user and self.email_pass and self.imap_server:
             try:
-                print(f"[LEITOR EMAIL] Conectando ao servidor IMAP {self.imap_server}...")
+                print(f"[LEITOR EMAIL] Monitorando caixa de entrada no servidor IMAP {self.imap_server}...")
                 mail = imaplib.IMAP4_SSL(self.imap_server)
                 mail.login(str(self.email_user), str(self.email_pass))
                 mail.select("inbox")
 
-                status, messages = mail.search(None, '(UNSEEN SUBJECT "Solicitação de Atendimento")')
+                # Busca por e-mails não lidos de resposta ou retorno de solicitação
+                status, messages = mail.search(None, '(UNSEEN SUBJECT "Assinatura")')
                 email_ids = messages[0].split()
 
-                print(f"[LEITOR EMAIL] Encontrados {len(email_ids)} e-mails pendentes.")
+                print(f"[LEITOR EMAIL] Encontrados {len(email_ids)} e-mails de retorno de clientes.")
 
                 for mail_id in email_ids:
                     _, msg_data = mail.fetch(mail_id, "(RFC822)")
@@ -62,15 +61,15 @@ class LeitorEmail:
                     return solicitacoes
 
             except Exception as e:
-                print(f"[AVISO LEITOR EMAIL] Não foi possível conectar via IMAP ({e}). Alternando para modo simulado de atendimento.")
+                print(f"[AVISO LEITOR EMAIL] Não foi possível conectar via IMAP ({e}). Alternando para modo de monitoramento simulado.")
 
-        # Modo Simulado (Demonstrativo e Teste Local)
-        return self._gerar_solicitacoes_simuladas()
+        # Modo de Teste e Monitoramento Simulado
+        return self._gerar_retorno_simulado()
 
     def _processar_mensagem(self, msg) -> dict:
-        """Processa a mensagem individual do e-mail e salva anexos."""
+        """Processa a mensagem individual do e-mail retornado pelo cliente e baixa anexos."""
         remetente = msg.get("From", "cliente@exemplo.com")
-        assunto = msg.get("Subject", "Solicitação sem assunto")
+        assunto = msg.get("Subject", "Retorno de Documentos")
 
         anexos_baixados = self.baixar_anexos(msg)
 
@@ -79,18 +78,18 @@ class LeitorEmail:
             "assunto": assunto,
             "anexos": anexos_baixados,
             "dados_cliente": {
-                "Nome": "Cliente",
-                "Sobrenome": "Solicitante",
+                "Nome": "Ana",
+                "Sobrenome": "Silva",
                 "CPF": "11122233344",
                 "Email": remetente,
-                "Telefone": "(92) 99999-1111",
-                "Endereco": "Av. Brasil, 1000 - Manaus/AM"
+                "Telefone": "(92) 99888-1122",
+                "Endereco": "Rua das Flores, 123 - Manaus/AM"
             }
         }
 
     def baixar_anexos(self, mensagem) -> list:
         """
-        Extrai e baixa os anexos de uma mensagem de e-mail recebida para a pasta Downloads do ERP.
+        Extrai e salva os PDFs baixados da mensagem de e-mail na pasta ERP_Portal_Fake/Downloads.
         """
         anexos = []
         if not hasattr(mensagem, "walk"):
@@ -107,38 +106,34 @@ class LeitorEmail:
                 filename = decode_header(filename)[0][0]
                 if isinstance(filename, bytes):
                     filename = filename.decode()
-                
+
                 caminho_salvo = self.download_dir / filename
                 with open(caminho_salvo, "wb") as f:
                     f.write(part.get_payload(decode=True))
-                
+
                 anexos.append(caminho_salvo)
-                print(f"[LEITOR EMAIL] Anexo salvo: {caminho_salvo.name}")
+                print(f"[LEITOR EMAIL] PDF de retorno salvo em Downloads: {caminho_salvo.name}")
 
         return anexos
 
-    def _gerar_solicitacoes_simuladas(self) -> list:
+    def _gerar_retorno_simulado(self) -> list:
         """
-        Cria arquivos de teste demonstrativos em ERP_Portal_Fake/Downloads para permitir
-        a execução ponta a ponta do fluxo do Processo 1 sem depender de e-mails externos.
+        Cria o PDF unificado simulado (Ficha Assinada + Documentos) em ERP_Portal_Fake/Downloads
+        para demonstrar a validação do retorno do cliente.
         """
-        print("[LEITOR EMAIL] Carregando solicitações de teste em ERP_Portal_Fake/Downloads...")
+        print("[LEITOR EMAIL] Monitoramento encontrou e-mail de retorno do cliente com PDF Único...")
 
-        # Solicitação 1: Completa (Válida)
-        arq_rg = self.download_dir / "Documento_Identidade_Ana_Silva.pdf"
-        arq_comp = self.download_dir / "Comprovante_Residencia_Ana_Silva.pdf"
-        arq_ficha = self.download_dir / "Ficha_Cadastro_Ana_Silva.docx"
+        pdf_unificado = self.download_dir / "Ficha_Assinada_e_Documentos_Ana_Silva.pdf"
 
-        for arq in [arq_rg, arq_comp, arq_ficha]:
-            if not arq.exists():
-                with open(arq, "w", encoding="utf-8") as f:
-                    f.write(f"Conteudo simulado de validação para {arq.name}")
+        if not pdf_unificado.exists():
+            with open(pdf_unificado, "w", encoding="utf-8") as f:
+                f.write("%PDF-1.4 Conteúdo Simulado: Ficha Cadastral Assinada + RG/CPF + Comprovante de Residência")
 
-        solic_1 = {
-            "id": "SOLIC-001",
+        retorno_cliente = {
+            "id": "RET-001",
             "protocolo": "2026-0001",
             "remetente": "ana.silva@exemplo.com",
-            "assunto": "Solicitação de Cadastro Completa - Ana Silva",
+            "assunto": "RES: Assinatura de Ficha Cadastral - Protocolo #2026-0001",
             "dados_cliente": {
                 "nome": "Ana",
                 "sobrenome": "Silva",
@@ -147,12 +142,12 @@ class LeitorEmail:
                 "telefone": "(92) 99888-1122",
                 "nascimento": "1992-05-15",
                 "endereco": "Rua das Flores, 123 - Manaus/AM",
-                "observacao": "Documentação completa enviada por e-mail."
+                "observacao": "Ficha assinada e documentos anexados em PDF único."
             },
-            "anexos": [str(arq_rg), str(arq_comp), str(arq_ficha)]
+            "anexos": [str(pdf_unificado)]
         }
 
-        return [solic_1]
+        return [retorno_cliente]
 
 def ler_emails_pendentes():
     leitor = LeitorEmail()

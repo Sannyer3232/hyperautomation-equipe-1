@@ -1,2 +1,12 @@
 HyperAutomation/source/.env
 .venv
+__pycache__/
+*.pyc
+*.docx
+browser_data/
+HyperAutomation/resources/browser_data/
+ERP_Portal_Fake/Downloads/*
+ERP_Portal_Fake/Documentos_OK/*
+ERP_Portal_Fake/Documentos_Pendentes/*
+ERP_Portal_Fake/Encaminhados/*
+!ERP_Portal_Fake/**/.gitkeep

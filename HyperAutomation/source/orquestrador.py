@@ -26,11 +26,11 @@ def main():
     maestro = BotMaestroSDK.from_sys_args()
 
     task_id = None
-    modo = "demo_completo"
+    modo = "enviar_solicitacoes"
     if len(sys.argv) > 1 and not sys.argv[1].startswith("-"):
         modo = sys.argv[1]
-    row_index = 9
-    email_destino = "carvalhosannyer@gmail.com"
+    row_index = 2
+    email_destino = "2026500534@ifam.edu.br"
     headless = True if maestro.is_online else False
     remetente = None
     senha = None
@@ -213,15 +213,17 @@ def executar_orquestracao(modo="demo_completo", row_index=9, email_destino="carv
             print(f"[FASE 2 & 3] MONITORAMENTO DO RETORNO, VALIDAÇÃO E CADASTRO ({nome} {sobrenome})")
             print("-" * 60)
 
-            # Gera arquivo simulado em Downloads para o cliente extraído do portal se não existir
-            nome_limpo_pdf = f"Ficha_Assinada_e_Documentos_{nome}_{sobrenome}".replace(" ", "_")
-            pdf_simulado = gestor_erp.dir_downloads / f"{nome_limpo_pdf}.pdf"
-            if not pdf_simulado.exists() and not (gestor_erp.dir_ok / pdf_simulado.name).exists() and not (gestor_erp.dir_encaminhados / pdf_simulado.name).exists():
-                with open(pdf_simulado, "w", encoding="utf-8") as f:
-                    f.write(f"%PDF-1.4 Conteúdo Simulado de {nome} {sobrenome}: Ficha Cadastral Assinada + RG/CPF ({cpf}) + Comprovante")
+            # Gera arquivo simulado apenas se estiver no modo demo_completo
+            if modo == "demo_completo":
+                nome_limpo_pdf = f"Ficha_Assinada_e_Documentos_{nome}_{sobrenome}".replace(" ", "_")
+                pdf_simulado = gestor_erp.dir_downloads / f"{nome_limpo_pdf}.pdf"
+                if not pdf_simulado.exists() and not (gestor_erp.dir_ok / pdf_simulado.name).exists() and not (gestor_erp.dir_encaminhados / pdf_simulado.name).exists():
+                    with open(pdf_simulado, "w", encoding="utf-8") as f:
+                        f.write(f"%PDF-1.4 Conteúdo Simulado de {nome} {sobrenome}: Ficha Cadastral Assinada + RG/CPF ({cpf}) + Comprovante")
 
             print("  [FASE 2] Buscando novos e-mails de retorno não lidos (UNSEEN)...")
-            solicitacoes_retornadas = leitor_email.ler_emails_pendentes(marcar_como_lido=True)
+            permitir_sim = (modo == "demo_completo")
+            solicitacoes_retornadas = leitor_email.ler_emails_pendentes(marcar_como_lido=True, permitir_simulacao=permitir_sim)
 
             if not solicitacoes_retornadas:
                 print("  [FASE 2] Nenhum novo e-mail de retorno pendente localizado no momento.")
@@ -231,7 +233,7 @@ def executar_orquestracao(modo="demo_completo", row_index=9, email_destino="carv
             print(f"  [FASE 2] E-mails de retorno identificados para processar: {len(solicitacoes_retornadas)}")
 
             for idx, solic in enumerate(solicitacoes_retornadas, start=1):
-                anexos = solic.get("anexos", [str(pdf_simulado)])
+                anexos = solic.get("anexos", [])
 
                 print(f"\n  [Processando Retorno {idx}/{len(solicitacoes_retornadas)}] Cliente: {nome} {sobrenome} | Protocolo: #{protocolo}")
                 print(f"    Anexos baixados: {[Path(a).name for a in anexos]}")

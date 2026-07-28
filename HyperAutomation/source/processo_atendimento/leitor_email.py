@@ -1,5 +1,5 @@
 """
-Módulo responsável pelo monitoramento da caixa de entrada, leitura de e-mails com respostas de clientes e download dos PDFs unificados com a Ficha Assinada.
+Módulo responsável pelo monitoramento da caixa de entrada, leitura de e-mails de retorno de clientes e download dos PDFs unificados.
 """
 import os
 import imaplib
@@ -14,6 +14,7 @@ class LeitorEmail:
     """
     Classe responsável por conectar à caixa de entrada (IMAP) e monitorar e-mails de retorno
     enviados pelos clientes contendo a Ficha Assinada e os Documentos em um único PDF.
+    Garante que e-mails já lidos/processados não sejam analisados duplamente (Flag \\Seen).
     """
     def __init__(self, download_dir: Path = None):
         self.imap_server = os.getenv("IMAP_SERVER", "imap.gmail.com")
@@ -27,24 +28,25 @@ class LeitorEmail:
 
         self.download_dir.mkdir(parents=True, exist_ok=True)
 
-    def ler_emails_pendentes(self) -> list:
+    def ler_emails_pendentes(self, marcar_como_lido: bool = True) -> list:
         """
-        Monitora a caixa de entrada por e-mails de resposta dos clientes contendo os documentos e a ficha assinada.
+        Monitora a caixa de entrada exclusivamente por e-mails NÃO LIDOS (UNSEEN) contendo respostas de clientes.
+        Marca as mensagens como lidas (\Seen) após extração para evitar duplicidade de processamento.
         """
         solicitacoes = []
 
         if self.email_user and self.email_pass and self.imap_server:
             try:
-                print(f"[LEITOR EMAIL] Monitorando caixa de entrada no servidor IMAP {self.imap_server}...")
+                print(f"[LEITOR EMAIL] Monitorando caixa de entrada (apenas não lidos UNSEEN) no servidor IMAP {self.imap_server}...")
                 mail = imaplib.IMAP4_SSL(self.imap_server)
                 mail.login(str(self.email_user), str(self.email_pass))
                 mail.select("inbox")
 
-                # Busca por e-mails não lidos de resposta ou retorno de solicitação
+                # Busca estrita por e-mails NÃO LIDOS (UNSEEN)
                 status, messages = mail.search(None, '(UNSEEN SUBJECT "Assinatura")')
                 email_ids = messages[0].split()
 
-                print(f"[LEITOR EMAIL] Encontrados {len(email_ids)} e-mails de retorno de clientes.")
+                print(f"[LEITOR EMAIL] Encontrados {len(email_ids)} novos e-mails não lidos de retorno.")
 
                 for mail_id in email_ids:
                     _, msg_data = mail.fetch(mail_id, "(RFC822)")
@@ -54,6 +56,11 @@ class LeitorEmail:
                             solicitacao = self._processar_mensagem(msg)
                             if solicitacao:
                                 solicitacoes.append(solicitacao)
+
+                            # Marca o e-mail como LIDO (\Seen) no servidor para nunca ser processado 2 vezes
+                            if marcar_como_lido:
+                                mail.store(mail_id, '+FLAGS', '\\Seen')
+                                print(f"[LEITOR EMAIL] E-mail ID {mail_id.decode()} marcado como LIDO (\\Seen) no servidor.")
 
                 mail.close()
                 mail.logout()
@@ -112,42 +119,40 @@ class LeitorEmail:
                     f.write(part.get_payload(decode=True))
 
                 anexos.append(caminho_salvo)
-                print(f"[LEITOR EMAIL] PDF de retorno salvo em Downloads: {caminho_salvo.name}")
+                print(f"[LEITOR EMAIL] Novo PDF de retorno baixado para Downloads: {caminho_salvo.name}")
 
         return anexos
 
     def _gerar_retorno_simulado(self) -> list:
         """
-        Cria o PDF unificado simulado (Ficha Assinada + Documentos) em ERP_Portal_Fake/Downloads
-        para demonstrar a validação do retorno do cliente.
+        Gera retorno simulado em ERP_Portal_Fake/Downloads caso haja arquivo pendente de processamento.
         """
-        print("[LEITOR EMAIL] Monitoramento encontrou e-mail de retorno do cliente com PDF Único...")
-
         pdf_unificado = self.download_dir / "Ficha_Assinada_e_Documentos_Ana_Silva.pdf"
 
-        if not pdf_unificado.exists():
-            with open(pdf_unificado, "w", encoding="utf-8") as f:
-                f.write("%PDF-1.4 Conteúdo Simulado: Ficha Cadastral Assinada + RG/CPF + Comprovante de Residência")
+        # Se o arquivo de simulado ainda está na pasta Downloads (não foi movido para OK/Encaminhados), processa-o
+        if pdf_unificado.exists():
+            print("[LEITOR EMAIL] Identificado 1 novo retorno pendente em Downloads...")
+            return [{
+                "id": "RET-001",
+                "protocolo": "2026-0001",
+                "remetente": "ana.silva@exemplo.com",
+                "assunto": "RES: Assinatura de Ficha Cadastral - Protocolo #2026-0001",
+                "dados_cliente": {
+                    "nome": "Ana",
+                    "sobrenome": "Silva",
+                    "cpf": "11122233344",
+                    "email": "ana.silva@exemplo.com",
+                    "telefone": "(92) 99888-1122",
+                    "nascimento": "1992-05-15",
+                    "endereco": "Rua das Flores, 123 - Manaus/AM",
+                    "observacao": "Ficha assinada e documentos anexados em PDF único."
+                },
+                "anexos": [str(pdf_unificado)]
+            }]
 
-        retorno_cliente = {
-            "id": "RET-001",
-            "protocolo": "2026-0001",
-            "remetente": "ana.silva@exemplo.com",
-            "assunto": "RES: Assinatura de Ficha Cadastral - Protocolo #2026-0001",
-            "dados_cliente": {
-                "nome": "Ana",
-                "sobrenome": "Silva",
-                "cpf": "11122233344",
-                "email": "ana.silva@exemplo.com",
-                "telefone": "(92) 99888-1122",
-                "nascimento": "1992-05-15",
-                "endereco": "Rua das Flores, 123 - Manaus/AM",
-                "observacao": "Ficha assinada e documentos anexados em PDF único."
-            },
-            "anexos": [str(pdf_unificado)]
-        }
-
-        return [retorno_cliente]
+        # Se o arquivo já foi processado e movido, não há novos retornos pendentes
+        print("[LEITOR EMAIL] Nenhum novo e-mail ou documento retornado pendente no momento.")
+        return []
 
 def ler_emails_pendentes():
     leitor = LeitorEmail()

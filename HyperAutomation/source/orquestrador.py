@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 from botcity.maestro import BotMaestroSDK, AutomationTaskFinishStatus
@@ -25,13 +26,59 @@ def main():
     # Inicializa conexão com o BotCity Maestro SDK (se executado via Runner)
     maestro = BotMaestroSDK.from_sys_args()
 
+    parser = argparse.ArgumentParser(
+        description="Orquestrador HyperAutomation - Processo 1 (Atendimento & Cadastro)",
+        formatter_class=argparse.RawTextHelpFormatter
+    )
+    parser.add_argument(
+        "modo_pos",
+        nargs="?",
+        default=None,
+        help="Modo de execução posicional:\n"
+             "  enviar_solicitacoes : Executa FASE 1 (geração e envio da ficha de assinatura)\n"
+             "  processar_retornos  : Executa FASE 2 & 3 (leitura de e-mails de retorno e cadastro)\n"
+             "  demo_completo       : Executa FASES 1, 2 e 3 integradas (demonstração completa)"
+    )
+    parser.add_argument(
+        "-m", "--modo",
+        choices=["enviar_solicitacoes", "processar_retornos", "demo_completo"],
+        default=None,
+        help="Modo de execução (sobrescreve o argumento posicional)"
+    )
+    parser.add_argument(
+        "-r", "--row-index",
+        type=int,
+        default=2,
+        help="Índice da linha do cliente no Portal Fake (padrão: 2)"
+    )
+    parser.add_argument(
+        "-e", "--email-destino",
+        type=str,
+        default="2026500534@ifam.edu.br",
+        help="E-mail de destino padrão para as solicitações"
+    )
+    parser.add_argument(
+        "--headless",
+        action="store_true",
+        default=None,
+        help="Executar navegador em modo headless (sem interface gráfica)"
+    )
+    parser.add_argument(
+        "--no-headless",
+        action="store_false",
+        dest="headless",
+        help="Executar navegador com interface gráfica visível"
+    )
+
+    args, unknown = parser.parse_known_args()
+
+    # Define valores via CLI
+    modo = args.modo or args.modo_pos or "demo_completo"
+    row_index = args.row_index
+    email_destino = args.email_destino
+    headless = args.headless
+
     task_id = None
-    modo = "enviar_solicitacoes"
-    if len(sys.argv) > 1 and not sys.argv[1].startswith("-"):
-        modo = sys.argv[1]
-    row_index = 2
-    email_destino = "2026500534@ifam.edu.br"
-    headless = True if maestro.is_online else False
     remetente = None
     senha = None
 
@@ -45,7 +92,7 @@ def main():
         try:
             row_index = int(params.get("row_index", row_index))
         except (ValueError, TypeError):
-            row_index = 9
+            pass
         email_destino = params.get("email_destino", email_destino)
 
         if "headless" in params:
@@ -56,6 +103,9 @@ def main():
             senha = maestro.get_credential(label="GMAIL_CREDS", key="password")
         except Exception:
             pass
+
+    if headless is None:
+        headless = True if (maestro and maestro.is_online) else False
 
     try:
         executar_orquestracao(

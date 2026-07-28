@@ -14,8 +14,15 @@ class NotificadorCliente:
         Classe responsável por enviar e-mails de resposta automática aos clientes.
         """
         def __init__(self):
-            self.smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
-            self.smtp_port = int(os.getenv("SMTP_PORT", 587))
+            smtp_server_env = os.getenv("SMTP_SERVER")
+            self.smtp_server = smtp_server_env if smtp_server_env else "smtp.gmail.com"
+
+            smtp_port_env = os.getenv("SMTP_PORT")
+            if smtp_port_env and smtp_port_env.strip().isdigit():
+                self.smtp_port = int(smtp_port_env.strip())
+            else:
+                self.smtp_port = 587
+
             self.remetente = os.getenv("EMAIL_REMETENTE")
             self.senha = os.getenv("EMAIL_SENHA")
 

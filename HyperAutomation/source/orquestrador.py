@@ -16,12 +16,9 @@ from common.extracao import extrair_dados, extrair_todos_dados
 from common.documento_email import criar_documento, enviar_email
 from processo_atendimento.gestor_arquivos import GestorArquivos
 from processo_atendimento.resposta_cliente import NotificadorCliente
-<<<<<<< HEAD
-=======
 from processo_atendimento.leitor_email import LeitorEmail
 from processo_atendimento.validador_docs import ValidadorDocumentos
 from processo_atendimento.portal_integracao import PortalIntegracao
->>>>>>> feature/atendimento-email-validacao
 
 def main():
     # Inicializa conexão com o BotCity Maestro SDK (se executado via Runner)
@@ -98,15 +95,6 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
     5. NotificadorCliente: Dispara e-mail em HTML com o status (Aprovado ou Pendente).
     6. GestorArquivos: Organiza a movimentação física dos arquivos (OK -> Encaminhados / Pendentes).
     """
-<<<<<<< HEAD
-    print("=" * 65)
-    print("INICIANDO ORQUESTRAÇÃO RPA COMPLETA (HYPERAUTOMATION - PROCESSO 1)")
-    print("=" * 65)
-
-    # 0. Inicializa Módulos do Processo 1 (Gestor ERP e Notificador)
-    gestor_erp = GestorArquivos()
-    gestor_erp.garantir_estrutura_pastas()
-=======
     print("=" * 70)
     print("INICIANDO ORQUESTRAÇÃO HYPERAUTOMATION - PROCESSO 1 (ATENDIMENTO)")
     print("=" * 70)
@@ -116,15 +104,11 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
     gestor_erp = GestorArquivos()
     gestor_erp.garantir_estrutura_pastas()
     
->>>>>>> feature/atendimento-email-validacao
     notificador = NotificadorCliente()
     if remetente and senha:
         notificador.remetente = remetente
         notificador.senha = senha
 
-<<<<<<< HEAD
-    usuarios = carregar_usuarios()
-=======
     leitor_email = LeitorEmail(download_dir=gestor_erp.dir_downloads)
     validador = ValidadorDocumentos()
     portal_integracao = PortalIntegracao()
@@ -137,7 +121,6 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
     # 2. Execução da Automação Web via Playwright (Portal Fake)
     screenshots_dir = PATH_ROOT / "resources" / "screenshots"
     screenshots_dir.mkdir(parents=True, exist_ok=True)
->>>>>>> feature/atendimento-email-validacao
 
     with sync_playwright() as p:
         context = p.chromium.launch_persistent_context(
@@ -255,58 +238,9 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
 
         context.close()
 
-<<<<<<< HEAD
-    # 3. Geração de documentos, organização no ERP e envio de notificação ao cliente
-    for i, cliente in enumerate(lista_clientes, start=1):
-        nome_completo = f"{cliente.get('Nome')} {cliente.get('Sobrenome')}"
-        protocolo = f"2026-{i:04d}"
-        print(f"\n[Etapa 3 - Cliente {i}/{len(lista_clientes)}] Processando: {nome_completo} (Protocolo: #{protocolo})")
-        
-        # Geração da Ficha Word
-        arquivo_docx = criar_documento(cliente)
-        path_docx = Path(arquivo_docx)
-        print(f"  Documento Word gerado: {path_docx.name}")
-
-        # Movimentação física no ERP Simulado
-        # Coloca em Downloads e em seguida move para Documentos_OK
-        dest_downloads = gestor_erp.dir_downloads / path_docx.name
-        if path_docx.exists():
-            import shutil
-            shutil.copy(str(path_docx), str(dest_downloads))
-            gestor_erp.mover_para_status(path_docx.name, status_ok=True)
-            gestor_erp.mover_para_encaminhados(path_docx.name)
-
-        # Postar o documento como artefato no BotCity Maestro se estiver online
-        if maestro and maestro.is_online and task_id:
-            try:
-                maestro.post_artifact(
-                    task_id=task_id,
-                    artifact_name=path_docx.name,
-                    filepath=str(path_docx)
-                )
-                print(f"  Artefato publicado no BotCity Maestro: {path_docx.name}")
-            except Exception as e_art:
-                print(f"  Aviso: Nao foi possivel enviar artefato ao Maestro: {e_art}")
-
-        # Notificação HTML via NotificadorCliente
-        print(f"  Enviando notificação por e-mail para {email_destino}...")
-        try:
-            notificador.enviar_resposta(
-                email_destino=email_destino,
-                protocolo=protocolo,
-                aprovado=True
-            )
-            # Envio legado do anexo .docx
-            enviar_email(email_destino, arquivo_docx, apagar_apos_envio=True, remetente=remetente, senha=senha)
-        except Exception as e:
-            print(f"  Aviso: Falha no processo de notificação do cliente {nome_completo}: {e}")
-
-    print("\nORQUESTRAÇÃO FINALIZADA COM SUCESSO!")
-=======
     print("\n" + "=" * 70)
     print("ORQUESTRAÇÃO DO PROCESSO 1 FINALIZADA COM SUCESSO!")
     print("=" * 70)
->>>>>>> feature/atendimento-email-validacao
 
 if __name__ == "__main__":
     main()

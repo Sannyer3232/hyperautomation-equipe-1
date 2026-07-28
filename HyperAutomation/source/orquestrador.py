@@ -27,6 +27,8 @@ def main():
 
     task_id = None
     modo = "demo_completo"
+    if len(sys.argv) > 1 and not sys.argv[1].startswith("-"):
+        modo = sys.argv[1]
     row_index = 9
     email_destino = "carvalhosannyer@gmail.com"
     headless = True if maestro.is_online else False

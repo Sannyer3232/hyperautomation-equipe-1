@@ -16,6 +16,12 @@ from common.extracao import extrair_dados, extrair_todos_dados
 from common.documento_email import criar_documento, enviar_email
 from processo_atendimento.gestor_arquivos import GestorArquivos
 from processo_atendimento.resposta_cliente import NotificadorCliente
+<<<<<<< HEAD
+=======
+from processo_atendimento.leitor_email import LeitorEmail
+from processo_atendimento.validador_docs import ValidadorDocumentos
+from processo_atendimento.portal_integracao import PortalIntegracao
+>>>>>>> feature/atendimento-email-validacao
 
 def main():
     # Inicializa conexão com o BotCity Maestro SDK (se executado via Runner)
@@ -69,10 +75,10 @@ def main():
             maestro.finish_task(
                 task_id=task_id,
                 status=AutomationTaskFinishStatus.SUCCESS,
-                message="Orquestração concluída com sucesso no BotCity Maestro."
+                message="Orquestração do Processo 1 concluída com sucesso no BotCity Maestro."
             )
     except Exception as e:
-        print(f"[ERRO] Erro durante a execucao: {e}")
+        print(f"[ERRO] Erro durante a execução do orquestrador: {e}")
         if maestro.is_online and task_id:
             maestro.finish_task(
                 task_id=task_id,
@@ -82,12 +88,17 @@ def main():
         raise e
 
 def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosannyer@gmail.com", 
-                         headless=False, maestro=None, task_id=None, remetente=None, senha=None):
+                         headless=True, maestro=None, task_id=None, remetente=None, senha=None):
     """
-    Executa a orquestração do RPA.
-    - modo="unico": Extrai e gera documento apenas para a linha especificada (ex: row_index=0).
-    - modo="todos": Extrai e gera documento para TODOS os cadastros do portal.
+    Executa a orquestração do Processo 1 (Setor de Atendimento - Hyperautomation):
+    1. GestorArquivos: Garante pastas do ERP Simulado.
+    2. LeitorEmail: Lê solicitações recebidas dos clientes e baixa anexos em ERP_Portal_Fake/Downloads.
+    3. ValidadorDocumentos: Analisa a conformidade documental dos anexos.
+    4. PortalIntegracao & Playwright: Realiza o cadastro/atualização no ERP Portal Fake.
+    5. NotificadorCliente: Dispara e-mail em HTML com o status (Aprovado ou Pendente).
+    6. GestorArquivos: Organiza a movimentação física dos arquivos (OK -> Encaminhados / Pendentes).
     """
+<<<<<<< HEAD
     print("=" * 65)
     print("INICIANDO ORQUESTRAÇÃO RPA COMPLETA (HYPERAUTOMATION - PROCESSO 1)")
     print("=" * 65)
@@ -95,12 +106,38 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
     # 0. Inicializa Módulos do Processo 1 (Gestor ERP e Notificador)
     gestor_erp = GestorArquivos()
     gestor_erp.garantir_estrutura_pastas()
+=======
+    print("=" * 70)
+    print("INICIANDO ORQUESTRAÇÃO HYPERAUTOMATION - PROCESSO 1 (ATENDIMENTO)")
+    print("=" * 70)
+
+    # 0. Inicialização dos Módulos do Processo 1
+    print("\n[Etapa 0] Inicializando Módulos do Processo 1...")
+    gestor_erp = GestorArquivos()
+    gestor_erp.garantir_estrutura_pastas()
+    
+>>>>>>> feature/atendimento-email-validacao
     notificador = NotificadorCliente()
     if remetente and senha:
         notificador.remetente = remetente
         notificador.senha = senha
 
+<<<<<<< HEAD
     usuarios = carregar_usuarios()
+=======
+    leitor_email = LeitorEmail(download_dir=gestor_erp.dir_downloads)
+    validador = ValidadorDocumentos()
+    portal_integracao = PortalIntegracao()
+
+    # 1. Leitura de solicitações de e-mail e extração de anexos
+    print("\n[Etapa 1] Lendo e-mails de solicitação de atendimento dos clientes...")
+    solicitacoes = leitor_email.ler_emails_pendentes()
+    print(f"  Total de solicitações a processar: {len(solicitacoes)}")
+
+    # 2. Execução da Automação Web via Playwright (Portal Fake)
+    screenshots_dir = PATH_ROOT / "resources" / "screenshots"
+    screenshots_dir.mkdir(parents=True, exist_ok=True)
+>>>>>>> feature/atendimento-email-validacao
 
     with sync_playwright() as p:
         context = p.chromium.launch_persistent_context(
@@ -110,16 +147,14 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
         page = context.new_page()
 
         portal_url = f"file://{INDEX_HTML.resolve()}"
-        print(f"\n[Etapa 1] Abrindo Portal Fake: {portal_url}")
+        print(f"\n[Etapa 2] Conectando ao Portal Fake: {portal_url}")
         page.goto(portal_url)
 
-        # 1. Carga ultra-rápida no portal
-        print("\n[Etapa 1] Executando preenchimento ultra-rápido dos dados no portal...")
-        preencher_portal_rapido(page, usuarios, qtd=10)
+        # Carga inicial se necessário
+        usuarios_base = carregar_usuarios()
+        preencher_portal_rapido(page, usuarios_base, qtd=5)
 
-        # Captura Print 1: Portal preenchido
-        screenshots_dir = PATH_ROOT / "resources" / "screenshots"
-        screenshots_dir.mkdir(parents=True, exist_ok=True)
+        # Print 1: Portal Carregado
         print_portal = screenshots_dir / "01_portal_preenchido.png"
         page.screenshot(path=str(print_portal), full_page=True)
         print(f"  [SCREENSHOT] Salvo: {print_portal.name}")
@@ -130,27 +165,97 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
             except Exception:
                 pass
 
-        # 2. Extração dos dados
-        if modo == "todos":
-            print("\n[Etapa 2] Extraindo dados de TODOS os cadastros...")
-            lista_clientes = extrair_todos_dados(page)
-        else:
-            print(f"\n[Etapa 2] Extraindo dados do cadastro na linha {row_index}...")
-            lista_clientes = [extrair_dados(page, row_index=row_index)]
+        # 3. Processamento individual de cada solicitação
+        for idx, solic in enumerate(solicitacoes, start=1):
+            dados = solic.get("dados_cliente", {})
+            nome_cliente = f"{dados.get('nome', 'Cliente')} {dados.get('sobrenome', '')}".strip()
+            protocolo = solic.get("protocolo", f"2026-{idx:04d}")
+            email_cliente = solic.get("remetente", email_destino)
+            if "@" not in email_cliente:
+                email_cliente = email_destino
 
-        # Captura Print 2: Após extração dos dados
-        print_extracao = screenshots_dir / "02_extracao_dados.png"
-        page.screenshot(path=str(print_extracao), full_page=True)
-        print(f"  [SCREENSHOT] Salvo: {print_extracao.name}")
+            anexos = solic.get("anexos", [])
+
+            print(f"\n[Etapa 3 - Solicitação {idx}/{len(solicitacoes)}] Cliente: {nome_cliente} | Protocolo: #{protocolo}")
+            print(f"  Anexos recebidos ({len(anexos)}): {[Path(a).name for a in anexos]}")
+
+            # a) Validação Documental
+            res_validacao = validador.validar_documentos(anexos)
+
+            if not res_validacao["valido"]:
+                print(f"  [STATUS] Documentação REPROVADA / PENDENTE para {nome_cliente}.")
+                # Move arquivos para Documentos_Pendentes
+                for a in anexos:
+                    try:
+                        gestor_erp.mover_para_status(Path(a).name, status_ok=False)
+                    except Exception as e_mov:
+                        print(f"  [GESTOR ARQUIVOS] Aviso: {e_mov}")
+
+                # Envia e-mail de pendência em HTML
+                notificador.enviar_resposta(
+                    email_destino=email_cliente,
+                    protocolo=protocolo,
+                    aprovado=False,
+                    pendencias=res_validacao["pendencias"]
+                )
+            else:
+                print(f"  [STATUS] Documentação APROVADA para {nome_cliente}.")
+                # Move arquivos de Downloads para Documentos_OK
+                for a in anexos:
+                    try:
+                        gestor_erp.mover_para_status(Path(a).name, status_ok=True)
+                    except Exception as e_mov:
+                        print(f"  [GESTOR ARQUIVOS] Aviso: {e_mov}")
+
+                # Realiza o cadastro do cliente no Portal Fake ERP via Playwright
+                sucesso_cadastro = portal_integracao.cadastrar_cliente(page, dados)
+
+                # Move arquivos de Documentos_OK para Encaminhados
+                for a in anexos:
+                    try:
+                        gestor_erp.mover_para_encaminhados(Path(a).name)
+                    except Exception as e_mov:
+                        print(f"  [GESTOR ARQUIVOS] Aviso: {e_mov}")
+
+                # Envia e-mail em HTML informando aprovação e encaminhamento
+                notificador.enviar_resposta(
+                    email_destino=email_cliente,
+                    protocolo=protocolo,
+                    aprovado=True
+                )
+
+                # Gera Ficha Cadastral em .docx para histórico interno
+                arquivo_docx = criar_documento({
+                    "Nome": dados.get("nome", "Cliente"),
+                    "Sobrenome": dados.get("sobrenome", ""),
+                    "CPF": dados.get("cpf", "11122233344"),
+                    "Email": email_cliente,
+                    "Telefone": dados.get("telefone", ""),
+                    "Endereco": dados.get("endereco", ""),
+                    "Status": "APROVADO E ENCAMINHADO"
+                })
+                print(f"  Ficha DOCX gerada: {Path(arquivo_docx).name}")
+
+                if maestro and maestro.is_online and task_id:
+                    try:
+                        maestro.post_artifact(task_id=task_id, artifact_name=Path(arquivo_docx).name, filepath=str(arquivo_docx))
+                    except Exception:
+                        pass
+
+        # Print 2: Finalização dos Cadastros
+        print_final = screenshots_dir / "02_extracao_dados.png"
+        page.screenshot(path=str(print_final), full_page=True)
+        print(f"  [SCREENSHOT] Salvo: {print_final.name}")
 
         if maestro and maestro.is_online and task_id:
             try:
-                maestro.post_artifact(task_id=task_id, artifact_name=print_extracao.name, filepath=str(print_extracao))
+                maestro.post_artifact(task_id=task_id, artifact_name=print_final.name, filepath=str(print_final))
             except Exception:
                 pass
 
         context.close()
 
+<<<<<<< HEAD
     # 3. Geração de documentos, organização no ERP e envio de notificação ao cliente
     for i, cliente in enumerate(lista_clientes, start=1):
         nome_completo = f"{cliente.get('Nome')} {cliente.get('Sobrenome')}"
@@ -197,6 +302,11 @@ def executar_orquestracao(modo="unico", row_index=0, email_destino="carvalhosann
             print(f"  Aviso: Falha no processo de notificação do cliente {nome_completo}: {e}")
 
     print("\nORQUESTRAÇÃO FINALIZADA COM SUCESSO!")
+=======
+    print("\n" + "=" * 70)
+    print("ORQUESTRAÇÃO DO PROCESSO 1 FINALIZADA COM SUCESSO!")
+    print("=" * 70)
+>>>>>>> feature/atendimento-email-validacao
 
 if __name__ == "__main__":
     main()

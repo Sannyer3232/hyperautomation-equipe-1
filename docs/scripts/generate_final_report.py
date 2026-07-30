@@ -184,7 +184,7 @@ def build_docx():
     add_h1("3. Modelagem do Processo em BPMN 2.0")
     add_p("O processo foi modelado no Draw.io conforme o padrão BPMN 2.0 (arquivo 'docs/bpmn_atendimento_portal_fake.drawio'). O diagrama contempla todos os pontos de decisão, raias (pools/lanes) de atendimento e controle de exceções.")
 
-    bpmn_img_path = Path(__file__).resolve().parent / "WhatsApp Image 2026-07-27 at 17.36.01.jpeg"
+    bpmn_img_path = Path(__file__).resolve().parents[1] / "img" / "bpmn_atendimento_portal_fake.jpeg"
     if bpmn_img_path.exists():
         p_img = doc.add_paragraph()
         p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER

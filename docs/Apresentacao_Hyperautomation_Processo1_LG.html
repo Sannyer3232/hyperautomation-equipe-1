@@ -243,24 +243,22 @@
                 </div>
                 <div class="member-badge">Eric Luna Costa</div>
             </div>
-            <div class="content-grid-2">
-                <div class="card">
-                    <div class="card-title">Estrutura do Diagrama BPMN 2.0 (Draw.io)</div>
-                    <div class="card-item"><strong>• Evento Inicial:</strong> Recebimento de solicitação por e-mail.</div>
-                    <div class="card-item"><strong>• Atividades Automatizadas:</strong> Geração DOCX -> Disparo SMTP -> Monitoramento IMAP -> Extração -> Validação PDF -> Cadastro Web Playwright -> Sync Drive.</div>
-                    <div class="card-item"><strong>• Pontos de Decisão (Gateway):</strong> Documentação Válida? (Sim -> Documentos_OK / Não -> Documentos_Pendentes).</div>
-                    <div class="card-item"><strong>• Eventos Finais:</strong> Confirmação enviada e PDF transferido para Encaminhados.</div>
+            <div class="content-grid-2" style="grid-template-columns: 2fr 1fr;">
+                <div class="card" style="text-align: center; justify-content: center; background: #FFF;">
+                    <img src="../img/bpmn_atendimento_portal_fake.jpeg" style="max-width: 100%; max-height: 480px; border-radius: 8px; border: 1px solid var(--card-border);" alt="Diagrama BPMN 2.0">
                 </div>
                 <div class="card">
-                    <div class="card-title">Principais Ganhos do Modelo TO-BE</div>
-                    <div class="card-item"><strong>• Autonomia Total:</strong> Eliminação de intervenção humana na triagem e digitação.</div>
-                    <div class="card-item"><strong>• Regras Estritas:</strong> Rejeição imediata de arquivos sem assinatura.</div>
-                    <div class="card-item"><strong>• Sincronização em Nuvem:</strong> Atualização remota instantânea no Google Drive.</div>
+                    <div class="card-title">📐 Diagrama BPMN 2.0 (Draw.io)</div>
+                    <div class="card-item"><strong>• Evento Inicial:</strong> Recebimento de e-mail de solicitação ou retorno de cliente.</div>
+                    <div class="card-item"><strong>• Raias (Pools/Lanes):</strong> Setor de Atendimento, Robô de Hyperautomation e Portal ERP.</div>
+                    <div class="card-item"><strong>• Fluxo Automatizado:</strong> Geração DOCX -> SMTP -> IMAP -> pypdf -> Playwright -> Google Drive.</div>
+                    <div class="card-item"><strong>• Gateways de Decisão:</strong> Validação Documental Aprovada? (Sim -> Documentos_OK / Não -> Documentos_Pendentes).</div>
+                    <div class="card-item"><strong>• Eventos Finais:</strong> Notificação ao cliente com protocolo único e arquivamento em Encaminhados.</div>
                 </div>
             </div>
             <div class="footer">
                 <span>Empresa Portal Fake — Processo 1</span>
-                <span>Slide 6 de 20</span>
+                <span>Slide 6 de 24</span>
             </div>
         </div>
 

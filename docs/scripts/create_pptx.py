@@ -301,17 +301,16 @@ def create_presentation():
     set_slide_background(slide6, LIGHT_BG)
     add_header(slide6, "Modelagem do Processo TO-BE em BPMN 2.0", "BLOCO 1 — CONTEXTO & BPMN", "Eric Luna Costa")
 
-    add_card(slide6, 0.6, 1.4, 5.8, 5.2, "Estrutura do Diagrama BPMN 2.0 (Draw.io)", [
-        ("• Evento Inicial:", "Chegada de e-mail com solicitação de atendimento ou retorno de assinatura."),
-        ("• Atividades Automatizadas:", "Geração de DOCX -> Disparo SMTP -> Monitoramento IMAP -> Extração -> Validação PDF -> Cadastro Playwright -> Sync Drive."),
-        ("• Pontos de Decisão (Gateway):", "Documentação Válida? (Sim -> Documentos_OK / Não -> Documentos_Pendentes)."),
-        ("• Eventos Finais:", "Confirmação enviada ao cliente & PDF transferido para Encaminhados.")
-    ])
+    bpmn_img_path = Path(__file__).resolve().parents[1] / "img" / "bpmn_atendimento_portal_fake.jpeg"
+    if bpmn_img_path.exists():
+        slide6.shapes.add_picture(str(bpmn_img_path), Inches(0.6), Inches(1.4), width=Inches(7.8))
 
-    add_card(slide6, 6.8, 1.4, 5.8, 5.2, "Principais Ganhos do Modelo TO-BE", [
-        ("• Autonomia Total:", "Eliminação de qualquer intervenção humana na triagem e digitação."),
-        ("• Regras de Negócio Estritas:", "Rejeição imediata de arquivos sem assinatura ou fora do padrão."),
-        ("• Sincronização em Tempo Real:", "Sincronização instantânea das movimentações com o Google Drive.")
+    add_card(slide6, 8.6, 1.4, 4.1, 5.2, "📐 Diagrama BPMN 2.0 (Draw.io)", [
+        ("• Evento Inicial:", "Chegada de e-mail com solicitação de atendimento ou retorno de assinatura."),
+        ("• Raias (Pools/Lanes):", "Setor de Atendimento, Robô de Hyperautomation e Portal ERP."),
+        ("• Fluxo Automatizado:", "Geração DOCX -> SMTP -> IMAP -> pypdf -> Playwright -> Google Drive."),
+        ("• Gateways de Decisão:", "Validação Documental Aprovada? (Sim -> Documentos_OK / Não -> Documentos_Pendentes)."),
+        ("• Eventos Finais:", "Envio de e-mail HTML com protocolo único e arquivamento em Encaminhados.")
     ])
 
     add_footer(slide6, 6)

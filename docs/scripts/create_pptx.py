@@ -567,42 +567,57 @@ def create_presentation():
     add_footer(slide17, 17)
 
     # ==========================================
-    # SLIDE 18: EVIDÊNCIAS: SCREENSHOTS & DRIVE
+    # SLIDE 18: EVIDÊNCIA 1 - PORTAL FAKE PREENCHIDO
     # ==========================================
     slide18 = prs.slides.add_slide(blank_layout)
     set_slide_background(slide18, LIGHT_BG)
-    add_header(slide18, "Evidências Práticas: Portal Fake & Google Drive", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
+    add_header(slide18, "Evidência 1: Interface Web do Portal Fake ERP (Preenchimento RPA)", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
 
     img1_path = Path(__file__).resolve().parents[1] / "HyperAutomation" / "resources" / "screenshots" / "01_portal_preenchido.png"
-    img2_path = Path(__file__).resolve().parents[1] / "HyperAutomation" / "resources" / "screenshots" / "02_extracao_dados.png"
-
     if img1_path.exists():
-        slide18.shapes.add_picture(str(img1_path), Inches(0.6), Inches(1.4), width=Inches(5.8))
-    if img2_path.exists():
-        slide18.shapes.add_picture(str(img2_path), Inches(6.8), Inches(1.4), width=Inches(5.8))
+        slide18.shapes.add_picture(str(img1_path), Inches(0.6), Inches(1.4), width=Inches(7.8))
 
-    add_card(slide18, 0.6, 5.2, 5.8, 1.4, "Figura 2: Portal ERP Preenchido", [
-        ("• Playwright RPA:", "Cadastros preenchidos automaticamente na interface web.")
+    add_card(slide18, 8.6, 1.4, 4.1, 5.2, "🤖 Automação Web Playwright", [
+        ("• Interface do Portal ERP:", "Visão geral da tabela de cadastros mantida no Portal Fake Soluções Digitais."),
+        ("• Execução de Alta Velocidade:", "Preenchimento e sincronização dinâmica em massa executados via Chromium Headless."),
+        ("• Validação em Tela:", "Verificação de campos obrigatórios e integridade das linhas de cadastro."),
+        ("• Rastreabilidade:", "Captura de tela automatizada no encerramento da carga inicial do sistema.")
     ])
 
-    add_card(slide18, 6.8, 5.2, 5.8, 1.4, "Figura 3: Ativação de Cadastro", [
-        ("• Status Ativo:", "Confirmação do cadastro ativado com sucesso após validação.")
-    ])
-
-    add_footer(slide18, 18)
+    add_footer(slide18, 18, total_pages=24)
 
     # ==========================================
-    # SLIDE 19: EVIDÊNCIA 1 - CONFIRMAÇÃO DE SUCESSO
+    # SLIDE 19: EVIDÊNCIA 2 - FORMULÁRIO E ATIVAÇÃO DE CADASTRO
     # ==========================================
     slide19 = prs.slides.add_slide(blank_layout)
     set_slide_background(slide19, LIGHT_BG)
-    add_header(slide19, "Evidência 1: Confirmação de Cadastro Aprovado (E-mail HTML)", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
+    add_header(slide19, "Evidência 2: Formulário e Ativação de Cadastro no ERP", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
+
+    img2_path = Path(__file__).resolve().parents[1] / "HyperAutomation" / "resources" / "screenshots" / "02_extracao_dados.png"
+    if img2_path.exists():
+        slide19.shapes.add_picture(str(img2_path), Inches(0.6), Inches(1.4), width=Inches(7.8))
+
+    add_card(slide19, 8.6, 1.4, 4.1, 5.2, "✅ Ativação de Cadastro", [
+        ("• Modal de Novo Cadastro:", "Formulário cadastral preenchido automaticamente com os dados extraídos do cliente."),
+        ("• Transição de Status:", "Cliente ativado no ERP com a transição automática do estado para 'ATIVO' após validação documental."),
+        ("• Registro de Atendimento:", "Inclusão de observações auditáveis informando o atendimento automatizado."),
+        ("• Screenshot de Evidência:", "Registro armazenado e enviado como artefato ao BotCity Maestro.")
+    ])
+
+    add_footer(slide19, 19, total_pages=24)
+
+    # ==========================================
+    # SLIDE 20: EVIDÊNCIA 3 - CONFIRMAÇÃO DE SUCESSO DE E-MAIL
+    # ==========================================
+    slide20 = prs.slides.add_slide(blank_layout)
+    set_slide_background(slide20, LIGHT_BG)
+    add_header(slide20, "Evidência 3: Confirmação de Cadastro Aprovado (E-mail HTML)", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
 
     img_suc = Path(__file__).resolve().parents[1] / "img" / "sucesso.png"
     if img_suc.exists():
-        slide19.shapes.add_picture(str(img_suc), Inches(0.6), Inches(1.4), width=Inches(7.8))
+        slide20.shapes.add_picture(str(img_suc), Inches(0.6), Inches(1.4), width=Inches(7.8))
 
-    add_card(slide19, 8.6, 1.4, 4.1, 5.2, "✅ Cenário de Sucesso", [
+    add_card(slide20, 8.6, 1.4, 4.1, 5.2, "✅ E-mail de Aprovação", [
         ("• Validação Documental:", "100% Aprovado."),
         ("• Análise do PDF:", "Ficha Cadastral Assinada, Documento com Foto e Comprovante de Residência validados via pypdf."),
         ("• Automação Web:", "Cadastro ativado no Portal Fake ERP como 'ATIVO' via Playwright."),
@@ -610,47 +625,47 @@ def create_presentation():
         ("• Notificação:", "Disparo instantâneo do e-mail em HTML responsivo com protocolo único de aprovação.")
     ])
 
-    add_footer(slide19, 19, total_pages=23)
+    add_footer(slide20, 20, total_pages=24)
 
     # ==========================================
-    # SLIDE 20: EVIDÊNCIA 2 - PENDÊNCIA: FALTA DOC COM FOTO
+    # SLIDE 21: EVIDÊNCIA 4 - PENDÊNCIA: FALTA DOC COM FOTO
     # ==========================================
-    slide20 = prs.slides.add_slide(blank_layout)
-    set_slide_background(slide20, LIGHT_BG)
-    add_header(slide20, "Evidência 2: Pendência — Falta Documento Oficial com Foto", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
+    slide21 = prs.slides.add_slide(blank_layout)
+    set_slide_background(slide21, LIGHT_BG)
+    add_header(slide21, "Evidência 4: Pendência — Falta Documento Oficial com Foto", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
 
     img_foto = Path(__file__).resolve().parents[1] / "img" / "falha_faltou_documento_foto.png"
     if img_foto.exists():
-        slide20.shapes.add_picture(str(img_foto), Inches(0.6), Inches(1.4), width=Inches(7.8))
+        slide21.shapes.add_picture(str(img_foto), Inches(0.6), Inches(1.4), width=Inches(7.8))
 
-    add_card(slide20, 8.6, 1.4, 4.1, 5.2, "⚠️ Cenário de Inconsistência", [
+    add_card(slide21, 8.6, 1.4, 4.1, 5.2, "⚠️ Pendência: Doc. Foto", [
         ("• Validação Documental:", "Reprovado por Pendência."),
         ("• Inconsistência Detectada:", "Ausência de Documento Oficial de Identificação com Foto (RG / CPF) no PDF enviado."),
         ("• Gestão de Arquivos:", "PDF retido e movido para a pasta 'Documentos_Pendentes' no ERP local e no Google Drive."),
         ("• Notificação Automática:", "Disparo imediato de e-mail em HTML orientando o cliente sobre o reenvio exato da identidade com foto.")
     ])
 
-    add_footer(slide20, 20, total_pages=23)
+    add_footer(slide21, 21, total_pages=24)
 
     # ==========================================
-    # SLIDE 21: EVIDÊNCIA 3 - PENDÊNCIA: FALTA COMPROVANTE DE RESIDÊNCIA
+    # SLIDE 22: EVIDÊNCIA 5 - PENDÊNCIA: FALTA COMPROVANTE DE RESIDÊNCIA
     # ==========================================
-    slide21 = prs.slides.add_slide(blank_layout)
-    set_slide_background(slide21, LIGHT_BG)
-    add_header(slide21, "Evidência 3: Pendência — Falta Comprovante de Residência", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
+    slide22 = prs.slides.add_slide(blank_layout)
+    set_slide_background(slide22, LIGHT_BG)
+    add_header(slide22, "Evidência 5: Pendência — Falta Comprovante de Residência", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
 
     img_res = Path(__file__).resolve().parents[1] / "img" / "falha_falta-comprovante-residencia.png"
     if img_res.exists():
-        slide21.shapes.add_picture(str(img_res), Inches(0.6), Inches(1.4), width=Inches(7.8))
+        slide22.shapes.add_picture(str(img_res), Inches(0.6), Inches(1.4), width=Inches(7.8))
 
-    add_card(slide21, 8.6, 1.4, 4.1, 5.2, "⚠️ Cenário de Inconsistência", [
+    add_card(slide22, 8.6, 1.4, 4.1, 5.2, "⚠️ Pendência: Residência", [
         ("• Validação Documental:", "Reprovado por Pendência."),
         ("• Inconsistência Detectada:", "Ausência do Comprovante de Residência (fatura de água/luz/endereço) no PDF retornado."),
         ("• Gestão de Arquivos:", "PDF movido para 'Documentos_Pendentes' no ERP e espelhado no Google Drive."),
         ("• Notificação Automática:", "Envio de e-mail em HTML responsivo solicitando a regularização do comprovante residencial.")
     ])
 
-    add_footer(slide21, 21, total_pages=23)
+    add_footer(slide22, 22, total_pages=24)
 
     # ==========================================
     # SLIDE 22: TABELA COMPARATIVA DE GANHOS

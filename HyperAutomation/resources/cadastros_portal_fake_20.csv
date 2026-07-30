@@ -6,7 +6,7 @@ id_solicitacao,nome,sobrenome,cpf,email,telefone,nascimento,status,endereco,obse
 5,Evelyn,Pereira,10000013030,2026500534@ifam.edu.br,(92) 99005-1005,1992-03-08,PENDENTE,"Rua E, 128 - Bairro Adrianopolis - Manaus/AM",Bloqueio temporario.,Equipe E,MEDIA,whatsapp
 6,Felipe,Carvalho,10000013167,2026500534@ifam.edu.br,(92) 99006-1006,1993-03-25,BLOQUEADO,"Rua F, 135 - Bairro Centro - Manaus/AM",Cadastro OK.,Equipe A,ALTA,presencial
 7,Gabi,Nascimento,10000013304,2026500534@ifam.edu.br,(92) 99007-1007,1994-04-11,ATIVO,"Rua G, 142 - Bairro Aleixo - Manaus/AM",Aguardando confirmacao.,Equipe B,BAIXA,email
-8,Hugo,Lima,10000013441,2026500534@ifam.edu.br,(92) 99008-1008,1995-04-28,PENDENTE,"Rua H, 149 - Bairro Flores - Manaus/AM",Revisar documento.,Equipe C,MEDIA,whatsapp
+8,Sannyer,Nery,03536054250,2026500534@ifam.edu.br,(92) 99982-7524,1999-11-15,PENDENTE,"Rua Rio Purus, 915 - Bairro Taruma-Acu - Manaus/AM",Revisar documento.,Equipe C,MEDIA,whatsapp
 9,Iara,Mendes,10000013578,2026500534@ifam.edu.br,(92) 99009-1009,1996-05-14,BLOQUEADO,"Rua I, 156 - Bairro Parque 10 - Manaus/AM",Contato pendente.,Equipe D,ALTA,presencial
 10,Joao,Costa,10000013715,2026500534@ifam.edu.br,(92) 99010-1010,1997-05-31,ATIVO,"Rua J, 163 - Bairro Adrianopolis - Manaus/AM",Bloqueio temporario.,Equipe E,BAIXA,email
 11,Katia,Ribeiro,10000013852,2026500534@ifam.edu.br,(92) 99011-1011,1998-06-17,PENDENTE,"Rua K, 170 - Bairro Centro - Manaus/AM",Cadastro OK.,Equipe A,MEDIA,whatsapp

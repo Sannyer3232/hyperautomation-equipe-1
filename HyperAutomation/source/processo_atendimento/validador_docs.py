@@ -4,8 +4,18 @@ Utiliza a biblioteca PyPDF para inspeção e validação inteligente de cada pá
 """
 import os
 import re
+import unicodedata
 from pathlib import Path
 from pypdf import PdfReader
+
+
+def _normalizar_texto(texto: str) -> str:
+    if not texto:
+        return ""
+    texto = unicodedata.normalize('NFKD', texto)
+    texto = texto.encode('ascii', 'ignore').decode('utf-8')
+    return re.sub(r'\s+', ' ', texto).lower().strip()
+
 
 class ValidadorDocumentos:
     """
@@ -64,7 +74,7 @@ class ValidadorDocumentos:
         paths_anexos = [Path(p) for p in caminho_anexos]
 
         for path in paths_anexos:
-            nome_lc = path.name.lower()
+            nome_lc = _normalizar_texto(path.name)
             ext = path.suffix.lower()
 
             if not path.exists():
@@ -92,19 +102,25 @@ class ValidadorDocumentos:
                     tem_pdf_valido = True
                     for page in reader.pages:
                         raw_text = page.extract_text() or ""
-                        # Normaliza espaços repetidos para evitar falha no casamento de expressões
-                        t = re.sub(r'\s+', ' ', raw_text).lower()
+                        # Normaliza texto e remove acentos para busca flexível
+                        t = _normalizar_texto(raw_text)
 
                         # Identifica se é a página da Ficha de Cadastro
-                        is_ficha = any(kw in t for kw in self.KW_FICHA) or ("ficha" in nome_lc and "assin" in t)
+                        is_ficha = any(_normalizar_texto(kw) in t for kw in self.KW_FICHA) or (
+                            "ficha" in nome_lc and "assin" in t and
+                            not any(_normalizar_texto(kw) in t for kw in self.KW_DOC_FOTO) and
+                            not any(_normalizar_texto(kw) in t for kw in self.KW_COMPROVANTE)
+                        )
                         if is_ficha:
                             tem_ficha = True
-                        else:
-                            # Páginas que NÃO são a Ficha de Cadastro são analisadas estritamente por palavras-chave de RG/CNH ou Comprovante
-                            if any(kw in t for kw in self.KW_DOC_FOTO) or any(kw in nome_lc for kw in ["rg", "cnh", "identidade"]):
-                                tem_doc_foto = True
-                            if any(kw in t for kw in self.KW_COMPROVANTE) or any(kw in nome_lc for kw in ["comprovante", "residencia", "residência", "fatura"]):
-                                tem_comprovante = True
+
+                        # Identifica se é a página de Documento Oficial com Foto
+                        if any(_normalizar_texto(kw) in t for kw in self.KW_DOC_FOTO) or any(kw in nome_lc for kw in ["rg", "cnh", "identidade"]):
+                            tem_doc_foto = True
+
+                        # Identifica se é a página de Comprovante de Residência
+                        if any(_normalizar_texto(kw) in t for kw in self.KW_COMPROVANTE) or any(kw in nome_lc for kw in ["comprovante", "residencia", "fatura"]):
+                            tem_comprovante = True
 
                 except Exception as e:
                     pendencias.append(f"O arquivo PDF '{path.name}' está corrompido ou é inválido ({e}).")

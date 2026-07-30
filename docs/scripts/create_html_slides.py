@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+import os
+from pathlib import Path
+
+html_content = """<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -810,3 +813,8 @@ ORQUESTRAÇÃO DO PROCESSO 1 FINALIZADA COM SUCESSO!</div>
     </script>
 </body>
 </html>
+"""
+
+output_path = Path(__file__).resolve().parent / "Apresentacao_Hyperautomation_Processo1_LG.html"
+output_path.write_text(html_content, encoding='utf-8')
+print(f"Apresentação HTML gerada com sucesso: {output_path}")

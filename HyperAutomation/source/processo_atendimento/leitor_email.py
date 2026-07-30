@@ -28,6 +28,8 @@ class LeitorEmail:
             self.download_dir = (Path(__file__).resolve().parents[3] / "ERP_Portal_Fake" / "Downloads").resolve()
 
         self.download_dir.mkdir(parents=True, exist_ok=True)
+        from .gestor_drive import GestorDrive
+        self.gestor_drive = GestorDrive()
 
     def ler_emails_pendentes(self, marcar_como_lido: bool = True, permitir_simulacao: bool = False) -> list:
         """
@@ -132,6 +134,8 @@ class LeitorEmail:
 
                 anexos.append(caminho_salvo)
                 print(f"[LEITOR EMAIL] Novo PDF de retorno baixado para Downloads: {caminho_salvo.name}")
+                # Sincroniza o upload com o Google Drive
+                self.gestor_drive.upload_arquivo(caminho_salvo, nome_pasta_destino="Downloads")
 
         return anexos
 

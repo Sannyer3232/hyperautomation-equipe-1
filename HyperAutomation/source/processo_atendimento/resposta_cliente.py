@@ -8,6 +8,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from pathlib import Path
 from dotenv import load_dotenv
+from common.protocolo import gerar_protocolo_unico
 
 load_dotenv()
 
@@ -149,6 +150,7 @@ class NotificadorCliente:
             print(f"[AVISO NOTIFICADOR] Falha ao enviar e-mail para {email_destino}: {e}")
             return False
 
-def enviar_resposta_cliente(email_destino, aprovado=True, mensagem=""):
+def enviar_resposta_cliente(email_destino, aprovado=True, mensagem="", protocolo=None):
     notificador = NotificadorCliente()
-    return notificador.enviar_resposta(email_destino, protocolo="2026-0001", aprovado=aprovado, pendencias=[mensagem] if mensagem else None)
+    prot = protocolo if protocolo else gerar_protocolo_unico()
+    return notificador.enviar_resposta(email_destino, protocolo=prot, aprovado=aprovado, pendencias=[mensagem] if mensagem else None)

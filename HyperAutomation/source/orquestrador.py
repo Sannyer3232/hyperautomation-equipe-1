@@ -16,6 +16,7 @@ sys.path.append(str(PATH_ROOT / "resources"))
 from portal_bot import carregar_usuarios, preencher_portal_rapido, INDEX_HTML
 from common.extracao import extrair_dados, extrair_todos_dados
 from common.documento_email import criar_documento, enviar_email
+from common.protocolo import gerar_protocolo_unico
 from processo_atendimento.gestor_arquivos import GestorArquivos
 from processo_atendimento.resposta_cliente import NotificadorCliente
 from processo_atendimento.leitor_email import LeitorEmail
@@ -217,14 +218,14 @@ def executar_orquestracao(modo="demo_completo", row_index=9, email_destino="carv
             "endereco": endereco,
             "status": "PENDENTE"
         }
-        protocolo = f"2026-{row_index+1:04d}"
+        protocolo = gerar_protocolo_unico()
 
         # =========================================================================
         # FASE 1: GERAÇÃO DA FICHA E DISPARO DO E-MAIL DE SOLICITAÇÃO DE ASSINATURA
         # =========================================================================
         if modo in ["enviar_solicitacoes", "demo_completo"]:
             print("\n" + "-" * 60)
-            print(f"[FASE 1] GERAÇÃO E ENVIO DE FICHA PARA ASSINATURA ({nome} {sobrenome})")
+            print(f"[FASE 1] GERAÇÃO E ENVIO DE FICHA PARA ASSINATURA ({nome} {sobrenome}) | Protocolo: {protocolo}")
             print("-" * 60)
 
             path_ficha_docx = criar_documento({
@@ -260,16 +261,29 @@ def executar_orquestracao(modo="demo_completo", row_index=9, email_destino="carv
         # =========================================================================
         if modo in ["processar_retornos", "demo_completo"]:
             print("\n" + "-" * 60)
-            print(f"[FASE 2 & 3] MONITORAMENTO DO RETORNO, VALIDAÇÃO E CADASTRO ({nome} {sobrenome})")
+            print(f"[FASE 2 & 3] MONITORAMENTO DO RETORNO, VALIDAÇÃO E CADASTRO ({nome} {sobrenome}) | Protocolo: {protocolo}")
             print("-" * 60)
 
-            # Gera arquivo simulado apenas se estiver no modo demo_completo
+            # Gera arquivo PDF simulado válido contendo os 3 documentos obrigatórios
             if modo == "demo_completo":
                 nome_limpo_pdf = f"Ficha_Assinada_e_Documentos_{nome}_{sobrenome}".replace(" ", "_")
                 pdf_simulado = gestor_erp.dir_downloads / f"{nome_limpo_pdf}.pdf"
                 if not pdf_simulado.exists() and not (gestor_erp.dir_ok / pdf_simulado.name).exists() and not (gestor_erp.dir_encaminhados / pdf_simulado.name).exists():
-                    with open(pdf_simulado, "w", encoding="utf-8") as f:
-                        f.write(f"%PDF-1.4 Conteúdo Simulado de {nome} {sobrenome}: Ficha Cadastral Assinada + RG/CPF ({cpf}) + Comprovante")
+                    pdf_content = (
+                        f"%PDF-1.4\n"
+                        f"1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n"
+                        f"2 0 obj\n<< /Type /Pages /Kids [3 0 R 4 0 R 5 0 R] /Count 3 >>\nendobj\n"
+                        f"3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 6 0 R /Resources << /Font << /F1 9 0 R >> >> >>\nendobj\n"
+                        f"4 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 7 0 R /Resources << /Font << /F1 9 0 R >> >> >>\nendobj\n"
+                        f"5 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 8 0 R /Resources << /Font << /F1 9 0 R >> >> >>\nendobj\n"
+                        f"6 0 obj\n<< /Length 120 >>\nstream\nBT\n/F1 12 Tf\n50 700 Td\n(Ficha Cadastral Assinada - Portal Fake Solucoes Digitais) Tj\n0 -20 Td\n(Cliente: {nome} {sobrenome} | CPF: {cpf}) Tj\nET\nendstream\nendobj\n"
+                        f"7 0 obj\n<< /Length 120 >>\nstream\nBT\n/F1 12 Tf\n50 700 Td\n(Documento Oficial com Foto - RG / CPF / Identidade) Tj\n0 -20 Td\n(Registro Geral - SSP) Tj\nET\nendstream\nendobj\n"
+                        f"8 0 obj\n<< /Length 120 >>\nstream\nBT\n/F1 12 Tf\n50 700 Td\n(Comprovante de Residencia - Conta de Luz / Agua / Fatura) Tj\n0 -20 Td\n(Endereco Residencial Confirmado) Tj\nET\nendstream\nendobj\n"
+                        f"9 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n"
+                        f"xref\n0 10\n0000000000 65535 f \n0000000009 00000 n \n0000000058 00000 n \n0000000125 00000 n \n0000000244 00000 n \n0000000363 00000 n \n0000000482 00000 n \n0000000652 00000 n \n0000000812 00000 n \n0000000972 00000 n \ntrailer\n<< /Size 10 /Root 1 0 R >>\nstartxref\n1053\n%%EOF\n"
+                    )
+                    with open(pdf_simulado, "wb") as f:
+                        f.write(pdf_content.encode('latin1'))
 
             print("  [FASE 2] Buscando novos e-mails de retorno não lidos (UNSEEN)...")
             permitir_sim = (modo == "demo_completo")

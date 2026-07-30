@@ -1,31 +1,58 @@
 """
 Módulo responsável pela validação dos documentos recebidos dos clientes (Ficha Assinada + Documentos em Único PDF).
+Utiliza a biblioteca PyPDF para inspeção e validação inteligente de cada página/anexo.
 """
 import os
+import re
 from pathlib import Path
+from pypdf import PdfReader
 
 class ValidadorDocumentos:
     """
     Classe responsável por aplicar as regras de negócio para verificação documental dos anexos retornados pelo cliente.
+    Exige rigorosamente a presença dos 3 elementos obrigatórios:
+    1. Ficha Cadastral Assinada
+    2. Documento Oficial com Foto (RG / CPF / CNH / Identidade)
+    3. Comprovante de Residência (Fatura / Conta de Água/Luz / Declaração)
     """
     EXTENSOES_PERMITIDAS = {".pdf", ".png", ".jpg", ".jpeg", ".docx"}
 
-    def __init__(self):
-        self.palavras_chave_ficha_assinada = ["assinada", "assinatura", "ficha", "formulario", "retorno"]
-        self.palavras_chave_documentos = ["documento", "identidade", "rg", "cpf", "comprovante", "residencia", "unificado"]
+    # Palavras-chave específicas para Ficha Cadastral
+    KW_FICHA = ["ficha de cadastro", "ficha cadastral", "portal fake"]
+
+    # Palavras-chave específicas para Documento Oficial com Foto (RG / CNH / Identidade Digital)
+    KW_DOC_FOTO = [
+        "carteira de identidade", "registro geral", "carteira nacional", 
+        "documento de identificação", "documento de identificacao", "secretaria de segurança", 
+        "secretaria de seguranca", "ssp", "gov.br", "republica federativa", 
+        "república federativa", "identidade", "cnh", "carteira de motorista", 
+        "passaporte", "filiação", "filiacao", "validar.iti", "carteira identidade"
+    ]
+
+    # Palavras-chave específicas para Comprovante de Residência (Contas de consumo / Faturas)
+    KW_COMPROVANTE = [
+        "comprovante de residência", "comprovante de residencia", "comprovante de endereço", 
+        "comprovante de endereco", "conta de luz", "conta de água", "conta de agua", 
+        "qualidade da água", "qualidade da agua", "fatura", "histórico de consumo", 
+        "distribuidora", "amazonas energia", "aguas de manaus", "águas de manaus", 
+        "declaracao de residencia", "declaração de residência", "valor a pagar", "vencimento",
+        "demonstrativo de consumo", "comprovante residencial"
+    ]
 
     def validar_documentos(self, caminho_anexos: list) -> dict:
         """
-        Valida se o cliente retornou a Ficha Assinada e os documentos necessários
-        em formato válido (preferencialmente PDF único ou pacotes válidos) e sem corrupção (tamanho > 0).
+        Valida se o cliente retornou todos os 3 documentos obrigatórios em formato válido (via PyPDF para PDFs).
 
         :param caminho_anexos: Lista de caminhos (str ou Path) dos anexos retornados pelo cliente.
-        :return: Dicionário contendo o status da validação e a lista de pendências.
+        :return: Dicionário contendo o status da validação (valido: bool) e a lista de pendências.
         """
         pendencias = []
         documentos_validos = []
-        has_pdf = False
-        has_ficha_assinada = False
+        tem_pdf_valido = False
+
+        tem_ficha = False
+        tem_doc_foto = False
+        tem_comprovante = False
 
         if not caminho_anexos:
             return {
@@ -52,27 +79,59 @@ class ValidadorDocumentos:
                 pendencias.append(f"O arquivo '{path.name}' formato '{ext}' não é aceito. Envie em PDF ou DOCX.")
                 continue
 
-            if ext == ".pdf":
-                has_pdf = True
-
-            # Verifica palavras-chave referentes à ficha assinada
-            if any(kw in nome_lc for kw in self.palavras_chave_ficha_assinada):
-                has_ficha_assinada = True
-
             documentos_validos.append(path.name)
 
-        # Regra do negócio: O cliente deve enviar o PDF (de preferência unificado) contendo Ficha Assinada + Documentos
-        if not has_pdf and not any(p.endswith(".pdf") for p in documentos_validos):
-            pendencias.append("A documentação e a Ficha Assinada devem ser enviadas em formato PDF (único).")
+            # Se for PDF, analisa cada página individualmente
+            if ext == ".pdf":
+                try:
+                    reader = PdfReader(path)
+                    if len(reader.pages) == 0:
+                        pendencias.append(f"O arquivo PDF '{path.name}' não possui páginas.")
+                        continue
+                    
+                    tem_pdf_valido = True
+                    for page in reader.pages:
+                        raw_text = page.extract_text() or ""
+                        # Normaliza espaços repetidos para evitar falha no casamento de expressões
+                        t = re.sub(r'\s+', ' ', raw_text).lower()
+
+                        # Identifica se é a página da Ficha de Cadastro
+                        is_ficha = any(kw in t for kw in self.KW_FICHA) or ("ficha" in nome_lc and "assin" in t)
+                        if is_ficha:
+                            tem_ficha = True
+                        else:
+                            # Páginas que NÃO são a Ficha de Cadastro são analisadas estritamente por palavras-chave de RG/CNH ou Comprovante
+                            if any(kw in t for kw in self.KW_DOC_FOTO) or any(kw in nome_lc for kw in ["rg", "cnh", "identidade"]):
+                                tem_doc_foto = True
+                            if any(kw in t for kw in self.KW_COMPROVANTE) or any(kw in nome_lc for kw in ["comprovante", "residencia", "residência", "fatura"]):
+                                tem_comprovante = True
+
+                except Exception as e:
+                    pendencias.append(f"O arquivo PDF '{path.name}' está corrompido ou é inválido ({e}).")
+                    continue
+            else:
+                # Arquivos não-PDF (como imagens ou .docx avulsos)
+                if any(kw in nome_lc for kw in ["ficha", "assinada"]):
+                    tem_ficha = True
+                if any(kw in nome_lc for kw in ["rg", "cnh", "identidade"]):
+                    tem_doc_foto = True
+                if any(kw in nome_lc for kw in ["comprovante", "residencia", "residência"]):
+                    tem_comprovante = True
+
+        if not tem_pdf_valido and not any(p.endswith(".pdf") for p in documentos_validos):
+            pendencias.append("A documentação deve ser enviada preferencialmente em arquivo PDF.")
+
+        if not tem_ficha:
+            pendencias.append("Ficha Cadastral Assinada não identificada na documentação enviada.")
+        if not tem_doc_foto:
+            pendencias.append("Documento Oficial com Foto (RG/CPF/CNH) não identificado na documentação enviada.")
+        if not tem_comprovante:
+            pendencias.append("Comprovante de Residência não identificado na documentação enviada.")
 
         is_valido = len(pendencias) == 0
 
-        # Se houver arquivo PDF válido e não corrompido presente, aprova
-        if len(documentos_validos) >= 1 and has_pdf:
-            is_valido = True
-            pendencias = []
+        print(f"[VALIDADOR DOCS (PyPDF)] Resultado da validação: Aprovado={is_valido}. Pendências: {pendencias}")
 
-        print(f"[VALIDADOR DOCS] Validação de retorno concluída. Aprovado: {is_valido}. Pendências: {len(pendencias)}")
         return {
             "valido": is_valido,
             "pendencias": pendencias,

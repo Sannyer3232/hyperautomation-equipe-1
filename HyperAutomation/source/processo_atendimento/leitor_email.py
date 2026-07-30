@@ -7,6 +7,7 @@ import email
 from email.header import decode_header
 from pathlib import Path
 from dotenv import load_dotenv
+from common.protocolo import gerar_protocolo_unico
 
 load_dotenv()
 
@@ -139,14 +140,15 @@ class LeitorEmail:
         Gera retorno simulado em ERP_Portal_Fake/Downloads caso haja arquivo pendente de processamento.
         """
         pdf_unificado = self.download_dir / "Ficha_Assinada_e_Documentos_Ana_Silva.pdf"
+        protocolo_unico = gerar_protocolo_unico()
 
         if pdf_unificado.exists():
             print("[LEITOR EMAIL] Identificado 1 novo retorno pendente em Downloads...")
             return [{
-                "id": "RET-001",
-                "protocolo": "2026-0001",
+                "id": f"RET-{protocolo_unico}",
+                "protocolo": protocolo_unico,
                 "remetente": "ana.silva@exemplo.com",
-                "assunto": "RES: Assinatura de Ficha Cadastral - Protocolo #2026-0001",
+                "assunto": f"RES: Assinatura de Ficha Cadastral - Protocolo #{protocolo_unico}",
                 "dados_cliente": {
                     "nome": "Ana",
                     "sobrenome": "Silva",

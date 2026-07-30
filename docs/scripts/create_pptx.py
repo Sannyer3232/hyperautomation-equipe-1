@@ -592,46 +592,75 @@ def create_presentation():
     add_footer(slide18, 18)
 
     # ==========================================
-    # SLIDE 19: EVIDÊNCIAS: NOTIFICAÇÕES E PENDÊNCIAS DE E-MAIL
+    # SLIDE 19: EVIDÊNCIA 1 - CONFIRMAÇÃO DE SUCESSO
     # ==========================================
     slide19 = prs.slides.add_slide(blank_layout)
     set_slide_background(slide19, LIGHT_BG)
-    add_header(slide19, "Evidências Práticas: Confirmações & Pendências Identificadas", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
+    add_header(slide19, "Evidência 1: Confirmação de Cadastro Aprovado (E-mail HTML)", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
 
     img_suc = Path(__file__).resolve().parents[1] / "img" / "sucesso.png"
-    img_foto = Path(__file__).resolve().parents[1] / "img" / "falha_faltou_documento_foto.png"
-    img_res = Path(__file__).resolve().parents[1] / "img" / "falha_falta-comprovante-residencia.png"
-
-    # Display 3 images side by side or 3 cards with images
     if img_suc.exists():
-        slide19.shapes.add_picture(str(img_suc), Inches(0.5), Inches(1.4), width=Inches(3.8))
-        add_card(slide19, 0.5, 5.2, 3.8, 1.5, "✅ E-mail de Sucesso", [
-            ("• Retorno do Robô:", "Confirmação de aprovação e cadastro ativado no ERP.")
-        ])
+        slide19.shapes.add_picture(str(img_suc), Inches(0.6), Inches(1.4), width=Inches(7.8))
 
-    if img_foto.exists():
-        slide19.shapes.add_picture(str(img_foto), Inches(4.7), Inches(1.4), width=Inches(3.8))
-        add_card(slide19, 4.7, 5.2, 3.8, 1.5, "⚠️ Pendência: Doc. Foto", [
-            ("• Retorno do Robô:", "Identificada ausência de Documento Oficial com Foto.")
-        ])
+    add_card(slide19, 8.6, 1.4, 4.1, 5.2, "✅ Cenário de Sucesso", [
+        ("• Validação Documental:", "100% Aprovado."),
+        ("• Análise do PDF:", "Ficha Cadastral Assinada, Documento com Foto e Comprovante de Residência validados via pypdf."),
+        ("• Automação Web:", "Cadastro ativado no Portal Fake ERP como 'ATIVO' via Playwright."),
+        ("• Gestão de Arquivos:", "Arquivo transferido para 'Documentos_OK' e depois 'Encaminhados' (local e Google Drive)."),
+        ("• Notificação:", "Disparo instantâneo do e-mail em HTML responsivo com protocolo único de aprovação.")
+    ])
 
-    if img_res.exists():
-        slide19.shapes.add_picture(str(img_res), Inches(8.9), Inches(1.4), width=Inches(3.8))
-        add_card(slide19, 8.9, 5.2, 3.8, 1.5, "⚠️ Pendência: Residência", [
-            ("• Retorno do Robô:", "Identificada ausência de Comprovante de Residência.")
-        ])
-
-    add_footer(slide19, 19, total_pages=21)
+    add_footer(slide19, 19, total_pages=23)
 
     # ==========================================
-    # SLIDE 20: TABELA COMPARATIVA DE GANHOS
+    # SLIDE 20: EVIDÊNCIA 2 - PENDÊNCIA: FALTA DOC COM FOTO
     # ==========================================
     slide20 = prs.slides.add_slide(blank_layout)
     set_slide_background(slide20, LIGHT_BG)
-    add_header(slide20, "Métricas de Sucesso & Tabela Comparativa de Ganhos", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
+    add_header(slide20, "Evidência 2: Pendência — Falta Documento Oficial com Foto", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
+
+    img_foto = Path(__file__).resolve().parents[1] / "img" / "falha_faltou_documento_foto.png"
+    if img_foto.exists():
+        slide20.shapes.add_picture(str(img_foto), Inches(0.6), Inches(1.4), width=Inches(7.8))
+
+    add_card(slide20, 8.6, 1.4, 4.1, 5.2, "⚠️ Cenário de Inconsistência", [
+        ("• Validação Documental:", "Reprovado por Pendência."),
+        ("• Inconsistência Detectada:", "Ausência de Documento Oficial de Identificação com Foto (RG / CPF) no PDF enviado."),
+        ("• Gestão de Arquivos:", "PDF retido e movido para a pasta 'Documentos_Pendentes' no ERP local e no Google Drive."),
+        ("• Notificação Automática:", "Disparo imediato de e-mail em HTML orientando o cliente sobre o reenvio exato da identidade com foto.")
+    ])
+
+    add_footer(slide20, 20, total_pages=23)
+
+    # ==========================================
+    # SLIDE 21: EVIDÊNCIA 3 - PENDÊNCIA: FALTA COMPROVANTE DE RESIDÊNCIA
+    # ==========================================
+    slide21 = prs.slides.add_slide(blank_layout)
+    set_slide_background(slide21, LIGHT_BG)
+    add_header(slide21, "Evidência 3: Pendência — Falta Comprovante de Residência", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
+
+    img_res = Path(__file__).resolve().parents[1] / "img" / "falha_falta-comprovante-residencia.png"
+    if img_res.exists():
+        slide21.shapes.add_picture(str(img_res), Inches(0.6), Inches(1.4), width=Inches(7.8))
+
+    add_card(slide21, 8.6, 1.4, 4.1, 5.2, "⚠️ Cenário de Inconsistência", [
+        ("• Validação Documental:", "Reprovado por Pendência."),
+        ("• Inconsistência Detectada:", "Ausência do Comprovante de Residência (fatura de água/luz/endereço) no PDF retornado."),
+        ("• Gestão de Arquivos:", "PDF movido para 'Documentos_Pendentes' no ERP e espelhado no Google Drive."),
+        ("• Notificação Automática:", "Envio de e-mail em HTML responsivo solicitando a regularização do comprovante residencial.")
+    ])
+
+    add_footer(slide21, 21, total_pages=23)
+
+    # ==========================================
+    # SLIDE 22: TABELA COMPARATIVA DE GANHOS
+    # ==========================================
+    slide22 = prs.slides.add_slide(blank_layout)
+    set_slide_background(slide22, LIGHT_BG)
+    add_header(slide22, "Métricas de Sucesso & Tabela Comparativa de Ganhos", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
 
     # Table
-    tbl = slide20.shapes.add_table(rows=5, cols=4, left=Inches(0.6), top=Inches(1.4), width=Inches(12.0), height=Inches(4.5)).table
+    tbl = slide22.shapes.add_table(rows=5, cols=4, left=Inches(0.6), top=Inches(1.4), width=Inches(12.0), height=Inches(4.5)).table
     
     headers = ["Métrica de Desempenho", "Processo Manual (AS-IS)", "Processo Automatizado (TO-BE)", "Ganho / Melhoria Obtida"]
     for idx, h in enumerate(headers):
@@ -666,16 +695,16 @@ def create_presentation():
                     if col_idx == 0 or col_idx == 3:
                         r.font.bold = True
 
-    add_footer(slide20, 20, total_pages=21)
+    add_footer(slide22, 22, total_pages=23)
 
     # ==========================================
-    # SLIDE 21: CONCLUSÃO E ENCERRAMENTO
+    # SLIDE 23: CONCLUSÃO E ENCERRAMENTO
     # ==========================================
-    slide21 = prs.slides.add_slide(blank_layout)
-    set_slide_background(slide21, LIGHT_BG)
-    add_header(slide21, "Conclusão & Defesa do Projeto", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
+    slide23 = prs.slides.add_slide(blank_layout)
+    set_slide_background(slide23, LIGHT_BG)
+    add_header(slide23, "Conclusão & Defesa do Projeto", "BLOCO 4 — DEMONSTRAÇÃO & RESULTADOS", "Equipe Integrada")
 
-    add_card(slide21, 0.6, 1.4, 5.8, 5.2, "Atendimento a 100% dos Requisitos do Roteiro 10", [
+    add_card(slide23, 0.6, 1.4, 5.8, 5.2, "Atendimento a 100% dos Requisitos do Roteiro 10", [
         ("✅ Modelagem BPMN 2.0:", "Processo 1 totalmente mapeado no Draw.io."),
         ("✅ Automação Integrada:", "Solução acoplada perfeitamente ao projeto preexistente."),
         ("✅ Validação Inteligente:", "Inspeção de conteúdo em PDFs via pypdf."),
@@ -683,14 +712,14 @@ def create_presentation():
         ("✅ Governança de Código:", "Repositório GitHub organizado com metodologia GitFlow.")
     ])
 
-    add_card(slide21, 6.8, 1.4, 5.8, 5.2, "Muito Obrigado! Pergunta & Resposta (Q&A)", [
+    add_card(slide23, 6.8, 1.4, 5.8, 5.2, "Muito Obrigado! Pergunta & Resposta (Q&A)", [
         ("• Equipe 1:", "Eric Luna Costa, Daniele Greice, Kauã Sales e Sannyer Cardoso."),
         ("• Professor:", "Prof. Moisés Levy | Disciplina: Técnicas de Hyperautomation."),
         ("• Instituição:", "PÓLO DE INOVAÇÃO IFAM / FAEPI / LG."),
         ("• Espaço Aberto:", "Estamos à disposição da banca para dúvidas e demonstração ao vivo!")
     ])
 
-    add_footer(slide21, 21, total_pages=21)
+    add_footer(slide23, 23, total_pages=23)
 
     # Save presentation
     output_pptx = Path(__file__).resolve().parent / "Apresentacao_Hyperautomation_Processo1_LG.pptx"

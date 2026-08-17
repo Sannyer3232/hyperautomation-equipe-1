@@ -29,3 +29,4 @@ HyperAutomation/source/credentials.json
 HyperAutomation/source/token.json
 **/credentials.json
 **/token.json
+.env

@@ -268,7 +268,8 @@ def executar_orquestracao(modo="demo_completo", row_index=9, email_destino="carv
             if modo == "demo_completo":
                 nome_limpo_pdf = f"Ficha_Assinada_e_Documentos_{nome}_{sobrenome}".replace(" ", "_")
                 pdf_simulado = gestor_erp.dir_downloads / f"{nome_limpo_pdf}.pdf"
-                if not pdf_simulado.exists() and not (gestor_erp.dir_ok / pdf_simulado.name).exists() and not (gestor_erp.dir_encaminhados / pdf_simulado.name).exists():
+                if not pdf_simulado.exists() and not (gestor_erp.dir_ok / pdf_simulado.name).exists():
+
                     pdf_content = (
                         f"%PDF-1.4\n"
                         f"1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n"
@@ -333,12 +334,7 @@ def executar_orquestracao(modo="demo_completo", row_index=9, email_destino="carv
                     cliente_dados["status"] = "ATIVO"
                     portal_integracao.cadastrar_cliente(page, cliente_dados)
 
-                    # Move de Documentos_OK para Encaminhados
-                    for a in anexos:
-                        try:
-                            gestor_erp.mover_para_encaminhados(Path(a).name)
-                        except Exception as e_mov:
-                            print(f"    [GESTOR ARQUIVOS] Aviso: {e_mov}")
+
 
                     # Envia e-mail final de confirmação em HTML
                     print(f"    [FASE 3] Enviando e-mail de CONFIRMAÇÃO DE CADASTRO para {email_cliente}...")

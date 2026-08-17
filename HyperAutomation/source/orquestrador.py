@@ -155,7 +155,7 @@ def executar_orquestracao(modo="demo_completo", row_index=9, email_destino="carv
     gestor_erp = GestorArquivos()
     gestor_erp.garantir_estrutura_pastas()
     planilha = PlanilhaMestra(
-        PATH_ROOT / "resources" / "Planilha_Mestra.xlsx"
+        gestor_erp.dir_sistema_integrador / "Planilha_Mestra.xlsx"
     )
 
     notificador = NotificadorCliente()

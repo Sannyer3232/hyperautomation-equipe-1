@@ -1,0 +1,25 @@
+[2026-08-17 17:02:05] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:02:05 → Processo 3 → INFO → Iniciando orquestração do Processo 3 - Cadastro.
+[2026-08-17 17:02:05] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:02:05 → Processo 3 → INFO → Identificados 2 clientes pendentes na Planilha Mestra.
+[2026-08-17 17:02:33] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:02:33 → Processo 3 → INFO → Iniciando orquestração do Processo 3 - Cadastro.
+[2026-08-17 17:02:33] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:02:33 → Processo 3 → INFO → Identificados 2 clientes pendentes na Planilha Mestra.
+[2026-08-17 17:02:34] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:02:34 → Processo 3 → INFO → Processando cadastro para Sannyer Nery (CPF: 03536054250, Linha 2)
+[2026-08-17 17:02:36] [PROCESSO 3 - CADASTRO] [WARNING] 2026-08-17 17:02:36 → Processo 3 → DUPLICADO → CPF 03536054250 (Sannyer Nery) já existe no portal. | Motivo/Erro: Registro já existente no portal
+[2026-08-17 17:02:36] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:02:36 → Processo 3 → INFO → Processando cadastro para Hugo Lima (CPF: 10000013441, Linha 3)
+[2026-08-17 17:02:41] [PROCESSO 3 - CADASTRO] [WARNING] 2026-08-17 17:02:41 → Processo 3 → FALLBACK → Falha ao cadastrar Hugo Lima | Motivo/Erro: Exceção durante cadastro no portal: Page.wait_for_selector: Timeout 4000ms exceeded.
+Call log:
+  - waiting for locator("#modal[hidden]") to be visible
+    12 × locator resolved to hidden <div hidden="" id="modal" class="modal" aria-hidden="true">…</div>
+
+[2026-08-17 17:02:41] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:02:41 → Processo 3 → SUCESSO → Processo 3 concluído. Total: 2 (Cadastrados: 0, Duplicados: 1, Erros: 1)
+[2026-08-17 17:04:28] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:28 → Processo 3 → INFO → Iniciando orquestração do Processo 3 - Cadastro.
+[2026-08-17 17:04:28] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:28 → Processo 3 → INFO → Identificados 2 clientes pendentes na Planilha Mestra.
+[2026-08-17 17:04:29] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:29 → Processo 3 → INFO → Processando cadastro para Sannyer Nery (CPF: 03536054250, Linha 2)
+[2026-08-17 17:04:31] [PROCESSO 3 - CADASTRO] [WARNING] 2026-08-17 17:04:31 → Processo 3 → DUPLICADO → CPF 03536054250 (Sannyer Nery) já existe no portal. | Motivo/Erro: Registro já existente no portal
+[2026-08-17 17:04:31] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:31 → Processo 3 → INFO → Processando cadastro para Hugo Lima (CPF: 10000013441, Linha 3)
+[2026-08-17 17:04:31] [PROCESSO 3 - CADASTRO] [WARNING] 2026-08-17 17:04:31 → Processo 3 → DUPLICADO → CPF 10000013441 (Hugo Lima) já existe no portal. | Motivo/Erro: Registro já existente no portal
+[2026-08-17 17:04:32] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:32 → Processo 3 → SUCESSO → Processo 3 concluído. Total: 2 (Cadastrados: 0, Duplicados: 2, Erros: 0)
+[2026-08-17 17:04:46] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:46 → Processo 3 → INFO → Iniciando orquestração do Processo 3 - Cadastro.
+[2026-08-17 17:04:46] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:46 → Processo 3 → INFO → Identificados 1 clientes pendentes na Planilha Mestra.
+[2026-08-17 17:04:47] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:47 → Processo 3 → INFO → Processando cadastro para Mariana Souza (CPF: 22233344455, Linha 4)
+[2026-08-17 17:04:48] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:48 → Processo 3 → SUCESSO → Cadastro concluído no portal para Mariana Souza (CPF: 22233344455).
+[2026-08-17 17:04:48] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:48 → Processo 3 → SUCESSO → Processo 3 concluído. Total: 1 (Cadastrados: 1, Duplicados: 0, Erros: 0)

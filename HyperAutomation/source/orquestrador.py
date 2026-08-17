@@ -17,7 +17,7 @@ from portal_bot import carregar_usuarios, preencher_portal_rapido, INDEX_HTML
 from common.extracao import extrair_dados, extrair_todos_dados
 from common.documento_email import criar_documento, enviar_email
 from common.protocolo import gerar_protocolo_unico
-from common.planilha_mestra import PlanilhaMestra
+from processo_organizacao.planilha_mestra import GerenciadorPlanilha
 from processo_atendimento.gestor_arquivos import GestorArquivos
 from processo_atendimento.resposta_cliente import NotificadorCliente
 from processo_atendimento.leitor_email import LeitorEmail
@@ -154,8 +154,8 @@ def executar_orquestracao(modo="demo_completo", row_index=9, email_destino="carv
     print("\n[Etapa 0] Inicializando Módulos do Processo 1...")
     gestor_erp = GestorArquivos()
     gestor_erp.garantir_estrutura_pastas()
-    planilha = PlanilhaMestra(
-        PATH_ROOT / "resources" / "Planilha_Mestra.xlsx"
+    planilha = GerenciadorPlanilha(
+        gestor_erp.dir_sistema_integrador / "Planilha_Mestra.xlsx"
     )
 
     notificador = NotificadorCliente()
@@ -337,7 +337,7 @@ def executar_orquestracao(modo="demo_completo", row_index=9, email_destino="carv
                     # Cadastro definitivo / Atualização de Status no Portal Fake via Playwright
                     cliente_dados["status"] = "ATIVO"
                     cliente_dados["protocolo"] = protocolo
-                    planilha.adicionar_cliente(cliente_dados)
+                    planilha.adicionar_registro(cliente_dados)
                     print("    [PLANILHA] Cliente registrado na Planilha Mestra.")
                     
                     portal_integracao.cadastrar_cliente(page, cliente_dados)

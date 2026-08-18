@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop, test-cicd ]
+    branches: [ test-cicd ]
 
 jobs:
   build-and-push:

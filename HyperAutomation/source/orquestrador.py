@@ -173,7 +173,8 @@ def executar_orquestracao(modo="demo_completo", row_index=9, email_destino="carv
     with sync_playwright() as p:
         context = p.chromium.launch_persistent_context(
             user_data_dir=str(BROWSER_DATA_DIR),
-            headless=headless
+            #headless=headless
+            headless=True
         )
         page = context.new_page()
 

@@ -23,3 +23,20 @@ Call log:
 [2026-08-17 17:04:47] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:47 → Processo 3 → INFO → Processando cadastro para Mariana Souza (CPF: 22233344455, Linha 4)
 [2026-08-17 17:04:48] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:48 → Processo 3 → SUCESSO → Cadastro concluído no portal para Mariana Souza (CPF: 22233344455).
 [2026-08-17 17:04:48] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 17:04:48 → Processo 3 → SUCESSO → Processo 3 concluído. Total: 1 (Cadastrados: 1, Duplicados: 0, Erros: 0)
+[2026-08-17 21:44:37] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 21:44:37 → Processo 3 → INFO → Iniciando orquestração do Processo 3 - Cadastro.
+[2026-08-17 21:44:37] [PROCESSO 3 - CADASTRO] [WARNING] 2026-08-17 21:44:37 → Processo 3 → AVISO → Nenhum registro pendente na Planilha Mestra para processar.
+[2026-08-17 22:22:17] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:22:17 → Processo 3 → INFO → Iniciando orquestração do Processo 3 - Cadastro.
+[2026-08-17 22:22:17] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:22:17 → Processo 3 → INFO → Identificados 1 clientes para processar na Planilha Mestra.
+[2026-08-17 22:22:18] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:22:18 → Processo 3 → INFO → Processando cadastro para Sannyer Nery (CPF: 03536054250, Linha 2)
+[2026-08-17 22:22:19] [PROCESSO 3 - CADASTRO] [WARNING] 2026-08-17 22:22:19 → Processo 3 → DUPLICADO → CPF 03536054250 (Sannyer Nery) já existe no portal. | Motivo/Erro: Registro já existente no portal
+[2026-08-17 22:22:19] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:22:19 → Processo 3 → SUCESSO → Processo 3 concluído. Total: 1 (Cadastrados: 0, Duplicados: 1, Erros: 0)
+[2026-08-17 22:28:54] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:28:54 → Processo 3 → INFO → Iniciando orquestração do Processo 3 - Cadastro.
+[2026-08-17 22:28:55] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:28:55 → Processo 3 → INFO → Identificados 1 clientes para processar na Planilha Mestra.
+[2026-08-17 22:28:56] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:28:56 → Processo 3 → INFO → Processando cadastro para Sannyer Nery (CPF: 03536054250, Linha 2)
+[2026-08-17 22:28:56] [PROCESSO 3 - CADASTRO] [WARNING] 2026-08-17 22:28:56 → Processo 3 → DUPLICADO → CPF 03536054250 (Sannyer Nery) já existe no portal. | Motivo/Erro: Registro já existente no portal
+[2026-08-17 22:28:57] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:28:57 → Processo 3 → SUCESSO → Processo 3 concluído. Total: 1 (Cadastrados: 0, Duplicados: 1, Erros: 0)
+[2026-08-17 22:33:33] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:33:33 → Processo 3 → INFO → Iniciando orquestração do Processo 3 - Cadastro.
+[2026-08-17 22:33:33] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:33:33 → Processo 3 → INFO → Identificados 1 clientes para processar na Planilha Mestra.
+[2026-08-17 22:33:35] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:33:35 → Processo 3 → INFO → Processando cadastro para Sannyer Nery (CPF: 03536054250, Linha 2)
+[2026-08-17 22:33:35] [PROCESSO 3 - CADASTRO] [WARNING] 2026-08-17 22:33:35 → Processo 3 → DUPLICADO → CPF 03536054250 (Sannyer Nery) já existe no portal. | Motivo/Erro: Registro já existente no portal
+[2026-08-17 22:33:36] [PROCESSO 3 - CADASTRO] [INFO] 2026-08-17 22:33:36 → Processo 3 → SUCESSO → Processo 3 concluído. Total: 1 (Cadastrados: 0, Duplicados: 1, Erros: 0)

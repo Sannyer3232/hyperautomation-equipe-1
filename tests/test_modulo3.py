@@ -299,3 +299,37 @@ class TestOrquestradorCadastro:
             regs_dup = gp.ler_registros(status_filtro="DUPLICADO_P3")
             assert len(regs_p3) == 1
             assert len(regs_dup) == 1
+
+    def test_orquestrador_especifico_por_cpf(self, planilha_vazia):
+        gp = GerenciadorPlanilha(planilha_vazia)
+        gp.adicionar_registro({"nome_completo": "Cliente A", "cpf": "11111111100", "email": "a@teste.com", "status": "CONCLUIDO_P2"})
+        gp.adicionar_registro({"nome_completo": "Cliente B", "cpf": "22222222200", "email": "b@teste.com", "status": "CONCLUIDO_P2"})
+
+        orquestrador = OrquestradorCadastro(caminho_planilha=planilha_vazia)
+        mock_page = MagicMock()
+        with patch.object(orquestrador.portal, "navegar_ao_portal"), \
+             patch.object(orquestrador.portal, "capturar_screenshot", return_value=None), \
+             patch.object(orquestrador.portal, "limpar_filtros"), \
+             patch.object(orquestrador.portal, "consultar_cpf", return_value={"existe": False, "total": 0}), \
+             patch.object(orquestrador.portal, "cadastrar_cliente", return_value={"sucesso": True, "status": "CADASTRADO"}):
+
+            resultado = orquestrador.executar(headless=True, page=mock_page, cpf="22222222200")
+            assert resultado["total_processados"] == 1
+            assert resultado["cadastrados"][0]["cpf"] == "22222222200"
+
+    def test_orquestrador_especifico_por_linha(self, planilha_vazia):
+        gp = GerenciadorPlanilha(planilha_vazia)
+        gp.adicionar_registro({"nome_completo": "Cliente Linha 2", "cpf": "33333333300", "email": "l2@teste.com", "status": "CONCLUIDO_P2"})
+        gp.adicionar_registro({"nome_completo": "Cliente Linha 3", "cpf": "44444444400", "email": "l3@teste.com", "status": "CONCLUIDO_P2"})
+
+        orquestrador = OrquestradorCadastro(caminho_planilha=planilha_vazia)
+        mock_page = MagicMock()
+        with patch.object(orquestrador.portal, "navegar_ao_portal"), \
+             patch.object(orquestrador.portal, "capturar_screenshot", return_value=None), \
+             patch.object(orquestrador.portal, "limpar_filtros"), \
+             patch.object(orquestrador.portal, "consultar_cpf", return_value={"existe": False, "total": 0}), \
+             patch.object(orquestrador.portal, "cadastrar_cliente", return_value={"sucesso": True, "status": "CADASTRADO"}):
+
+            resultado = orquestrador.executar(headless=True, page=mock_page, linha=3)
+            assert resultado["total_processados"] == 1
+            assert resultado["cadastrados"][0]["cpf"] == "44444444400"

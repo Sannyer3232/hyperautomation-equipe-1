@@ -1,0 +1,943 @@
+2026-08-18 10:04:29,668 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 10:04:29,681 | INFO | Planilha de atendimento criada: dados\atendimentos_sac.xlsx
+2026-08-18 12:38:49,254 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 12:38:49,265 | INFO | Planilha de atendimento criada: d:\RepositorioGit\hyperautomation-equipe-1\ERP_Portal_Fake\Sistema_Integrador_Portal_Fake\atendimentos_sac.xlsx
+2026-08-18 12:38:49,276 | INFO | Total de registros encontrados: 98
+2026-08-18 12:38:49,276 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 12:38:49,277 | INFO | Comunicação preparada para protocolo PROT-20260818-092657-2D8CA6
+2026-08-18 12:38:49,288 | INFO | Atendimento registrado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 12:38:49,288 | INFO | Processando protocolo: Protocolo: #PROT-20260729-0003
+2026-08-18 12:38:49,288 | INFO | Comunicação preparada para protocolo Protocolo: #PROT-20260729-0003
+2026-08-18 12:38:49,299 | INFO | Atendimento registrado: Protocolo: #PROT-20260729-0003_CADASTRO_OK
+2026-08-18 12:38:49,300 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,300 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,300 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,300 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,300 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,300 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,300 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,300 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,300 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,301 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,302 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,303 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,303 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,303 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,303 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,303 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,303 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,303 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,304 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,305 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,305 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,305 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,305 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,305 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,305 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,305 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,305 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,305 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,305 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,306 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,306 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,306 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,306 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,306 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,306 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,306 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,306 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,306 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,306 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,307 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,308 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,308 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,308 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,308 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,308 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,308 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,308 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:38:49,308 | INFO | Processo 4 - SAC finalizado
+2026-08-18 12:40:13,913 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 12:40:13,922 | INFO | Total de registros encontrados: 98
+2026-08-18 12:40:13,922 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 12:40:13,922 | INFO | Atendimento já realizado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 12:40:13,923 | INFO | Processando protocolo: Protocolo: #PROT-20260729-0003
+2026-08-18 12:40:13,923 | INFO | Atendimento já realizado: Protocolo: #PROT-20260729-0003_CADASTRO_OK
+2026-08-18 12:40:13,923 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,923 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,923 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,924 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,924 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,924 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,924 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,924 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,924 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,924 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,925 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,926 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,927 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,928 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,929 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,929 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,929 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,929 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,929 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,929 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,929 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,929 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,929 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,930 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,930 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,930 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,930 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,930 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,930 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,930 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,930 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,930 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,931 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,931 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,931 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,931 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,931 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,931 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,931 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,931 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,931 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,931 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,932 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,932 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,932 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,932 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 12:40:13,932 | INFO | Processo 4 - SAC finalizado
+2026-08-18 13:13:34,092 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 13:13:34,104 | INFO | Planilha de atendimento criada: d:\RepositorioGit\hyperautomation-equipe-1\ERP_Portal_Fake\Sistema_Integrador_Portal_Fake\atendimentos_sac.xlsx
+2026-08-18 13:13:34,116 | INFO | Total de registros encontrados: 98
+2026-08-18 13:13:34,116 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 13:13:34,121 | INFO | Enviando comunicação para 2026500329@ifam.edu.br
+2026-08-18 13:13:38,733 | ERROR | Erro ao comunicar cliente 03536054250: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-3954d3b4383sm6498180a91.15 - gsmtp')
+Traceback (most recent call last):
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 216, in enviar_comunicacao
+    servidor.login(
+  File "C:\Users\ericle.costa\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 739, in login
+    (code, resp) = self.auth(
+                   ^^^^^^^^^^
+  File "C:\Users\ericle.costa\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 652, in auth
+    authobject(challenge).encode('ascii'), eol='')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'encode'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 406, in processar_cliente
+    data_atendimento = enviar_comunicacao(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 211, in enviar_comunicacao
+    with smtplib.SMTP_SSL(
+  File "C:\Users\ericle.costa\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 284, in __exit__
+    raise SMTPResponseException(code, message)
+smtplib.SMTPResponseException: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-3954d3b4383sm6498180a91.15 - gsmtp')
+2026-08-18 13:13:38,750 | INFO | Atendimento registrado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 13:15:32,883 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 13:15:32,892 | INFO | Total de registros encontrados: 98
+2026-08-18 13:15:32,892 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 13:15:32,892 | INFO | Atendimento já realizado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 13:15:32,893 | INFO | Processando protocolo: Protocolo: #PROT-20260729-0003
+2026-08-18 13:15:32,893 | ERROR | Erro ao comunicar cliente 10000013441: Cliente Hugo Lima não possui e-mail.
+Traceback (most recent call last):
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 408, in processar_cliente
+    data_atendimento = enviar_comunicacao(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 191, in enviar_comunicacao
+    raise ValueError(
+ValueError: Cliente Hugo Lima não possui e-mail.
+2026-08-18 13:15:32,906 | INFO | Atendimento registrado: Protocolo: #PROT-20260729-0003_CADASTRO_OK
+2026-08-18 13:18:15,262 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 13:18:15,272 | INFO | Total de registros encontrados: 98
+2026-08-18 13:18:15,272 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 13:18:15,272 | INFO | Atendimento já realizado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 13:18:15,272 | INFO | Processando protocolo: Protocolo: #PROT-20260729-0003
+2026-08-18 13:18:15,273 | INFO | Atendimento já realizado: Protocolo: #PROT-20260729-0003_CADASTRO_OK
+2026-08-18 13:18:15,273 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,273 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,273 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,273 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,273 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,273 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,274 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,275 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,276 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,277 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,278 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,279 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,280 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,280 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,280 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,280 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,280 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,280 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,280 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,280 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:18:15,280 | INFO | Processo 4 - SAC finalizado
+2026-08-18 13:22:05,049 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 13:22:05,061 | INFO | Planilha de atendimento criada: d:\RepositorioGit\hyperautomation-equipe-1\ERP_Portal_Fake\Sistema_Integrador_Portal_Fake\atendimentos_sac.xlsx
+2026-08-18 13:22:05,070 | INFO | Total de registros encontrados: 98
+2026-08-18 13:22:05,071 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 13:22:05,075 | INFO | Enviando comunicação para 2026500329@ifam.edu.br
+2026-08-18 13:22:05,488 | ERROR | Erro ao comunicar cliente 03536054250: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:992)
+Traceback (most recent call last):
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 408, in processar_cliente
+    data_atendimento = enviar_comunicacao(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 213, in enviar_comunicacao
+    with smtplib.SMTP_SSL(
+         ^^^^^^^^^^^^^^^^^
+  File "C:\Users\ericle.costa\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 1050, in __init__
+    SMTP.__init__(self, host, port, local_hostname, timeout,
+  File "C:\Users\ericle.costa\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 255, in __init__
+    (code, msg) = self.connect(host, port)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ericle.costa\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 341, in connect
+    self.sock = self._get_socket(host, port, self.timeout)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ericle.costa\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 1057, in _get_socket
+    new_socket = self.context.wrap_socket(new_socket,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ericle.costa\AppData\Local\Programs\Python\Python311\Lib\ssl.py", line 517, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ericle.costa\AppData\Local\Programs\Python\Python311\Lib\ssl.py", line 1075, in _create
+    self.do_handshake()
+  File "C:\Users\ericle.costa\AppData\Local\Programs\Python\Python311\Lib\ssl.py", line 1346, in do_handshake
+    self._sslobj.do_handshake()
+ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:992)
+2026-08-18 13:22:05,523 | INFO | Atendimento registrado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 13:38:17,987 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 13:38:17,999 | INFO | Planilha de atendimento criada: d:\RepositorioGit\hyperautomation-equipe-1\ERP_Portal_Fake\Sistema_Integrador_Portal_Fake\atendimentos_sac.xlsx
+2026-08-18 13:38:18,009 | INFO | Total de registros encontrados: 98
+2026-08-18 13:38:18,009 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 13:38:18,014 | INFO | Enviando comunicação para 2026500329@ifam.edu.br
+2026-08-18 13:38:22,163 | INFO | Comunicação enviada com sucesso para 2026500329@ifam.edu.br
+2026-08-18 13:38:22,189 | INFO | Atendimento registrado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 13:38:22,200 | INFO | Atendimento registrado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 13:38:22,200 | INFO | Processando protocolo: Protocolo: #PROT-20260729-0003
+2026-08-18 13:38:22,200 | ERROR | Erro ao comunicar cliente 10000013441: Cliente Hugo Lima não possui e-mail.
+Traceback (most recent call last):
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 403, in processar_cliente
+    data_atendimento = enviar_comunicacao(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 191, in enviar_comunicacao
+    raise ValueError(
+ValueError: Cliente Hugo Lima não possui e-mail.
+2026-08-18 13:38:22,211 | INFO | Atendimento registrado: Protocolo: #PROT-20260729-0003_CADASTRO_OK
+2026-08-18 13:38:22,212 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,212 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,212 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,212 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,212 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,213 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,213 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,213 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,213 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,213 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,214 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,215 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,216 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,217 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,217 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,217 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,217 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,217 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,217 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,217 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,217 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,217 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,217 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,218 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,219 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,220 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,220 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,220 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,220 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,220 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,220 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:38:22,220 | INFO | Processo 4 - SAC finalizado
+2026-08-18 13:47:54,832 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 13:47:54,846 | INFO | Planilha de atendimento criada: d:\RepositorioGit\hyperautomation-equipe-1\ERP_Portal_Fake\Sistema_Integrador_Portal_Fake\atendimentos_sac.xlsx
+2026-08-18 13:47:54,856 | INFO | Total de registros encontrados: 98
+2026-08-18 13:47:54,856 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 13:47:54,861 | INFO | Enviando comunicação para 2026500329@ifam.edu.br
+2026-08-18 13:47:59,579 | INFO | Comunicação enviada com sucesso para 2026500329@ifam.edu.br
+2026-08-18 13:47:59,604 | INFO | Atendimento registrado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 13:47:59,604 | INFO | Processando protocolo: Protocolo: #PROT-20260729-0003
+2026-08-18 13:47:59,604 | ERROR | Erro ao comunicar cliente 10000013441: Cliente Hugo Lima não possui e-mail.
+Traceback (most recent call last):
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 403, in processar_cliente
+    data_atendimento = enviar_comunicacao(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 191, in enviar_comunicacao
+    raise ValueError(
+ValueError: Cliente Hugo Lima não possui e-mail.
+2026-08-18 13:47:59,616 | INFO | Atendimento registrado: Protocolo: #PROT-20260729-0003_CADASTRO_OK
+2026-08-18 13:47:59,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,619 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,620 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,621 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,622 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,622 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,622 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,622 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,622 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,622 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,622 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,622 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,622 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,622 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,623 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,623 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,623 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,623 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,623 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,623 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,623 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,623 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:47:59,623 | INFO | Processo 4 - SAC finalizado
+2026-08-18 13:49:10,704 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 13:49:10,714 | INFO | Total de registros encontrados: 98
+2026-08-18 13:49:10,714 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 13:49:10,714 | INFO | Atendimento já realizado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 13:49:10,714 | INFO | Processando protocolo: Protocolo: #PROT-20260729-0003
+2026-08-18 13:49:10,715 | INFO | Atendimento já realizado: Protocolo: #PROT-20260729-0003_CADASTRO_OK
+2026-08-18 13:49:10,715 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,715 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,715 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,715 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,715 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,715 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,715 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,715 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,715 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,715 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,716 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,717 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,718 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,719 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,719 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,719 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,719 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,719 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,719 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,719 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,719 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,720 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,720 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,720 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,720 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,720 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,720 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,720 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,720 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,720 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,720 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,721 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,721 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,721 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,721 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,721 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,721 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,721 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,721 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,721 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,721 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,722 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:10,723 | INFO | Processo 4 - SAC finalizado
+2026-08-18 13:49:28,064 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 13:49:28,076 | INFO | Planilha de atendimento criada: d:\RepositorioGit\hyperautomation-equipe-1\ERP_Portal_Fake\Sistema_Integrador_Portal_Fake\atendimentos_sac.xlsx
+2026-08-18 13:49:28,087 | INFO | Total de registros encontrados: 98
+2026-08-18 13:49:28,087 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 13:49:28,091 | INFO | Enviando comunicação para 2026500329@ifam.edu.br
+2026-08-18 13:49:32,205 | INFO | Comunicação enviada com sucesso para 2026500329@ifam.edu.br
+2026-08-18 13:49:32,218 | INFO | Atendimento registrado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 13:49:32,218 | INFO | Processando protocolo: Protocolo: #PROT-20260729-0003
+2026-08-18 13:49:32,218 | ERROR | Erro ao comunicar cliente 10000013441: Cliente Hugo Lima não possui e-mail.
+Traceback (most recent call last):
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 403, in processar_cliente
+    data_atendimento = enviar_comunicacao(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "d:\RepositorioGit\hyperautomation-equipe-1\HyperAutomation\source\processo_atendimento\processo_sac.py", line 191, in enviar_comunicacao
+    raise ValueError(
+ValueError: Cliente Hugo Lima não possui e-mail.
+2026-08-18 13:49:32,231 | INFO | Atendimento registrado: Protocolo: #PROT-20260729-0003_CADASTRO_OK
+2026-08-18 13:49:32,232 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,232 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,232 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,232 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,232 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,232 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,232 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,233 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,234 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,235 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,235 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,235 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,235 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,235 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,235 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,235 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,235 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,235 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,235 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,236 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,237 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,238 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,239 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,239 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,239 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,239 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,239 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,239 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,239 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,239 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:49:32,239 | INFO | Processo 4 - SAC finalizado
+2026-08-18 13:53:52,494 | INFO | Iniciando Processo 4 - SAC
+2026-08-18 13:53:52,506 | INFO | Planilha de atendimento criada: d:\RepositorioGit\hyperautomation-equipe-1\ERP_Portal_Fake\Sistema_Integrador_Portal_Fake\atendimentos_sac.xlsx
+2026-08-18 13:53:52,516 | INFO | Total de registros encontrados: 98
+2026-08-18 13:53:52,517 | INFO | Processando protocolo: PROT-20260818-092657-2D8CA6
+2026-08-18 13:53:52,521 | INFO | Enviando comunicação para 2026500329@ifam.edu.br
+2026-08-18 13:53:56,585 | INFO | Comunicação enviada com sucesso para 2026500329@ifam.edu.br
+2026-08-18 13:53:56,598 | INFO | Atendimento registrado: PROT-20260818-092657-2D8CA6_CADASTRO_OK
+2026-08-18 13:53:56,599 | INFO | Processando protocolo: Protocolo: #PROT-20260729-0003
+2026-08-18 13:53:56,599 | ERROR | Erro ao comunicar cliente 10000013441: Cliente Hugo Lima não possui e-mail.
+2026-08-18 13:53:56,611 | INFO | Atendimento registrado: Protocolo: #PROT-20260729-0003_CADASTRO_OK
+2026-08-18 13:53:56,611 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,611 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,611 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,611 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,611 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,611 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,611 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,611 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,612 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,613 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,614 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,615 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,616 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,617 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,618 | WARNING | Registro sem protocolo. Ignorando.
+2026-08-18 13:53:56,618 | INFO | Processo 4 - SAC finalizado

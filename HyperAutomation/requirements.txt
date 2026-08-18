@@ -10,3 +10,5 @@ google-auth-oauthlib>=1.0.0
 pydrive2>=1.20.0
 pandas
 openpyxl
+pytest>=7.0.0
+pytest-cov>=4.0.0

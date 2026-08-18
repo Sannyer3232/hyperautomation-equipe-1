@@ -30,3 +30,8 @@ HyperAutomation/source/token.json
 **/credentials.json
 **/token.json
 .env
+
+# Logs e Cobertura
+.coverage
+*.log
+logs/

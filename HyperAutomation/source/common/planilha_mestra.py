@@ -273,6 +273,150 @@ class GerenciadorPlanilha:
         """
         return self.adicionar_registro(dados)
 
+    def ler_registros(self, status_filtro=None) -> list:
+        """
+        Lê todos os registros preenchidos da Planilha Mestra.
+        :param status_filtro: Opcional. String ou lista de strings de status para filtrar (ex: 'CONCLUIDO_P2').
+        :return: Lista de dicionários contendo os dados estruturados de cada linha da planilha.
+        """
+        if not self.caminho_planilha.exists():
+            return []
+
+        wb = openpyxl.load_workbook(self.caminho_planilha, data_only=True)
+        ws = wb.active
+        header_map = self._obter_mapeamento_colunas(ws)
+
+        col_cpf = header_map.get("cpf", 1)
+        col_nome = header_map.get("nome", 2)
+        col_nasc = header_map.get("nascimento", 3)
+        col_end = header_map.get("endereco", 4)
+        col_email = header_map.get("email", 5)
+        col_tel = header_map.get("telefone", 6)
+        col_status = header_map.get("status", 7)
+        col_dt_proc = header_map.get("data_processamento", 8)
+        col_obs = header_map.get("observacoes", 9)
+        col_proto = header_map.get("protocolo", 10)
+
+        registros = []
+        for r in range(2, ws.max_row + 1):
+            cpf_val = ws.cell(r, col_cpf).value
+            nome_val = ws.cell(r, col_nome).value
+
+            # Ignora linhas completamente em branco
+            if (cpf_val is None or str(cpf_val).strip() == "") and (nome_val is None or str(nome_val).strip() == ""):
+                continue
+
+            # Sanitização do CPF
+            cpf_str = str(cpf_val or "").strip()
+            cpf_digits = re.sub(r"\D", "", cpf_str)
+            if 0 < len(cpf_digits) <= 11:
+                cpf_limpo = cpf_digits.zfill(11)
+            else:
+                cpf_limpo = cpf_str
+
+            st_val = str(ws.cell(r, col_status).value or "").strip()
+
+            if status_filtro:
+                if isinstance(status_filtro, (list, tuple, set)):
+                    filtros = [str(f).upper() for f in status_filtro]
+                    if st_val.upper() not in filtros:
+                        continue
+                else:
+                    if st_val.upper() != str(status_filtro).upper():
+                        continue
+
+            nasc_val = ws.cell(r, col_nasc).value
+            if isinstance(nasc_val, (datetime, date)):
+                nasc_str = nasc_val.strftime("%Y-%m-%d")
+            else:
+                nasc_str = str(nasc_val or "").strip()
+
+            dt_proc_val = ws.cell(r, col_dt_proc).value
+            proto_val = str(ws.cell(r, col_proto).value or "").strip() if col_proto else ""
+
+            item = {
+                "linha": r,
+                "cpf": cpf_limpo,
+                "nome_completo": str(nome_val or "").strip(),
+                "nascimento": nasc_str,
+                "endereco": str(ws.cell(r, col_end).value or "").strip(),
+                "email": str(ws.cell(r, col_email).value or "").strip(),
+                "telefone": str(ws.cell(r, col_tel).value or "").strip(),
+                "status": st_val,
+                "data_processamento": dt_proc_val,
+                "observacoes": str(ws.cell(r, col_obs).value or "").strip(),
+                "protocolo": proto_val,
+            }
+            registros.append(item)
+
+        wb.close()
+        return registros
+
+    def atualizar_status_registro(self, cpf: str = None, linha: int = None, novo_status: str = "CONCLUIDO_P3", observacao: str = None) -> bool:
+        """
+        Atualiza o status, data de processamento e observações de um registro existente na Planilha Mestra.
+        Localiza a linha diretamente pelo número ou pelo CPF sanitizado.
+        """
+        if not self.caminho_planilha.exists():
+            return False
+
+        wb = openpyxl.load_workbook(self.caminho_planilha)
+        ws = wb.active
+        header_map = self._obter_mapeamento_colunas(ws)
+
+        col_cpf = header_map.get("cpf", 1)
+        col_status = header_map.get("status", 7)
+        col_dt_proc = header_map.get("data_processamento", 8)
+        col_obs = header_map.get("observacoes", 9)
+
+        target_row = None
+        if linha and 2 <= linha <= ws.max_row:
+            target_row = linha
+        elif cpf:
+            cpf_digits = re.sub(r"\D", "", str(cpf)).zfill(11)
+            for r in range(2, ws.max_row + 1):
+                val_cpf = ws.cell(r, col_cpf).value
+                if val_cpf is not None:
+                    c_limpo = re.sub(r"\D", "", str(val_cpf)).zfill(11)
+                    if c_limpo == cpf_digits:
+                        target_row = r
+                        break
+
+        if target_row is None:
+            wb.close()
+            return False
+
+        if col_status:
+            ws.cell(row=target_row, column=col_status, value=novo_status)
+
+        if col_dt_proc:
+            cell_dt = ws.cell(row=target_row, column=col_dt_proc)
+            cell_dt.value = datetime.now()
+            cell_dt.number_format = "DD/MM/YYYY HH:MM"
+
+        if observacao and col_obs:
+            cell_obs = ws.cell(row=target_row, column=col_obs)
+            obs_atual = str(cell_obs.value or "").strip()
+            if obs_atual and obs_atual != "None" and obs_atual != "":
+                cell_obs.value = f"{obs_atual} | {observacao}"
+            else:
+                cell_obs.value = observacao
+
+        wb.save(self.caminho_planilha)
+        wb.close()
+        print(f"[PLANILHA MESTRA] Linha {target_row} atualizada para status '{novo_status}'.")
+        return True
+
+    def obter_registro_por_cpf(self, cpf: str) -> dict:
+        """Busca e retorna o registro correspondente ao CPF ou None caso não encontre."""
+        registros = self.ler_registros()
+        cpf_digits = re.sub(r"\D", "", str(cpf)).zfill(11)
+        for reg in registros:
+            if re.sub(r"\D", "", str(reg.get("cpf", ""))).zfill(11) == cpf_digits:
+                return reg
+        return None
+
 
 # Alias unificado
 PlanilhaMestra = GerenciadorPlanilha
+

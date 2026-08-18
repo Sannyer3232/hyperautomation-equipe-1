@@ -17,14 +17,22 @@ def criar_documento(dados=None):
     documento.add_paragraph()
 
     if dados:
-        documento.add_paragraph(f"1. Nome: {dados.get('Nome', '')}")
-        documento.add_paragraph(f"2. Sobrenome: {dados.get('Sobrenome', '')}")
-        documento.add_paragraph(f"3. CPF: {dados.get('CPF', '')}")
-        documento.add_paragraph(f"4. E-mail: {dados.get('E-mail', '')}")
-        documento.add_paragraph(f"5. Telefone: {dados.get('Telefone', '')}")
-        documento.add_paragraph(f"6. Data de Nascimento: {dados.get('Nascimento', '')}")
-        documento.add_paragraph(f"7. Endereço: {dados.get('Endereco', '')}")
-        cpf_limpo = (dados.get('CPF') or 'temp').replace('.', '').replace('-', '')
+        nome = dados.get('Nome', dados.get('nome', ''))
+        sobrenome = dados.get('Sobrenome', dados.get('sobrenome', ''))
+        cpf = dados.get('CPF', dados.get('cpf', ''))
+        email = dados.get('E-mail', dados.get('Email', dados.get('email', '')))
+        telefone = dados.get('Telefone', dados.get('telefone', ''))
+        nascimento = dados.get('Data de Nascimento', dados.get('Nascimento', dados.get('nascimento', '')))
+        endereco = dados.get('Endereço', dados.get('Endereco', dados.get('endereco', '')))
+
+        documento.add_paragraph(f"1. Nome: {nome}")
+        documento.add_paragraph(f"2. Sobrenome: {sobrenome}")
+        documento.add_paragraph(f"3. CPF: {cpf}")
+        documento.add_paragraph(f"4. E-mail: {email}")
+        documento.add_paragraph(f"5. Telefone: {telefone}")
+        documento.add_paragraph(f"6. Data de Nascimento: {nascimento}")
+        documento.add_paragraph(f"7. Endereço: {endereco}")
+        cpf_limpo = str(cpf or 'temp').replace('.', '').replace('-', '').replace(' ', '')
         nome_arquivo = f"Ficha_Cadastro_{cpf_limpo}.docx"
     else:
         documento.add_paragraph("1. Nome:")

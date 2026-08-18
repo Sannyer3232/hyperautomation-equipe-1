@@ -153,6 +153,37 @@ class TestLeitorPlanilhaCadastro:
         todos = leitor.obter_todos_clientes()
         assert len(todos) == 2
 
+    def test_obter_pendentes_com_status_aprovado(self, planilha_temp):
+        """Valida que registros com status 'Aprovado' ou 'APROVADA' são lidos corretamente como pendentes."""
+        gerenciador = GerenciadorPlanilha(planilha_temp)
+        gerenciador.inicializar_planilha()
+        gerenciador.adicionar_registro({
+            "nome_completo": "Cliente Aprovado",
+            "cpf": "11122233344",
+            "email": "aprovado@teste.com",
+            "status": "Aprovado"
+        })
+        gerenciador.adicionar_registro({
+            "nome_completo": "Cliente Aprovada",
+            "cpf": "22233344455",
+            "email": "aprovada@teste.com",
+            "status": "APROVADA"
+        })
+        gerenciador.adicionar_registro({
+            "nome_completo": "Cliente Concluido P3",
+            "cpf": "33344455566",
+            "email": "p3@teste.com",
+            "status": "CONCLUIDO_P3"
+        })
+
+        leitor = LeitorPlanilhaCadastro(planilha_temp)
+        pendentes = leitor.obter_clientes_pendentes()
+        assert len(pendentes) == 2
+        cpfs = [p["cpf"] for p in pendentes]
+        assert "11122233344" in cpfs
+        assert "22233344455" in cpfs
+
+
 
 class TestGerenciadorPlanilhaMestra:
     """Testes com arquivo temporário da Planilha Mestra."""

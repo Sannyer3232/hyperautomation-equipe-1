@@ -5,6 +5,7 @@ Centraliza todas as operações em Excel para os Processos 1, 2 e 3.
 from pathlib import Path
 from datetime import datetime, date
 import re
+import unicodedata
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
@@ -317,12 +318,22 @@ class GerenciadorPlanilha:
             st_val = str(ws.cell(r, col_status).value or "").strip()
 
             if status_filtro:
+                def normalizar_st(s):
+                    s_str = str(s or "").strip().upper()
+                    s_norm = "".join(
+                        c for c in unicodedata.normalize("NFKD", s_str)
+                        if not unicodedata.combining(c)
+                    )
+                    return s_norm.replace("_", "").replace(" ", "").replace("-", "")
+
+                st_norm = normalizar_st(st_val)
+
                 if isinstance(status_filtro, (list, tuple, set)):
-                    filtros = [str(f).upper() for f in status_filtro]
-                    if st_val.upper() not in filtros:
+                    filtros_norm = [normalizar_st(f) for f in status_filtro]
+                    if st_norm not in filtros_norm:
                         continue
                 else:
-                    if st_val.upper() != str(status_filtro).upper():
+                    if st_norm != normalizar_st(status_filtro):
                         continue
 
             nasc_val = ws.cell(r, col_nasc).value
@@ -355,7 +366,7 @@ class GerenciadorPlanilha:
     def atualizar_status_registro(self, cpf: str = None, linha: int = None, novo_status: str = "CONCLUIDO_P3", observacao: str = None) -> bool:
         """
         Atualiza o status, data de processamento e observações de um registro existente na Planilha Mestra.
-        Localiza a linha diretamente pelo número ou pelo CPF sanitizado.
+        Localiza a linha diretamente pelo CPF sanitizado ou pelo número da linha.
         """
         if not self.caminho_planilha.exists():
             return False
@@ -370,9 +381,7 @@ class GerenciadorPlanilha:
         col_obs = header_map.get("observacoes", 9)
 
         target_row = None
-        if linha and 2 <= linha <= ws.max_row:
-            target_row = linha
-        elif cpf:
+        if cpf:
             cpf_digits = re.sub(r"\D", "", str(cpf)).zfill(11)
             for r in range(2, ws.max_row + 1):
                 val_cpf = ws.cell(r, col_cpf).value
@@ -381,6 +390,9 @@ class GerenciadorPlanilha:
                     if c_limpo == cpf_digits:
                         target_row = r
                         break
+
+        if target_row is None and linha and 2 <= linha <= ws.max_row:
+            target_row = linha
 
         if target_row is None:
             wb.close()
@@ -398,13 +410,14 @@ class GerenciadorPlanilha:
             cell_obs = ws.cell(row=target_row, column=col_obs)
             obs_atual = str(cell_obs.value or "").strip()
             if obs_atual and obs_atual != "None" and obs_atual != "":
-                cell_obs.value = f"{obs_atual} | {observacao}"
+                if observacao not in obs_atual:
+                    cell_obs.value = f"{obs_atual} | {observacao}"
             else:
                 cell_obs.value = observacao
 
         wb.save(self.caminho_planilha)
         wb.close()
-        print(f"[PLANILHA MESTRA] Linha {target_row} atualizada para status '{novo_status}'.")
+        print(f"[PLANILHA MESTRA] Linha {target_row} (CPF: {cpf or 'N/A'}) atualizada para status '{novo_status}'.")
         return True
 
     def obter_registro_por_cpf(self, cpf: str) -> dict:

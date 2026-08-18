@@ -92,8 +92,10 @@ class ExtratorPDF:
             m_nasc = re.match(
                 r"^(?:6\.\s*)?Data\s+de\s+Nascimento:\s*(.*)", line_clean, re.IGNORECASE
             )
-            if m_nasc and m_nasc.group(1).strip() and not dados["nascimento"]:
-                dados["nascimento"] = _normalizar_espacos(m_nasc.group(1))
+            if m_nasc and not dados["nascimento"]:
+                val_nasc = _normalizar_espacos(m_nasc.group(1))
+                if val_nasc:
+                    dados["nascimento"] = val_nasc
 
             m_end = re.match(
                 r"^(?:7\.\s*)?Endere[çc\ufffd]o:\s*(.*)", line_clean, re.IGNORECASE
@@ -117,7 +119,28 @@ class ExtratorPDF:
             if dados["cpf"] == "NÃO ENCONTRADO":
                 dados["cpf"] = m_horiz.group(2).strip()
 
-        # 4. Fallback para CPF em qualquer parte do texto
+        # 4. Fallback para Data de Nascimento em qualquer parte do texto
+        if not dados["nascimento"]:
+            m_nasc_regex = re.search(
+                r"(?:Data\s+de\s+Nascimento|Nascimento|D\.N\.|Data\s+Nasc\.?):\s*([0-9]{2,4}[-/.][0-9]{2}[-/.][0-9]{2,4})",
+                texto_completo,
+                re.IGNORECASE,
+            )
+            if m_nasc_regex:
+                dados["nascimento"] = m_nasc_regex.group(1).strip()
+
+        # Normalização de Data de Nascimento para YYYY-MM-DD
+        if dados["nascimento"]:
+            raw_nasc = dados["nascimento"].strip()
+            for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y", "%d.%m.%Y", "%Y/%m/%d"):
+                try:
+                    dt = datetime.strptime(raw_nasc, fmt)
+                    dados["nascimento"] = dt.strftime("%Y-%m-%d")
+                    break
+                except ValueError:
+                    pass
+
+        # 5. Fallback para CPF em qualquer parte do texto
         if dados["cpf"] == "NÃO ENCONTRADO" or not dados["cpf"]:
             m_cpfg = re.search(r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b", texto_completo)
             if m_cpfg:
@@ -133,7 +156,7 @@ class ExtratorPDF:
             if 0 < len(digits_only) <= 11:
                 dados["cpf"] = digits_only.zfill(11)
 
-        # 5. Composição do Nome Completo
+        # 6. Composição do Nome Completo
         if dados["nome"] and dados["sobrenome"]:
             if dados["sobrenome"].lower() not in dados["nome"].lower():
                 dados["nome_completo"] = f"{dados['nome']} {dados['sobrenome']}".strip()

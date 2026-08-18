@@ -102,3 +102,53 @@ class TestOrquestradorIntegrado:
         # Verifica se o caminho da planilha foi passado para o processo 3
         kwargs_p3 = mock_exec_p3.call_args[1]
         assert "Planilha_Mestra.xlsx" in str(kwargs_p3["caminho_planilha"])
+
+    @patch("orquestrador.carregar_usuarios")
+    @patch("orquestrador.executar_processo3")
+    def test_modo_cadastro_nao_le_csv(self, mock_exec_p3, mock_carregar_csv):
+        """Valida que o modo cadastro NÃO lê o CSV e chama diretamente o Processo 3."""
+        mock_exec_p3.return_value = {
+            "sucesso": True,
+            "total_processados": 1,
+            "cadastrados": [],
+            "duplicados": [],
+            "erros": []
+        }
+
+        executar_orquestracao(modo="cadastro", headless=True)
+
+        mock_carregar_csv.assert_not_called()
+        mock_exec_p3.assert_called_once()
+
+    @patch("processo_organizacao.extrator_dados.PdfReader")
+    def test_extracao_data_nascimento_formatos(self, mock_pdf_reader, tmp_path):
+        """Valida que o ExtratorPDF extrai e normaliza corretamente diferentes formatos de data de nascimento."""
+        fake_pdf = tmp_path / "fake.pdf"
+        fake_pdf.write_text("dummy")
+
+        mock_page = MagicMock()
+        mock_page.extract_text.return_value = (
+            "PORTAL FAKE SOLUCOES DIGITAIS\n"
+            "FICHA DE CADASTRO\n"
+            "1. Nome: Sannyer\n"
+            "2. Sobrenome: Nery\n"
+            "3. CPF: 03536054250\n"
+            "4. E-mail: sannyer@teste.com\n"
+            "5. Telefone: (92) 99982-7524\n"
+            "6. Data de Nascimento: 1999-11-15\n"
+            "7. Endereço: Rua Rio Purus, 915 - Manaus/AM\n"
+        )
+        mock_reader_inst = MagicMock()
+        mock_reader_inst.pages = [mock_page]
+        mock_pdf_reader.return_value = mock_reader_inst
+
+        from processo_organizacao.extrator_dados import ExtratorPDF
+        extrator = ExtratorPDF(fake_pdf)
+        dados = extrator.extrair_dados()
+
+        assert dados["nascimento"] == "1999-11-15"
+        assert dados["cpf"] == "03536054250"
+        assert dados["nome_completo"] == "Sannyer Nery"
+        assert dados["email"] == "sannyer@teste.com"
+
+

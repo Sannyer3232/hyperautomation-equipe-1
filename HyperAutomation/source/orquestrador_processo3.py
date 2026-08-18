@@ -56,12 +56,20 @@ def main():
         help="Executar navegador com interface gráfica visível"
     )
 
+    parser.add_argument(
+        "--zerar-base",
+        action="store_true",
+        default=False,
+        help="Zerar base de cadastros do Portal Fake antes da execução (útil para testes limpos)"
+    )
+
     args, _ = parser.parse_known_args()
 
     headless = args.headless
     planilha_path = Path(args.planilha) if args.planilha else None
     cpf = args.cpf
     linha = args.linha
+    zerar_base = args.zerar_base
 
     task_id = None
     if maestro.is_online:
@@ -81,6 +89,8 @@ def main():
                 linha = int(params.get("linha"))
             except (ValueError, TypeError):
                 pass
+        if "zerar_base" in params:
+            zerar_base = str(params.get("zerar_base")).lower() in ("true", "1", "yes")
 
     if headless is None:
         headless = True if (maestro and maestro.is_online) else False
@@ -92,7 +102,8 @@ def main():
             maestro=maestro,
             task_id=task_id,
             cpf=cpf,
-            linha=linha
+            linha=linha,
+            zerar_base=zerar_base
         )
 
         if maestro.is_online and task_id:

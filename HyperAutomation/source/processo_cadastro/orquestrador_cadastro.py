@@ -36,7 +36,7 @@ class OrquestradorCadastro:
         self.portal = CadastradorPortalFake()
         self.logger = LoggerCadastro()
 
-    def executar(self, headless: bool = False, page = None, context = None, maestro = None, task_id = None, cpf: str = None, linha: int = None) -> dict:
+    def executar(self, headless: bool = False, page = None, context = None, maestro = None, task_id = None, cpf: str = None, linha: int = None, zerar_base: bool = False) -> dict:
         """
         Executa o fluxo completo do Processo 3:
         1. Consulta e extrai registros pendentes da Planilha Mestra (ou um registro específico se informado CPF/linha)
@@ -66,7 +66,10 @@ class OrquestradorCadastro:
                 print(f"[PROCESSO 3] Filtrando exclusivamente pela Linha: {linha} (CPF: {cliente_especifico.get('cpf')})")
         else:
             clientes_pendentes = self.leitor.obter_clientes_pendentes(
-                status_filtro=["CONCLUIDO_P2", "PENDENTE_CADASTRO", "PENDENTE"]
+                status_filtro=[
+                    "CONCLUIDO_P2", "APROVADO", "APROVADA", "APROVADOS", "APROVADAS",
+                    "PENDENTE_CADASTRO", "PENDENTE", "DOCUMENTOS_OK", "DOCS_OK", "VALIDADO"
+                ]
             )
 
         if not clientes_pendentes:
@@ -114,6 +117,9 @@ class OrquestradorCadastro:
             print("[Etapa 2] Conectando ao ERP Portal Fake...")
             self.portal.navegar_ao_portal(page)
 
+            if zerar_base:
+                self.portal.zerar_base(page)
+
             # 3. Processamento de cada cliente da planilha
             for idx, cliente in enumerate(clientes_pendentes, start=1):
                 nome = cliente["nome"]
@@ -135,6 +141,7 @@ class OrquestradorCadastro:
                     self.logger.erro(f"Validação falhou para {nome_completo}", erro=erro_msg)
 
                     self.gerenciador_planilha.atualizar_status_registro(
+                        cpf=cpf,
                         linha=linha,
                         novo_status="ERRO_VALIDACAO_P3",
                         observacao=f"Dados rejeitados na validação: {erro_msg}"
@@ -163,6 +170,7 @@ class OrquestradorCadastro:
                     self.logger.duplicado(f"CPF {cpf} ({nome_completo}) já existe no portal.")
 
                     self.gerenciador_planilha.atualizar_status_registro(
+                        cpf=cpf,
                         linha=linha,
                         novo_status="DUPLICADO_P3",
                         observacao="CPF já cadastrado previamente no Portal Fake"
@@ -191,6 +199,7 @@ class OrquestradorCadastro:
                     self.logger.sucesso(f"Cadastro concluído no portal para {nome_completo} (CPF: {cpf}).")
 
                     self.gerenciador_planilha.atualizar_status_registro(
+                        cpf=cpf,
                         linha=linha,
                         novo_status="CONCLUIDO_P3",
                         observacao="Cadastrado com sucesso no Portal Fake via RPA"
@@ -216,6 +225,7 @@ class OrquestradorCadastro:
 
                     novo_st = "DUPLICADO_P3" if res_cadastro.get("status") == "DUPLICADO" else "ERRO_CADASTRO_P3"
                     self.gerenciador_planilha.atualizar_status_registro(
+                        cpf=cpf,
                         linha=linha,
                         novo_status=novo_st,
                         observacao=f"Falha no portal: {motivo_falha}"
@@ -281,7 +291,7 @@ class OrquestradorCadastro:
         }
 
 
-def executar_processo3(caminho_planilha: Path = None, headless: bool = False, page = None, context = None, maestro = None, task_id = None, cpf: str = None, linha: int = None) -> dict:
+def executar_processo3(caminho_planilha: Path = None, headless: bool = False, page = None, context = None, maestro = None, task_id = None, cpf: str = None, linha: int = None, zerar_base: bool = False) -> dict:
     """Função utilitária para disparo direto do Processo 3."""
     orquestrador = OrquestradorCadastro(caminho_planilha)
-    return orquestrador.executar(headless=headless, page=page, context=context, maestro=maestro, task_id=task_id, cpf=cpf, linha=linha)
+    return orquestrador.executar(headless=headless, page=page, context=context, maestro=maestro, task_id=task_id, cpf=cpf, linha=linha, zerar_base=zerar_base)

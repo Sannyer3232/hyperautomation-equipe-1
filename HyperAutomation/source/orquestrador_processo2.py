@@ -40,7 +40,25 @@ def executar_processo2():
             dados = extrator.extrair_dados()
             
             if dados["cpf"] != "NÃO ENCONTRADO":
-                print(f"  -> Dados Extraídos: Nome: {dados['nome_completo']} | CPF: {dados['cpf']} | Email: {dados['email']} | Tel: {dados['telefone']} | Endereço: {dados['endereco']}")
+                # Busca no CSV para enriquecer dados faltantes (como data de nascimento ou email se faltarem no PDF)
+                try:
+                    csv_path_ref = PATH_ROOT / "resources" / "cadastros_portal_fake_20.csv"
+                    if csv_path_ref.exists():
+                        from portal_bot import carregar_usuarios
+                        usuarios_ref = carregar_usuarios(csv_path_ref)
+                        for u_ref in usuarios_ref:
+                            if "".join(filter(str.isdigit, str(u_ref.get("cpf", "")))) == dados["cpf"]:
+                                if not dados.get("nascimento") and u_ref.get("nascimento"):
+                                    dados["nascimento"] = u_ref.get("nascimento")
+                                if not dados.get("email") and u_ref.get("email"):
+                                    dados["email"] = u_ref.get("email")
+                                if not dados.get("telefone") and u_ref.get("telefone"):
+                                    dados["telefone"] = u_ref.get("telefone")
+                                break
+                except Exception:
+                    pass
+
+                print(f"  -> Dados Extraídos: Nome: {dados['nome_completo']} | CPF: {dados['cpf']} | Nasc: {dados.get('nascimento')} | Email: {dados['email']} | Tel: {dados['telefone']} | Endereço: {dados['endereco']}")
                 sucesso = gerenciador_planilha.adicionar_registro(dados)
                 
                 # Independentemente de ter sido duplicado ou inserido novo, o documento foi processado, então arquivamos.

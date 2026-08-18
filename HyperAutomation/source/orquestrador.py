@@ -40,13 +40,14 @@ def main():
         nargs="?",
         default=None,
         help="Modo de execução posicional:\n"
+             "  cadastro            : Executa FASE 3 (Cadastro no Portal Fake lendo somente a Planilha Mestra)\n"
+             "  processar_retornos  : Executa FASE 2 & 3 (leitura de e-mails/documentos, gravação na Planilha Mestra e cadastro)\n"
              "  enviar_solicitacoes : Executa FASE 1 (leitura do CSV, geração e envio da ficha de assinatura)\n"
-             "  processar_retornos  : Executa FASE 2 & 3 (leitura de e-mails, gravação na Planilha Mestra e cadastro)\n"
              "  demo_completo       : Executa FASES 1, 2 e 3 integradas (demonstração completa)"
     )
     parser.add_argument(
         "-m", "--modo",
-        choices=["enviar_solicitacoes", "processar_retornos", "demo_completo"],
+        choices=["cadastro", "processo3", "processar_retornos", "enviar_solicitacoes", "demo_completo"],
         default=None,
         help="Modo de execução (sobrescreve o argumento posicional)"
     )
@@ -61,7 +62,7 @@ def main():
         "-c", "--cpf",
         type=str,
         default=None,
-        help="CPF do cliente a ser selecionado no arquivo CSV"
+        help="CPF do cliente a ser selecionado no arquivo CSV ou filtrado na Planilha Mestra"
     )
     parser.add_argument(
         "-r", "--row-index",
@@ -87,16 +88,23 @@ def main():
         dest="headless",
         help="Executar navegador com interface gráfica visível"
     )
+    parser.add_argument(
+        "--zerar-base",
+        action="store_true",
+        default=False,
+        help="Zerar base de cadastros do Portal Fake antes da execução (útil para testes limpos)"
+    )
 
     args, unknown = parser.parse_known_args()
 
     # Define valores via CLI
-    modo = args.modo or args.modo_pos or "demo_completo"
+    modo = args.modo or args.modo_pos or "cadastro"
     row_index = args.row_index if args.row_index is not None else 2
     id_solicitacao = args.id_solicitacao
     cpf_filtro = args.cpf
     email_destino = args.email_destino
     headless = args.headless
+    zerar_base = args.zerar_base
 
     task_id = None
     remetente = None
@@ -122,6 +130,8 @@ def main():
 
         if "headless" in params:
             headless = str(params.get("headless")).lower() in ("true", "1", "yes")
+        if "zerar_base" in params:
+            zerar_base = str(params.get("zerar_base")).lower() in ("true", "1", "yes")
 
         try:
             remetente = maestro.get_credential(label="GMAIL_CREDS", key="username")
@@ -143,7 +153,8 @@ def main():
             maestro=maestro,
             task_id=task_id,
             remetente=remetente,
-            senha=senha
+            senha=senha,
+            zerar_base=zerar_base
         )
 
         if maestro.is_online and task_id:
@@ -163,15 +174,14 @@ def main():
         raise e
 
 
-def executar_orquestracao(modo="demo_completo", row_index=2, id_solicitacao=None, cpf_filtro=None, email_destino="2026500534@ifam.edu.br", 
-                         headless=True, maestro=None, task_id=None, remetente=None, senha=None):
+def executar_orquestracao(modo="cadastro", row_index=2, id_solicitacao=None, cpf_filtro=None, email_destino="2026500534@ifam.edu.br", 
+                         headless=True, maestro=None, task_id=None, remetente=None, senha=None, zerar_base=False):
     """
     Executa a orquestração HyperAutomation:
-    1. FASE 1: Leitura direta do cliente a partir do CSV (cadastros_portal_fake_20.csv) selecionado por row_index,
-       geração da Ficha Cadastral .docx para assinatura e disparo de e-mail de solicitação.
-    2. FASE 2: Monitoramento de retorno de e-mails (PDF unificado com ficha assinada e documentos),
-       validação documental e organização/registro na Planilha Mestra (Planilha_Mestra.xlsx).
-    3. FASE 3: Cadastro no ERP Portal Fake lendo os registros pendentes da Planilha Mestra via Processo 3.
+    - MODO CADASTRO (Padrão): Processo 3 exclusivo lendo os registros aprovados da Planilha_Mestra.xlsx.
+    - MODO PROCESSAR_RETORNOS: Validação documental, registro na Planilha Mestra (Processo 2) e cadastro (Processo 3).
+    - MODO ENVIAR_SOLICITACOES: Leitura do CSV e envio de ficha de cadastro para assinatura (Processo 1).
+    - MODO DEMO_COMPLETO: Execução integrada de demonstração (Processos 1, 2 e 3).
     """
     print("=" * 75)
     print(f"INICIANDO ORQUESTRAÇÃO HYPERAUTOMATION (MODO: {modo.upper()})")
@@ -196,58 +206,65 @@ def executar_orquestracao(modo="demo_completo", row_index=2, id_solicitacao=None
     screenshots_dir = PATH_ROOT / "resources" / "screenshots"
     screenshots_dir.mkdir(parents=True, exist_ok=True)
 
-    # Leitura direta do arquivo CSV de cadastros
-    csv_file = CSV_PATH if Path(CSV_PATH).exists() else (PATH_ROOT / "resources" / "cadastros_portal_fake_20.csv")
-    print(f"\n[Etapa 1] Carregando clientes diretamente do CSV: {csv_file.name}")
-    usuarios_csv = carregar_usuarios(csv_file)
-
-    if not usuarios_csv:
-        raise ValueError(f"Nenhum cadastro encontrado no CSV em: {csv_file}")
-
-    # Seleciona o cliente pelo ID de solicitação, CPF ou pelo row_index
-    cliente_csv = None
-    idx_selecionado = 0
-    if id_solicitacao is not None:
-        id_str = str(id_solicitacao).strip()
-        for idx, u in enumerate(usuarios_csv):
-            if str(u.get("id_solicitacao", "")).strip() == id_str:
-                cliente_csv = u
-                idx_selecionado = idx
-                break
-        if cliente_csv:
-            print(f"  [Busca por ID] Cliente localizado pelo id_solicitacao='{id_str}': {cliente_csv.get('nome')} {cliente_csv.get('sobrenome')}")
-
-    if cliente_csv is None and cpf_filtro is not None:
-        cpf_digs = "".join(filter(str.isdigit, str(cpf_filtro)))
-        for idx, u in enumerate(usuarios_csv):
-            u_cpf_digs = "".join(filter(str.isdigit, str(u.get("cpf", ""))))
-            if u_cpf_digs == cpf_digs:
-                cliente_csv = u
-                idx_selecionado = idx
-                break
-        if cliente_csv:
-            print(f"  [Busca por CPF] Cliente localizado pelo CPF='{cpf_filtro}': {cliente_csv.get('nome')} {cliente_csv.get('sobrenome')}")
-
-    if cliente_csv is None:
-        idx_selecionado = min(max(0, row_index), len(usuarios_csv) - 1)
-        cliente_csv = usuarios_csv[idx_selecionado]
-
-    nome = cliente_csv.get("nome", "Cliente").strip()
-    sobrenome = cliente_csv.get("sobrenome", "Solicitante").strip()
-    cpf = cliente_csv.get("cpf", "11122233344").strip()
-
-    # Define e-mail de destino (CLI tem prioridade; fallback para o do CSV)
-    email_cliente = email_destino if email_destino else cliente_csv.get("email", "").strip()
-    if not email_cliente or "@" not in email_cliente:
-        email_cliente = cliente_csv.get("email", "2026500534@ifam.edu.br").strip()
-
-    telefone = cliente_csv.get("telefone", "(92) 99888-1122").strip()
-    nascimento = cliente_csv.get("nascimento", "1995-01-01").strip()
-    endereco = cliente_csv.get("endereco", "Manaus/AM").strip()
-    observacao = cliente_csv.get("observacao", "").strip()
+    nome = "Cliente"
+    sobrenome = "Solicitante"
+    cpf = cpf_filtro or "11122233344"
+    email_cliente = email_destino or "2026500534@ifam.edu.br"
+    telefone = "(92) 99888-1122"
+    nascimento = "1995-01-01"
+    endereco = "Manaus/AM"
     protocolo = gerar_protocolo_unico()
 
-    print(f"  [Cliente Selecionado (ID: {cliente_csv.get('id_solicitacao', 'N/A')}, Linha CSV: {idx_selecionado})]: {nome} {sobrenome} | CPF: {cpf} | Email: {email_cliente}")
+    # Carrega do CSV apenas se o modo requisitar Fase 1 / Demo
+    if modo in ["enviar_solicitacoes", "demo_completo"]:
+        csv_file = CSV_PATH if Path(CSV_PATH).exists() else (PATH_ROOT / "resources" / "cadastros_portal_fake_20.csv")
+        print(f"\n[Etapa 1] Carregando clientes para envio de solicitações do CSV: {csv_file.name}")
+        usuarios_csv = carregar_usuarios(csv_file)
+
+        if not usuarios_csv:
+            raise ValueError(f"Nenhum cadastro encontrado no CSV em: {csv_file}")
+
+        cliente_csv = None
+        idx_selecionado = 0
+        if id_solicitacao is not None:
+            id_str = str(id_solicitacao).strip()
+            for idx, u in enumerate(usuarios_csv):
+                if str(u.get("id_solicitacao", "")).strip() == id_str:
+                    cliente_csv = u
+                    idx_selecionado = idx
+                    break
+            if cliente_csv:
+                print(f"  [Busca por ID] Cliente localizado pelo id_solicitacao='{id_str}': {cliente_csv.get('nome')} {cliente_csv.get('sobrenome')}")
+
+        if cliente_csv is None and cpf_filtro is not None:
+            cpf_digs = "".join(filter(str.isdigit, str(cpf_filtro)))
+            for idx, u in enumerate(usuarios_csv):
+                u_cpf_digs = "".join(filter(str.isdigit, str(u.get("cpf", ""))))
+                if u_cpf_digs == cpf_digs:
+                    cliente_csv = u
+                    idx_selecionado = idx
+                    break
+            if cliente_csv:
+                print(f"  [Busca por CPF] Cliente localizado pelo CPF='{cpf_filtro}': {cliente_csv.get('nome')} {cliente_csv.get('sobrenome')}")
+
+        if cliente_csv is None:
+            idx_selecionado = min(max(0, row_index), len(usuarios_csv) - 1)
+            cliente_csv = usuarios_csv[idx_selecionado]
+
+        nome = cliente_csv.get("nome", "Cliente").strip()
+        sobrenome = cliente_csv.get("sobrenome", "Solicitante").strip()
+        cpf = cliente_csv.get("cpf", "11122233344").strip()
+
+        if email_destino:
+            email_cliente = email_destino
+        elif cliente_csv.get("email", "").strip() and "@" in cliente_csv.get("email", ""):
+            email_cliente = cliente_csv.get("email", "").strip()
+
+        telefone = cliente_csv.get("telefone", "(92) 99888-1122").strip()
+        nascimento = cliente_csv.get("nascimento", "1995-01-01").strip()
+        endereco = cliente_csv.get("endereco", "Manaus/AM").strip()
+
+        print(f"  [Cliente Selecionado (ID: {cliente_csv.get('id_solicitacao', 'N/A')}, Linha CSV: {idx_selecionado})]: {nome} {sobrenome} | CPF: {cpf} | Email: {email_cliente}")
 
     # =========================================================================
     # FASE 1: GERAÇÃO DA FICHA E DISPARO DO E-MAIL DE SOLICITAÇÃO DE ASSINATURA
@@ -365,21 +382,36 @@ def executar_orquestracao(modo="demo_completo", row_index=2, id_solicitacao=None
                                 extrator = ExtratorPDF(p_anexo)
                                 dados_extraidos_pdf = extrator.extrair_dados()
 
+                                # Busca no CSV pelo CPF extraído para obter dados oficiais caso faltem no PDF
+                                cpf_extraido = dados_extraidos_pdf.get("cpf")
+                                info_oficial = None
+                                if cpf_extraido and cpf_extraido != "NÃO ENCONTRADO":
+                                    try:
+                                        csv_path_ref = CSV_PATH if Path(CSV_PATH).exists() else (PATH_ROOT / "resources" / "cadastros_portal_fake_20.csv")
+                                        if csv_path_ref.exists():
+                                            usuarios_ref = carregar_usuarios(csv_path_ref)
+                                            for u_ref in usuarios_ref:
+                                                if "".join(filter(str.isdigit, str(u_ref.get("cpf", "")))) == cpf_extraido:
+                                                    info_oficial = u_ref
+                                                    break
+                                    except Exception:
+                                        pass
+
                                 # Fallbacks caso algum campo não conste no PDF
                                 if dados_extraidos_pdf.get("cpf") in ("NÃO ENCONTRADO", "", None):
                                     dados_extraidos_pdf["cpf"] = cpf
                                 if not dados_extraidos_pdf.get("nome"):
-                                    dados_extraidos_pdf["nome"] = nome
-                                    dados_extraidos_pdf["sobrenome"] = sobrenome
-                                    dados_extraidos_pdf["nome_completo"] = f"{nome} {sobrenome}".strip()
+                                    dados_extraidos_pdf["nome"] = (info_oficial.get("nome") if info_oficial else nome)
+                                    dados_extraidos_pdf["sobrenome"] = (info_oficial.get("sobrenome") if info_oficial else sobrenome)
+                                    dados_extraidos_pdf["nome_completo"] = f"{dados_extraidos_pdf['nome']} {dados_extraidos_pdf['sobrenome']}".strip()
                                 if not dados_extraidos_pdf.get("email"):
-                                    dados_extraidos_pdf["email"] = email_cliente
+                                    dados_extraidos_pdf["email"] = (info_oficial.get("email") if info_oficial else email_cliente)
                                 if not dados_extraidos_pdf.get("telefone"):
-                                    dados_extraidos_pdf["telefone"] = telefone
+                                    dados_extraidos_pdf["telefone"] = (info_oficial.get("telefone") if info_oficial else telefone)
                                 if not dados_extraidos_pdf.get("nascimento"):
-                                    dados_extraidos_pdf["nascimento"] = nascimento
+                                    dados_extraidos_pdf["nascimento"] = (info_oficial.get("nascimento") if info_oficial else nascimento)
                                 if not dados_extraidos_pdf.get("endereco"):
-                                    dados_extraidos_pdf["endereco"] = endereco
+                                    dados_extraidos_pdf["endereco"] = (info_oficial.get("endereco") if info_oficial else endereco)
 
                                 dados_extraidos_pdf["status"] = "CONCLUIDO_P2"
                                 dados_extraidos_pdf["protocolo"] = protocolo
@@ -397,9 +429,10 @@ def executar_orquestracao(modo="demo_completo", row_index=2, id_solicitacao=None
                             except Exception as e_proc2:
                                 print(f"    [ERRO EXTRAÇÃO PDF / PLANILHA] {e_proc2}")
 
-        # =========================================================================
-        # FASE 3: CADASTRO NO ERP PORTAL FAKE LENDO A PLANILHA MESTRA (PROCESSO 3)
-        # =========================================================================
+    # =========================================================================
+    # FASE 3: CADASTRO NO ERP PORTAL FAKE LENDO A PLANILHA MESTRA (PROCESSO 3)
+    # =========================================================================
+    if modo in ["cadastro", "processo3", "processar_retornos", "demo_completo"]:
         print("\n" + "-" * 60)
         print(f"[FASE 3] CADASTRO NO ERP PORTAL FAKE LENDO A PLANILHA MESTRA ({caminho_planilha.name})")
         print("-" * 60)
@@ -408,7 +441,9 @@ def executar_orquestracao(modo="demo_completo", row_index=2, id_solicitacao=None
             caminho_planilha=caminho_planilha,
             headless=headless,
             maestro=maestro,
-            task_id=task_id
+            task_id=task_id,
+            cpf=cpf_filtro,
+            zerar_base=zerar_base
         )
 
         cadastrados = res_p3.get("cadastrados", [])

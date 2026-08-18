@@ -39,7 +39,19 @@ class LeitorPlanilhaCadastro:
         Retorna uma lista de dicionários com todos os campos preparados para o formulário do portal.
         """
         if status_filtro is None:
-            status_filtro = ["CONCLUIDO_P2", "PENDENTE_CADASTRO", "PENDENTE"]
+            status_filtro = [
+                "CONCLUIDO_P2",
+                "APROVADO",
+                "APROVADA",
+                "APROVADOS",
+                "APROVADAS",
+                "PENDENTE_CADASTRO",
+                "PENDENTE",
+                "DOCUMENTOS_OK",
+                "DOCS_OK",
+                "VALIDADO",
+                "NOVO",
+            ]
 
         self.gerenciador.inicializar_planilha()
         registros_brutos = self.gerenciador.ler_registros(status_filtro=status_filtro)

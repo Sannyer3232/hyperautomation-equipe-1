@@ -28,7 +28,7 @@ class CadastradorPortalFake:
             raise ValueError("Uma página válida do Playwright deve ser fornecida.")
 
         target_page.goto(self.portal_url)
-        target_page.wait_for_selector("#tbody", timeout=8000)
+        target_page.wait_for_selector("#btnNovo", timeout=8000)
         # Trata diálogos nativos do navegador de forma automática
         target_page.on("dialog", lambda dialog: dialog.accept())
 
@@ -167,6 +167,18 @@ class CadastradorPortalFake:
                 "mensagem": f"Exceção durante cadastro no portal: {str(e)}",
                 "cpf": cpf
             }
+
+    def zerar_base(self, page: Page = None):
+        """Zera a base de dados do Portal Fake no localStorage para testes limpos."""
+        target_page = page or self.page
+        if target_page:
+            try:
+                target_page.evaluate("() => localStorage.removeItem('PF_RPA_DB_V1')")
+                target_page.reload()
+                target_page.wait_for_selector("#btnNovo", timeout=8000)
+                print("[PORTAL FAKE] Base de dados do portal resetada com sucesso.")
+            except Exception as e:
+                print(f"[PORTAL FAKE] Aviso ao zerar base: {e}")
 
     def limpar_filtros(self, page: Page = None):
         """Limpa a caixa de busca e filtros para exibir a listagem completa."""

@@ -17,7 +17,10 @@ from processo_cadastro import executar_processo3
 
 
 def main():
-    maestro = BotMaestroSDK.from_sys_args()
+    try:
+        maestro = BotMaestroSDK.from_sys_args()
+    except Exception:
+        maestro = BotMaestroSDK()
 
     parser = argparse.ArgumentParser(
         description="Orquestrador HyperAutomation - Processo 3 (Cadastro via Planilha Mestra)"
@@ -27,6 +30,18 @@ def main():
         type=str,
         default=None,
         help="Caminho personalizado para a Planilha_Mestra.xlsx (opcional)"
+    )
+    parser.add_argument(
+        "-c", "--cpf",
+        type=str,
+        default=None,
+        help="Filtrar e cadastrar apenas um CPF específico presente na Planilha Mestra"
+    )
+    parser.add_argument(
+        "-l", "--linha",
+        type=int,
+        default=None,
+        help="Filtrar e cadastrar apenas uma linha específica da Planilha Mestra (ex: 2)"
     )
     parser.add_argument(
         "--headless",
@@ -45,6 +60,8 @@ def main():
 
     headless = args.headless
     planilha_path = Path(args.planilha) if args.planilha else None
+    cpf = args.cpf
+    linha = args.linha
 
     task_id = None
     if maestro.is_online:
@@ -57,6 +74,13 @@ def main():
             headless = str(params.get("headless")).lower() in ("true", "1", "yes")
         if "planilha" in params:
             planilha_path = Path(params.get("planilha"))
+        if "cpf" in params:
+            cpf = str(params.get("cpf"))
+        if "linha" in params:
+            try:
+                linha = int(params.get("linha"))
+            except (ValueError, TypeError):
+                pass
 
     if headless is None:
         headless = True if (maestro and maestro.is_online) else False
@@ -66,7 +90,9 @@ def main():
             caminho_planilha=planilha_path,
             headless=headless,
             maestro=maestro,
-            task_id=task_id
+            task_id=task_id,
+            cpf=cpf,
+            linha=linha
         )
 
         if maestro.is_online and task_id:

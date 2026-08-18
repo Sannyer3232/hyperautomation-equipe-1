@@ -36,10 +36,10 @@ class OrquestradorCadastro:
         self.portal = CadastradorPortalFake()
         self.logger = LoggerCadastro()
 
-    def executar(self, headless: bool = False, page = None, context = None, maestro = None, task_id = None) -> dict:
+    def executar(self, headless: bool = False, page = None, context = None, maestro = None, task_id = None, cpf: str = None, linha: int = None) -> dict:
         """
         Executa o fluxo completo do Processo 3:
-        1. Consulta e extrai registros pendentes da Planilha Mestra
+        1. Consulta e extrai registros pendentes da Planilha Mestra (ou um registro específico se informado CPF/linha)
         2. Inicia/conecta ao Portal Fake ERP via Playwright
         3. Realiza validação prévia de dados
         4. Consulta e trata duplicidades de CPF
@@ -52,15 +52,27 @@ class OrquestradorCadastro:
         print("=" * 75)
         self.logger.info("Iniciando orquestração do Processo 3 - Cadastro.")
 
-        # 1. Leitura dos clientes pendentes na Planilha Mestra
+        # 1. Leitura dos clientes da Planilha Mestra (específico ou pendentes)
         print(f"\n[Etapa 1] Carregando registros da Planilha Mestra em: {self.caminho_planilha.name}")
-        clientes_pendentes = self.leitor.obter_clientes_pendentes(
-            status_filtro=["CONCLUIDO_P2", "PENDENTE_CADASTRO", "PENDENTE"]
-        )
+        if cpf:
+            cliente_especifico = self.leitor.obter_cliente_por_cpf(cpf)
+            clientes_pendentes = [cliente_especifico] if cliente_especifico else []
+            if cliente_especifico:
+                print(f"[PROCESSO 3] Filtrando exclusivamente pelo CPF: '{cpf}' (Linha {cliente_especifico.get('linha')})")
+        elif linha:
+            cliente_especifico = self.leitor.obter_cliente_por_linha(linha)
+            clientes_pendentes = [cliente_especifico] if cliente_especifico else []
+            if cliente_especifico:
+                print(f"[PROCESSO 3] Filtrando exclusivamente pela Linha: {linha} (CPF: {cliente_especifico.get('cpf')})")
+        else:
+            clientes_pendentes = self.leitor.obter_clientes_pendentes(
+                status_filtro=["CONCLUIDO_P2", "PENDENTE_CADASTRO", "PENDENTE"]
+            )
 
         if not clientes_pendentes:
-            print("[PROCESSO 3] Nenhum registro pendente de cadastro encontrado na Planilha Mestra.")
-            self.logger.aviso("Nenhum registro pendente na Planilha Mestra para processar.")
+            msg_filtro = f" para o filtro informado (CPF: {cpf}, Linha: {linha})" if (cpf or linha) else ""
+            print(f"[PROCESSO 3] Nenhum registro pendente de cadastro encontrado na Planilha Mestra{msg_filtro}.")
+            self.logger.aviso(f"Nenhum registro encontrado na Planilha Mestra{msg_filtro}.")
             return {
                 "sucesso": True,
                 "total_processados": 0,
@@ -70,8 +82,8 @@ class OrquestradorCadastro:
                 "resultados": []
             }
 
-        print(f"[Etapa 1] {len(clientes_pendentes)} registro(s) pendente(s) identificado(s) para cadastro.\n")
-        self.logger.info(f"Identificados {len(clientes_pendentes)} clientes pendentes na Planilha Mestra.")
+        print(f"[Etapa 1] {len(clientes_pendentes)} registro(s) identificado(s) para cadastro.\n")
+        self.logger.info(f"Identificados {len(clientes_pendentes)} clientes para processar na Planilha Mestra.")
 
         # 2. Execução da Automação Web via Playwright
         fechar_navegador_ao_final = False
@@ -269,7 +281,7 @@ class OrquestradorCadastro:
         }
 
 
-def executar_processo3(caminho_planilha: Path = None, headless: bool = False, page = None, context = None, maestro = None, task_id = None) -> dict:
+def executar_processo3(caminho_planilha: Path = None, headless: bool = False, page = None, context = None, maestro = None, task_id = None, cpf: str = None, linha: int = None) -> dict:
     """Função utilitária para disparo direto do Processo 3."""
     orquestrador = OrquestradorCadastro(caminho_planilha)
-    return orquestrador.executar(headless=headless, page=page, context=context, maestro=maestro, task_id=task_id)
+    return orquestrador.executar(headless=headless, page=page, context=context, maestro=maestro, task_id=task_id, cpf=cpf, linha=linha)

@@ -57,6 +57,23 @@ class LeitorPlanilhaCadastro:
         registros_brutos = self.gerenciador.ler_registros()
         return [self._preparar_dados_cliente(r) for r in registros_brutos]
 
+    def obter_cliente_por_cpf(self, cpf: str) -> dict:
+        """Busca um cliente específico na Planilha Mestra pelo CPF e retorna normalizado para o portal."""
+        self.gerenciador.inicializar_planilha()
+        reg = self.gerenciador.obter_registro_por_cpf(cpf)
+        if reg:
+            return self._preparar_dados_cliente(reg)
+        return None
+
+    def obter_cliente_por_linha(self, linha: int) -> dict:
+        """Busca um cliente específico na Planilha Mestra pelo número da linha do Excel."""
+        self.gerenciador.inicializar_planilha()
+        todos = self.gerenciador.ler_registros()
+        for reg in todos:
+            if reg.get("linha") == linha:
+                return self._preparar_dados_cliente(reg)
+        return None
+
     def _preparar_dados_cliente(self, reg: dict) -> dict:
         """
         Normaliza os campos de um registro bruto para o formato esperado pelo Portal Fake.

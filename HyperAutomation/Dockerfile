@@ -7,5 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Comando de execução
+RUN rm -rf /app/resources/browser_data && mkdir -p /app/resources/browser_data
+
 CMD ["python", "bot.py"]

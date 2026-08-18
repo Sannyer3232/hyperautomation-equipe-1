@@ -1,6 +1,6 @@
 """
 Módulo responsável pela integração e manipulação das pastas no Google Drive da conta remetente.
-Gerencia a estrutura: ERP_Portal_Fake / (Downloads, Documentos_OK, Documentos_Pendentes, Encaminhados).
+Gerencia a estrutura: ERP_Portal_Fake / (Downloads, Documentos_OK, Documentos_Pendentes, Arquivados).
 """
 import os
 import json
@@ -22,7 +22,8 @@ class GestorDrive:
         self.service = None
         self.pastas_ids = {}
         self.base_folder_name = "ERP_Portal_Fake"
-        self.subpastas_nomes = ["Downloads", "Documentos_OK", "Documentos_Pendentes", "Encaminhados"]
+        self.subpastas_nomes = ["Downloads", "Documentos_OK", "Documentos_Pendentes", "Arquivados"]
+
         self.root_folder_id = root_folder_id or os.getenv("GOOGLE_DRIVE_FOLDER_ID")
 
         # Busca caminho das credenciais (.json do Service Account ou OAuth)
@@ -97,8 +98,9 @@ class GestorDrive:
            ├── Downloads
            ├── Documentos_OK
            ├── Documentos_Pendentes
-           └── Encaminhados
+           └── Arquivados
         """
+
         if not self.service:
             return {}
 

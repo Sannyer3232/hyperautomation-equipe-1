@@ -20,6 +20,10 @@ SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
 print("EMAIL:", EMAIL_REMETENTE)
 print("SENHA APP carregada:", bool(EMAIL_SENHA))
 
+class ErroPlanilhaMestra(Exception):
+    """Erro ao acessar ou carregar a planilha mestra."""
+    pass
+
 
 def get_project_root():
     return Path(__file__).parent.parent.parent.parent
@@ -245,19 +249,24 @@ class ProcessoSAC:
 
     def carregar_planilha_mestra(self):
 
-        if not self.caminho_mestra.exists():
+        try:
+            if not self.caminho_mestra.exists():
 
-            raise FileNotFoundError(
-                f"Planilha mestra não encontrada: "
-                f"{self.caminho_mestra}"
+                raise FileNotFoundError(
+                    f"Planilha mestra não encontrada: "
+                    f"{self.caminho_mestra}"
+                )
+
+            self.wb = load_workbook(
+                self.caminho_mestra
             )
 
-        self.wb = load_workbook(
-            self.caminho_mestra
-        )
-
-        self.ws = self.wb.active
-
+            self.ws = self.wb.active
+        except Exception as erro:
+            raise ErroPlanilhaMestra(
+                f"Não foi possível acessar a planilha mestra: {erro}"
+            ) from erro
+        
     def localizar_colunas(self):
 
         self.colunas = {}
@@ -294,6 +303,26 @@ class ProcessoSAC:
                     linha,
                     coluna
                 ).value
+
+            # Verifica se a linha está completamente vazia
+            possui_dados = any(
+                valor is not None
+                and str(valor).strip() != ""
+                for valor in cliente.values()
+            )
+
+            if not possui_dados:
+                continue
+
+            # Linha possui dados, mas não possui protocolo
+            protocolo = cliente.get("Protocolo")
+
+            if protocolo is None or str(protocolo).strip() == "":
+                logger.warning(
+                    "Linha %s possui dados, mas não possui protocolo. Ignorando.",
+                    linha
+                )
+                continue
 
             clientes.append(cliente)
 
@@ -425,7 +454,7 @@ class ProcessoSAC:
             self.registro.registrar(
                 cliente=cliente,
                 tipo_atendimento=atendimento["tipo"],
-                status_atendimento="FALHA",
+                status_atendimento="PENDENTE_CONTATO",
                 data_atendimento=None,
                 observacao=str(erro)
             )
@@ -439,7 +468,15 @@ class ProcessoSAC:
 
         self.registro.carregar()
 
-        self.carregar_planilha_mestra()
+        try:
+            self.carregar_planilha_mestra()
+        except ErroPlanilhaMestra as erro:
+            logger.error(
+                "Falha no acesso à planilha mestra: %s",
+                erro
+            )
+            return
+        
         self.localizar_colunas()
 
         clientes = self.ler_clientes()

@@ -17,8 +17,8 @@ EMAIL_SENHA = os.getenv("EMAIL_SENHA")
 SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
 
-print("EMAIL:", EMAIL_REMETENTE)
-print("SENHA APP carregada:", bool(EMAIL_SENHA))
+#print("EMAIL:", EMAIL_REMETENTE)
+#print("SENHA APP carregada:", bool(EMAIL_SENHA))
 
 class ErroPlanilhaMestra(Exception):
     """Erro ao acessar ou carregar a planilha mestra."""

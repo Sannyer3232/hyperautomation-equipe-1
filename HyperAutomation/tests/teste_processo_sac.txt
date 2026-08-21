@@ -1,0 +1,51 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.5, pytest-7.4.0, pluggy-1.0.0 -- C:\Users\Samsung\anaconda3\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Samsung\Documents\Python Scripts\hyperautomation-equipe-1\HyperAutomation
+plugins: anyio-4.13.0, typeguard-4.5.1
+collecting ... collected 36 items
+
+tests/test_processo_sac.py::test_criar_planilha_atendimento PASSED       [  2%]
+tests/test_processo_sac.py::test_criar_planilha_nao_recria_arquivo_existente PASSED [  5%]
+tests/test_processo_sac.py::test_registrar_atendimento PASSED            [  8%]
+tests/test_processo_sac.py::test_ja_processado_retorna_true_para_atendimento_existente PASSED [ 11%]
+tests/test_processo_sac.py::test_ja_processado_retorna_false_para_atendimento_inexistente PASSED [ 13%]
+tests/test_processo_sac.py::test_criar_mensagem PASSED                   [ 16%]
+tests/test_processo_sac.py::test_criar_mensagem_retorna_data_no_formato_esperado PASSED [ 19%]
+tests/test_processo_sac.py::test_enviar_comunicacao_sem_email PASSED     [ 22%]
+tests/test_processo_sac.py::test_enviar_comunicacao_com_sucesso PASSED   [ 25%]
+tests/test_processo_sac.py::test_enviar_comunicacao_falha_no_smtp PASSED [ 27%]
+tests/test_processo_sac.py::test_carregar_planilha_mestra_com_sucesso PASSED [ 30%]
+tests/test_processo_sac.py::test_carregar_planilha_mestra_inexistente PASSED [ 33%]
+tests/test_processo_sac.py::test_carregar_planilha_mestra_erro_do_openpyxl PASSED [ 36%]
+tests/test_processo_sac.py::test_localizar_colunas PASSED                [ 38%]
+tests/test_processo_sac.py::test_localizar_colunas_remove_espacos_do_cabecalho PASSED [ 41%]
+tests/test_processo_sac.py::test_ler_clientes PASSED                     [ 44%]
+tests/test_processo_sac.py::test_ler_clientes_ignora_linha_completamente_vazia PASSED [ 47%]
+tests/test_processo_sac.py::test_ler_clientes_ignora_registro_sem_protocolo PASSED [ 50%]
+tests/test_processo_sac.py::test_ler_clientes_ignora_protocolo_apenas_com_espacos PASSED [ 52%]
+tests/test_processo_sac.py::test_definir_atendimento_status_que_gera_cadastro_ok[ATIVO] PASSED [ 55%]
+tests/test_processo_sac.py::test_definir_atendimento_status_que_gera_cadastro_ok[CONCLUIDO_P2] PASSED [ 58%]
+tests/test_processo_sac.py::test_definir_atendimento_status_sem_configuracao[None] PASSED [ 61%]
+tests/test_processo_sac.py::test_definir_atendimento_status_sem_configuracao[] PASSED [ 63%]
+tests/test_processo_sac.py::test_definir_atendimento_status_sem_configuracao[INATIVO] PASSED [ 66%]
+tests/test_processo_sac.py::test_definir_atendimento_status_sem_configuracao[PENDENTE] PASSED [ 69%]
+tests/test_processo_sac.py::test_definir_atendimento_status_sem_configuracao[CANCELADO] PASSED [ 72%]
+tests/test_processo_sac.py::test_definir_atendimento_status_sem_configuracao[QUALQUER_OUTRO_STATUS] PASSED [ 75%]
+tests/test_processo_sac.py::test_comunicar_nao_envia_email PASSED        [ 77%]
+tests/test_processo_sac.py::test_processar_cliente_sem_protocolo PASSED  [ 80%]
+tests/test_processo_sac.py::test_processar_cliente_status_sem_atendimento PASSED [ 83%]
+tests/test_processo_sac.py::test_processar_cliente_ja_processado PASSED  [ 86%]
+tests/test_processo_sac.py::test_processar_cliente_comunicacao_sucesso PASSED [ 88%]
+tests/test_processo_sac.py::test_processar_cliente_falha_comunicacao PASSED [ 91%]
+tests/test_processo_sac.py::test_executar_para_quando_planilha_mestra_nao_existe PASSED [ 94%]
+tests/test_processo_sac.py::test_executar_processa_clientes PASSED       [ 97%]
+tests/test_processo_sac.py::test_executar_processa_varios_clientes PASSED [100%]
+
+============================== warnings summary ===============================
+..\..\..\..\anaconda3\Lib\site-packages\fontTools\misc\py23.py:11
+  C:\Users\Samsung\anaconda3\Lib\site-packages\fontTools\misc\py23.py:11: DeprecationWarning: The py23 module has been deprecated and will be removed in a future release. Please update your code.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 36 passed, 1 warning in 1.48s ========================

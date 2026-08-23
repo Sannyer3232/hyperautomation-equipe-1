@@ -23,6 +23,7 @@ from processo_atendimento.leitor_email import LeitorEmail
 from processo_atendimento.validador_docs import ValidadorDocumentos
 from processo_atendimento.processo_sac import ProcessoSAC, executar_processo_sac
 from processo_cadastro import executar_processo3, OrquestradorCadastro
+from processo_relatorios import executar_processo5
 
 
 def main():
@@ -33,7 +34,7 @@ def main():
         maestro = BotMaestroSDK()
 
     parser = argparse.ArgumentParser(
-        description="Orquestrador HyperAutomation - Processo Integrado (Atendimento, Organização, Cadastro e SAC)",
+        description="Orquestrador HyperAutomation - Processo Integrado (Atendimento, Organização, Cadastro, SAC e Relatórios)",
         formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument(
@@ -43,13 +44,14 @@ def main():
         help="Modo de execução posicional:\n"
              "  cadastro            : Executa FASE 3 (Cadastro no Portal Fake lendo somente a Planilha Mestra)\n"
              "  sac / processo4     : Executa FASE 4 (SAC e registro de atendimentos na planilha de SAC)\n"
+             "  relatorios / p5     : Executa FASE 5 (Consolidação, Métricas e Relatório Gerencial)\n"
              "  processar_retornos  : Executa FASE 2 & 3 (leitura de e-mails/documentos, gravação na Planilha Mestra e cadastro)\n"
              "  enviar_solicitacoes : Executa FASE 1 (leitura do CSV, geração e envio da ficha de assinatura)\n"
-             "  demo_completo       : Executa FASES 1, 2, 3 e 4 integradas (demonstração completa)"
+             "  demo_completo       : Executa FASES 1, 2, 3, 4 e 5 integradas (demonstração completa)"
     )
     parser.add_argument(
         "-m", "--modo",
-        choices=["cadastro", "processo3", "sac", "processo4", "processar_retornos", "enviar_solicitacoes", "demo_completo", "completo"],
+        choices=["cadastro", "processo3", "sac", "processo4", "relatorios", "processo5", "processar_retornos", "enviar_solicitacoes", "demo_completo", "completo"],
         default=None,
         help="Modo de execução (sobrescreve o argumento posicional)"
     )
@@ -484,6 +486,43 @@ def executar_orquestracao(modo="cadastro", row_index=2, id_solicitacao=None, cpf
             caminho_planilha_sac=caminho_sac
         )
         print(f"  [FASE 4 - RESUMO] SAC Concluído: {res_sac.get('total_processados', 0)} registros processados / registrados em '{caminho_sac.name}'.")
+
+    # =========================================================================
+    # FASE 5: CONSOLIDAÇÃO, MÉTRICAS E RELATÓRIO GERENCIAL (PROCESSO 5)
+    # =========================================================================
+    if modo in ["relatorios", "processo5", "demo_completo", "completo"]:
+        print("\n" + "-" * 60)
+        print(f"[FASE 5] CONSOLIDAÇÃO DE DADOS, MÉTRICAS E RELATÓRIO GERENCIAL (PROCESSO 5)")
+        print("-" * 60)
+
+        caminho_sac = gestor_erp.dir_sistema_integrador / "atendimentos_sac.xlsx"
+        dir_relatorios = gestor_erp.base_dir / "Relatorios_Gerenciais"
+
+        res_p5 = executar_processo5(
+            caminho_planilha_mestra=caminho_planilha,
+            caminho_planilha_sac=caminho_sac,
+            dir_saida=dir_relatorios
+        )
+
+        if res_p5.get("sucesso"):
+            rel_info = res_p5.get("relatorios", {})
+            kpi_cad = res_p5.get("metricas", {}).get("kpis_cadastro_processo3", {})
+            kpi_sac = res_p5.get("metricas", {}).get("kpis_sac_processo4", {})
+            kpi_efi = res_p5.get("metricas", {}).get("kpis_eficiencia_global", {})
+
+            print(f"\n[FASE 5 - RESUMO EXECUTIVO]")
+            print(f"  -> Total de Clientes Consolidados: {res_p5.get('total_clientes', 0)}")
+            print(f"  -> Cadastros Aprovados no Portal : {kpi_cad.get('cadastrados_com_sucesso', 0)} ({kpi_cad.get('taxa_aprovacao_percentual', 0)}%)")
+            print(f"  -> Atendimentos SAC Comunicados  : {kpi_sac.get('comunicados_com_sucesso', 0)} ({kpi_sac.get('taxa_sucesso_comunicacao_percentual', 0)}%)")
+            print(f"  -> Eficiência da Esteira Global  : {kpi_efi.get('taxa_conclusao_ponta_a_ponta_percentual', 0)}% [{kpi_efi.get('eficiencia_esteira', 'N/A')}]")
+            if "excel" in rel_info:
+                print(f"  [ARQUIVO] Relatório Excel    : {Path(rel_info['excel']).name}")
+            if "markdown" in rel_info:
+                print(f"  [ARQUIVO] Relatório Markdown : {Path(rel_info['markdown']).name}")
+            if "json" in rel_info:
+                print(f"  [ARQUIVO] Relatório JSON     : {Path(rel_info['json']).name}")
+        else:
+            print(f"  [FASE 5 - AVISO] Falha na geração do relatório: {res_p5.get('erro')}")
 
     print("\n" + "=" * 75)
     print("ORQUESTRAÇÃO HYPERAUTOMATION FINALIZADA COM SUCESSO!")

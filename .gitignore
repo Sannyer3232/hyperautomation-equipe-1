@@ -21,6 +21,7 @@ browser_data/
 ERP_Portal_Fake/Downloads/*
 ERP_Portal_Fake/Documentos_OK/*
 ERP_Portal_Fake/Documentos_Pendentes/*
+ERP_Portal_Fake/Relatorios_Gerenciais/*
 !ERP_Portal_Fake/**/.gitkeep
 
 

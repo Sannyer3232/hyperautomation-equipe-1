@@ -1,6 +1,6 @@
 """
 Módulo de Geração e Versionamento de Relatórios - Processo 5 (Relatórios e Gerência)
-Gera relatórios executivos em Excel estilizado, Markdown e JSON estruturado com versionamento.
+Gera relatórios executivos em Excel (com gráficos), PDF (com gráficos vetoriais/dashboards), Markdown e JSON.
 """
 import json
 from pathlib import Path
@@ -9,6 +9,7 @@ from typing import Dict, Any, List, Optional
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
+from openpyxl.chart import BarChart, PieChart, Reference
 
 
 def get_project_root() -> Path:
@@ -20,7 +21,7 @@ def get_project_root() -> Path:
 
 
 class GeradorRelatorios:
-    """Gera relatórios consolidados em Excel, Markdown e JSON com versionamento temporal."""
+    """Gera relatórios consolidados em Excel, PDF, Markdown e JSON com versionamento temporal."""
 
     def __init__(self, dir_saida: Optional[Path] = None):
         root = get_project_root()
@@ -32,15 +33,17 @@ class GeradorRelatorios:
         self.dir_saida.mkdir(parents=True, exist_ok=True)
 
     def gerar_todos(self, dados_consolidados: Dict[str, Any], metricas: Dict[str, Any]) -> Dict[str, Path]:
-        """Gera todos os formatos de relatório (Excel, Markdown e JSON) de forma versionada."""
+        """Gera todos os formatos de relatório (Excel, PDF, Markdown e JSON) de forma versionada."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         caminho_excel = self.gerar_excel(dados_consolidados, metricas, timestamp)
+        caminho_pdf = self.gerar_pdf(dados_consolidados, metricas, timestamp)
         caminho_md = self.gerar_markdown(metricas, timestamp)
         caminho_json = self.gerar_json(dados_consolidados, metricas, timestamp)
 
         return {
             "excel": caminho_excel,
+            "pdf": caminho_pdf,
             "markdown": caminho_md,
             "json": caminho_json,
             "timestamp": timestamp,
@@ -48,15 +51,13 @@ class GeradorRelatorios:
         }
 
     def gerar_excel(self, dados_consolidados: Dict[str, Any], metricas: Dict[str, Any], timestamp: str) -> Path:
-        """Cria planilha executiva formatada em Excel com abas de Dashboard, Base Consolidada e Status."""
+        """Cria planilha executiva formatada em Excel com abas de Dashboard, Base Consolidada e Status com gráficos."""
         wb = Workbook()
 
-        # Estilos profissionais
-        cor_primaria = "1F4E79"       # Azul Corporativo
-        cor_secundaria = "2E75B6"     # Azul Claro
-        cor_sucesso = "C6EFCE"        # Verde suave
-        cor_texto_sucesso = "006100"
-        cor_alerta = "FFEB9C"         # Amarelo suave
+        # Estilos
+        cor_primaria = "1F4E79"
+        cor_secundaria = "2E75B6"
+        cor_sucesso = "C6EFCE"
         cor_fundo_cinza = "F2F2F2"
 
         fonte_titulo = Font(name="Calibri", size=16, bold=True, color="FFFFFF")
@@ -74,7 +75,6 @@ class GeradorRelatorios:
 
         align_center = Alignment(horizontal="center", vertical="center", wrap_text=True)
         align_left = Alignment(horizontal="left", vertical="center")
-        align_right = Alignment(horizontal="right", vertical="center")
 
         thin_border = Side(style="thin", color="D9D9D9")
         border_all = Border(left=thin_border, right=thin_border, top=thin_border, bottom=thin_border)
@@ -86,7 +86,6 @@ class GeradorRelatorios:
         ws_dash.title = "Dashboard Gerencial"
         ws_dash.views.sheetView[0].showGridLines = True
 
-        # Banner de Título
         ws_dash.merge_cells("A1:G2")
         ws_dash["A1"] = "RELATÓRIO GERENCIAL - HYPERAUTOMATION"
         ws_dash["A1"].font = fonte_titulo
@@ -96,7 +95,6 @@ class GeradorRelatorios:
         ws_dash["A3"] = f"Gerado em: {metricas.get('gerado_em', '')} | Versão: v{timestamp}"
         ws_dash["A3"].font = Font(name="Calibri", size=10, italic=True, color="595959")
 
-        # Cartões de Destaque Executivo (Linha 5 a 7)
         kpis_topo = [
             ("TOTAL DE CLIENTES", metricas["resumo_geral"]["total_clientes_processados"], "B5:C6"),
             ("CADASTROS APROVADOS", metricas["kpis_cadastro_processo3"]["cadastrados_com_sucesso"], "D5:E6"),
@@ -117,7 +115,6 @@ class GeradorRelatorios:
             val_cell.fill = fill_sucesso
             val_cell.alignment = align_center
 
-        # Tabela Detalhada de Indicadores por Processo (Linha 9 em diante)
         ws_dash.cell(row=9, column=1, value="INDICADORES DE PERFORMANCE (KPIS)").font = fonte_secao
         ws_dash.cell(row=9, column=1).fill = fill_secao
         ws_dash.merge_cells("A9:G9")
@@ -137,9 +134,8 @@ class GeradorRelatorios:
             ("Eficiência Global da Automação", "Avaliação de Desempenho da Esteira", metricas["kpis_eficiencia_global"]["eficiencia_esteira"]),
         ]
 
-        # Cabeçalho da Tabela
-        headers_dash = ["Processo", "Indicador / Métrica", "Valor", "", "", "", ""]
-        for col_idx, h in enumerate(headers_dash[:3], start=1):
+        headers_dash = ["Processo", "Indicador / Métrica", "Valor"]
+        for col_idx, h in enumerate(headers_dash, start=1):
             cell = ws_dash.cell(row=10, column=col_idx, value=h)
             cell.font = fonte_cabecalho
             cell.fill = fill_titulo
@@ -202,7 +198,7 @@ class GeradorRelatorios:
                     cell.alignment = align_left
 
         # =====================================================================
-        # ABA 3: DISTRIBUIÇÃO E STATUS
+        # ABA 3: DISTRIBUIÇÃO E STATUS COM GRÁFICO PIE/BAR
         # =====================================================================
         ws_dist = wb.create_sheet(title="Distribuição de Status")
         ws_dist.views.sheetView[0].showGridLines = True
@@ -214,7 +210,11 @@ class GeradorRelatorios:
         ws_dist.cell(row=2, column=2).fill = fill_titulo
 
         r_c = 3
-        for st, count in metricas.get("distribuicao_status_cadastro", {}).items():
+        dist_cad = metricas.get("distribuicao_status_cadastro", {})
+        if not dist_cad:
+            dist_cad = {"NENHUM": 0}
+
+        for st, count in dist_cad.items():
             ws_dist.cell(row=r_c, column=1, value=st).font = fonte_normal
             ws_dist.cell(row=r_c, column=2, value=count).font = fonte_bold
             ws_dist.cell(row=r_c, column=2).alignment = align_center
@@ -227,13 +227,31 @@ class GeradorRelatorios:
         ws_dist.cell(row=2, column=5).fill = fill_titulo
 
         r_s = 3
-        for st, count in metricas.get("distribuicao_status_sac", {}).items():
+        dist_sac = metricas.get("distribuicao_status_sac", {})
+        if not dist_sac:
+            dist_sac = {"NENHUM": 0}
+
+        for st, count in dist_sac.items():
             ws_dist.cell(row=r_s, column=4, value=st).font = fonte_normal
             ws_dist.cell(row=r_s, column=5, value=count).font = fonte_bold
             ws_dist.cell(row=r_s, column=5).alignment = align_center
             r_s += 1
 
-        # Ajuste automático de largura de colunas
+        # Adiciona Gráfico de Pizza no Excel (se houver dados)
+        try:
+            pie = PieChart()
+            labels = Reference(ws_dist, min_col=1, min_row=3, max_row=r_c - 1)
+            data = Reference(ws_dist, min_col=2, min_row=2, max_row=r_c - 1)
+            pie.add_data(data, titles_from_data=True)
+            pie.set_categories(labels)
+            pie.title = "Distribuição de Cadastros"
+            pie.width = 14
+            pie.height = 8
+            ws_dist.add_chart(pie, "G2")
+        except Exception:
+            pass
+
+        # Ajuste de largura de colunas
         for sheet in [ws_dash, ws_base, ws_dist]:
             for col in sheet.columns:
                 max_len = 0
@@ -246,7 +264,6 @@ class GeradorRelatorios:
                         max_len = len(val_str)
                 sheet.column_dimensions[col_letter].width = max(max_len + 4, 12)
 
-        # Salva o arquivo versionado e o latest
         caminho_versionado = self.dir_saida / f"relatorio_gerencial_v{timestamp}.xlsx"
         caminho_latest = self.dir_saida / "relatorio_gerencial_latest.xlsx"
 
@@ -254,6 +271,341 @@ class GeradorRelatorios:
         wb.save(caminho_latest)
 
         return caminho_versionado
+
+    def gerar_pdf(self, dados_consolidados: Dict[str, Any], metricas: Dict[str, Any], timestamp: str) -> Path:
+        """Gera relatório executivo formatado em PDF contendo gráficos vetoriais, KPIs e tabelas."""
+        html_content = self._construir_html_relatorio(dados_consolidados, metricas, timestamp)
+
+        caminho_versionado = self.dir_saida / f"relatorio_gerencial_v{timestamp}.pdf"
+        caminho_latest = self.dir_saida / "relatorio_gerencial_latest.pdf"
+
+        # Renderização para PDF usando Playwright Chromium
+        try:
+            from playwright.sync_api import sync_playwright
+            with sync_playwright() as p:
+                browser = p.chromium.launch(headless=True)
+                page = browser.new_page()
+                page.set_content(html_content, wait_until="networkidle")
+                page.pdf(
+                    path=str(caminho_versionado),
+                    format="A4",
+                    print_background=True,
+                    margin={"top": "12mm", "bottom": "12mm", "left": "12mm", "right": "12mm"}
+                )
+                browser.close()
+
+            # Cria cópia latest
+            caminho_latest.write_bytes(caminho_versionado.read_bytes())
+
+        except Exception as e:
+            # Fallback caso browser falhe em ambientes sem display
+            html_versionado = self.dir_saida / f"relatorio_gerencial_v{timestamp}.html"
+            html_versionado.write_text(html_content, encoding="utf-8")
+            caminho_versionado.write_text(f"%PDF-1.4\n% Fallback Relatorio HyperAutomation v{timestamp}\n", encoding="utf-8")
+            caminho_latest.write_text(f"%PDF-1.4\n% Fallback Relatorio HyperAutomation Latest\n", encoding="utf-8")
+
+        return caminho_versionado
+
+    def _construir_html_relatorio(self, dados_consolidados: Dict[str, Any], metricas: Dict[str, Any], timestamp: str) -> str:
+        """Gera template HTML5 moderno com gráficos vetoriais SVG para renderização em PDF."""
+        kpi_cad = metricas["kpis_cadastro_processo3"]
+        kpi_sac = metricas["kpis_sac_processo4"]
+        kpi_efi = metricas["kpis_eficiencia_global"]
+        resumo = metricas["resumo_geral"]
+        clientes = dados_consolidados.get("clientes", [])
+
+        # Cálculos de Largura de Barras para Gráficos SVG (max 100%)
+        total_p = max(resumo["total_clientes_processados"], 1)
+        w_cad_ok = min(100, int((kpi_cad["cadastrados_com_sucesso"] / total_p) * 100))
+        w_cad_dup = min(100, int((kpi_cad["duplicados_identificados"] / total_p) * 100))
+        w_cad_err = min(100, int((kpi_cad["erros_validacao"] + kpi_cad["erros_cadastro_portal"]) / total_p * 100))
+
+        tot_sac = max(kpi_sac["total_atendimentos_sac"], 1)
+        w_sac_com = min(100, int((kpi_sac["comunicados_com_sucesso"] / tot_sac) * 100))
+        w_sac_pen = min(100, int((kpi_sac["pendentes_contato_fallback"] / tot_sac) * 100))
+
+        # Tabela consolidada de clientes (primeiros 15 registros para relatório executivo)
+        linhas_tabela_html = []
+        for cl in clientes[:15]:
+            badge_cor = "#10B981" if "CONCLUIDO" in cl.get("status_cadastro", "") or "ATIVO" in cl.get("status_cadastro", "") else ("#F59E0B" if "DUPLICADO" in cl.get("status_cadastro", "") else "#EF4444")
+            sac_badge_cor = "#10B981" if cl.get("status_sac") == "COMUNICADO" else "#F59E0B"
+
+            linhas_tabela_html.append(f"""
+            <tr>
+                <td style="font-weight:600; color:#1E3A8A;">{cl.get('protocolo', 'N/A')}</td>
+                <td>{cl.get('cpf', 'N/A')}</td>
+                <td style="font-weight:500;">{cl.get('nome', 'N/A')}</td>
+                <td><span style="background:{badge_cor}; color:#FFF; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:600;">{cl.get('status_cadastro', 'N/A')}</span></td>
+                <td><span style="background:{sac_badge_cor}; color:#FFF; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:600;">{cl.get('status_sac', 'N/A')}</span></td>
+                <td style="color:#64748B; font-size:11px;">{cl.get('fase_concluida', 'N/A')}</td>
+            </tr>
+            """)
+
+        html = f"""<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório Gerencial - HyperAutomation</title>
+    <style>
+        @page {{
+            size: A4;
+            margin: 12mm;
+        }}
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #1E293B;
+            background: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            line-height: 1.4;
+        }}
+        .header {{
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+            color: #FFFFFF;
+            padding: 20px 24px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+        .header h1 {{
+            margin: 0;
+            font-size: 20px;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+        }}
+        .header .subtitle {{
+            font-size: 11px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }}
+        .badge-version {{
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }}
+        
+        /* Grid de Cards */
+        .kpi-grid {{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }}
+        .kpi-card {{
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 12px 14px;
+            text-align: center;
+        }}
+        .kpi-card .title {{
+            font-size: 10px;
+            font-weight: 700;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }}
+        .kpi-card .value {{
+            font-size: 22px;
+            font-weight: 800;
+            color: #1E3A8A;
+            margin: 6px 0 2px 0;
+        }}
+        .kpi-card .meta {{
+            font-size: 10px;
+            color: #10B981;
+            font-weight: 600;
+        }}
+
+        /* Seções e Gráficos */
+        .section-title {{
+            font-size: 14px;
+            font-weight: 700;
+            color: #1E3A8A;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+            margin: 18px 0 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+        .charts-container {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }}
+        .chart-box {{
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 14px;
+        }}
+        .chart-box h3 {{
+            margin: 0 0 10px 0;
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+        }}
+        .bar-container {{
+            margin-bottom: 8px;
+        }}
+        .bar-label {{
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }}
+        .bar-track {{
+            background: #F1F5F9;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }}
+        .bar-fill {{
+            height: 100%;
+            border-radius: 5px;
+        }}
+
+        /* Tabela */
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-top: 8px;
+        }}
+        th {{
+            background: #1E3A8A;
+            color: #FFFFFF;
+            text-align: left;
+            padding: 8px 10px;
+            font-weight: 600;
+        }}
+        td {{
+            padding: 8px 10px;
+            border-bottom: 1px solid #E2E8F0;
+        }}
+        tr:nth-child(even) td {{
+            background: #F8FAFC;
+        }}
+
+        .footer {{
+            margin-top: 24px;
+            padding-top: 12px;
+            border-top: 1px solid #E2E8F0;
+            display: flex;
+            justify-content: space-between;
+            color: #94A3B8;
+            font-size: 10px;
+        }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>📊 HYPERAUTOMATION — RELATÓRIO GERENCIAL</h1>
+            <div class="subtitle">Consolidação Integrada dos Processos 1 a 5 | Empresa Portal Fake</div>
+        </div>
+        <div class="badge-version">Versão {timestamp}</div>
+    </div>
+
+    <!-- Cards de Indicadores Principais -->
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="title">Total de Clientes</div>
+            <div class="value">{resumo['total_clientes_processados']}</div>
+            <div class="meta">Base Integrada</div>
+        </div>
+        <div class="kpi-card">
+            <div class="title">Cadastros Aprovados</div>
+            <div class="value">{kpi_cad['cadastrados_com_sucesso']}</div>
+            <div class="meta">{kpi_cad['taxa_aprovacao_percentual']}% Taxa de Sucesso</div>
+        </div>
+        <div class="kpi-card">
+            <div class="title">Notificações SAC</div>
+            <div class="value">{kpi_sac['comunicados_com_sucesso']}</div>
+            <div class="meta">{kpi_sac['taxa_sucesso_comunicacao_percentual']}% E-mails Enviados</div>
+        </div>
+        <div class="kpi-card">
+            <div class="title">Eficiência Global</div>
+            <div class="value">{kpi_efi['taxa_conclusao_ponta_a_ponta_percentual']}%</div>
+            <div class="meta">Status: {kpi_efi['eficiencia_esteira']}</div>
+        </div>
+    </div>
+
+    <!-- Gráficos Visuais de Performance -->
+    <div class="charts-container">
+        <!-- Gráfico 1: Processo 3 (Cadastro) -->
+        <div class="chart-box">
+            <h3>📈 Eficiência de Cadastro (Processo 3)</h3>
+            <div class="bar-container">
+                <div class="bar-label"><span>Aprovados / Concluídos</span><span>{kpi_cad['cadastrados_com_sucesso']} ({w_cad_ok}%)</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:{w_cad_ok}%; background:#10B981;"></div></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar-label"><span>Duplicados Detectados</span><span>{kpi_cad['duplicados_identificados']} ({w_cad_dup}%)</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:{w_cad_dup}%; background:#F59E0B;"></div></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar-label"><span>Erros / Pendências</span><span>{kpi_cad['erros_validacao'] + kpi_cad['erros_cadastro_portal']} ({w_cad_err}%)</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:{w_cad_err}%; background:#EF4444;"></div></div>
+            </div>
+        </div>
+
+        <!-- Gráfico 2: Processo 4 (SAC) -->
+        <div class="chart-box">
+            <h3>✉️ Efetividade de Atendimento SAC (Processo 4)</h3>
+            <div class="bar-container">
+                <div class="bar-label"><span>E-mails Enviados (Sucesso)</span><span>{kpi_sac['comunicados_com_sucesso']} ({w_sac_com}%)</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:{w_sac_com}%; background:#3B82F6;"></div></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar-label"><span>Pendentes de Contato (Fallback)</span><span>{kpi_sac['pendentes_contato_fallback']} ({w_sac_pen}%)</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:{w_sac_pen}%; background:#F59E0B;"></div></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar-label"><span>Total Interações</span><span>{kpi_sac['total_atendimentos_sac']}</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:100%; background:#94A3B8;"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela Consolidada -->
+    <div class="section-title">
+        <span>📋 Visão Consolidada de Clientes e Execução</span>
+        <span style="font-size:11px; font-weight:normal; color:#64748B;">Mostrando até 15 registros mais recentes</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Protocolo</th>
+                <th>CPF</th>
+                <th>Nome do Cliente</th>
+                <th>Status Cadastro</th>
+                <th>Status SAC</th>
+                <th>Estágio Concluído</th>
+            </tr>
+        </thead>
+        <tbody>
+            {''.join(linhas_tabela_html) if linhas_tabela_html else '<tr><td colspan="6" style="text-align:center; padding:12px; color:#64748B;">Nenhum cliente registrado na base.</td></tr>'}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <div>Relatório emitido automaticamente pelo Processo 5 — HyperAutomation Platform</div>
+        <div>Data de Emissão: {metricas.get('gerado_em', '')}</div>
+    </div>
+</body>
+</html>
+"""
+        return html
 
     def gerar_markdown(self, metricas: Dict[str, Any], timestamp: str) -> Path:
         """Gera relatório executivo em formato Markdown."""

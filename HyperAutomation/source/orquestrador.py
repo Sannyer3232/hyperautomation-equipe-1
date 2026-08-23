@@ -517,6 +517,8 @@ def executar_orquestracao(modo="cadastro", row_index=2, id_solicitacao=None, cpf
             print(f"  -> Eficiência da Esteira Global  : {kpi_efi.get('taxa_conclusao_ponta_a_ponta_percentual', 0)}% [{kpi_efi.get('eficiencia_esteira', 'N/A')}]")
             if "excel" in rel_info:
                 print(f"  [ARQUIVO] Relatório Excel    : {Path(rel_info['excel']).name}")
+            if "pdf" in rel_info:
+                print(f"  [ARQUIVO] Relatório PDF      : {Path(rel_info['pdf']).name}")
             if "markdown" in rel_info:
                 print(f"  [ARQUIVO] Relatório Markdown : {Path(rel_info['markdown']).name}")
             if "json" in rel_info:

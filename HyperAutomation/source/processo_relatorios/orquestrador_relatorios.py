@@ -52,10 +52,12 @@ class ProcessoRelatorios:
             self.logger.metrica("Eficiência Global", f"{kpi_efi['taxa_conclusao_ponta_a_ponta_percentual']}% [{kpi_efi['eficiencia_esteira']}]")
 
             # 3. Geração de relatórios versionados
-            self.logger.info("[ETAPA 3/3] Gerando relatórios versionados (Excel, Markdown e JSON)...")
+            self.logger.info("[ETAPA 3/3] Gerando relatórios versionados (Excel, PDF com Gráficos, Markdown e JSON)...")
             arquivos_gerados = self.gerador.gerar_todos(dados_consolidados, metricas)
 
             self.logger.info(f"  [OK] Excel: {arquivos_gerados['excel'].name}")
+            if "pdf" in arquivos_gerados:
+                self.logger.info(f"  [OK] PDF Executivo: {arquivos_gerados['pdf'].name}")
             self.logger.info(f"  [OK] Markdown: {arquivos_gerados['markdown'].name}")
             self.logger.info(f"  [OK] JSON: {arquivos_gerados['json'].name}")
             self.logger.info(f"  [OK] Diretório: {arquivos_gerados['dir_saida']}")

@@ -188,12 +188,14 @@ class TestGeradorRelatorios:
 
         # 1. Verifica arquivos gerados
         assert resultado["excel"].exists()
+        assert resultado["pdf"].exists()
         assert resultado["markdown"].exists()
         assert resultado["json"].exists()
 
         # 2. Verifica cópias 'latest'
         dir_out = planilhas_teste["dir_saida"]
         assert (dir_out / "relatorio_gerencial_latest.xlsx").exists()
+        assert (dir_out / "relatorio_gerencial_latest.pdf").exists()
         assert (dir_out / "relatorio_gerencial_latest.md").exists()
         assert (dir_out / "relatorio_gerencial_latest.json").exists()
 

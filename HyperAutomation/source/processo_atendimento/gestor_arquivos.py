@@ -21,14 +21,16 @@ class GestorArquivos:
         self.dir_downloads = self.base_dir / "Downloads"
         self.dir_ok = self.base_dir / "Documentos_OK"
         self.dir_pendentes = self.base_dir / "Documentos_Pendentes"
-        self.dir_encaminhados = self.base_dir / "Encaminhados"
+        self.dir_sistema_integrador = self.base_dir / "Sistema_Integrador_Portal_Fake"
+        self.dir_arquivados = self.base_dir / "Arquivados"
+
 
         # Conexão com Google Drive API v3
         self.gestor_drive = GestorDrive()
 
     def garantir_estrutura_pastas(self):
         """Cria as pastas do ERP caso ainda não existam localmente e no Google Drive."""
-        for pasta in [self.dir_downloads, self.dir_ok, self.dir_pendentes, self.dir_encaminhados]:
+        for pasta in [self.dir_downloads, self.dir_ok, self.dir_pendentes, self.dir_sistema_integrador, self.dir_arquivados]:
             pasta.mkdir(parents=True, exist_ok=True)
         print(f"[GESTOR ARQUIVOS] Estrutura de pastas local garantida em: {self.base_dir}")
 
@@ -56,21 +58,20 @@ class GestorArquivos:
 
         return destino
 
-    def mover_para_encaminhados(self, nome_arquivo: str) -> Path:
+    def arquivar_documento(self, nome_arquivo: str, pasta_origem: str = "Documentos_OK") -> Path:
         """
-        Move o arquivo validado da pasta Documentos_OK para Encaminhados após o
-        envio ao setor localmente e no Google Drive.
+        Move o arquivo processado pelo Processo 2 para a pasta Arquivados.
         """
-        origem = self.dir_ok / nome_arquivo
-        destino = self.dir_encaminhados / nome_arquivo
+        origem = self.base_dir / pasta_origem / nome_arquivo
+        destino = self.dir_arquivados / nome_arquivo
 
         if not origem.exists():
-            raise FileNotFoundError(f"Arquivo não encontrado em Documentos_OK: {origem}")
+            raise FileNotFoundError(f"Arquivo não encontrado em {pasta_origem}: {origem}")
 
         shutil.move(str(origem), str(destino))
-        print(f"[GESTOR ARQUIVOS] Arquivo '{nome_arquivo}' movido localmente para 'Encaminhados'.")
+        print(f"[GESTOR ARQUIVOS] Arquivo '{nome_arquivo}' arquivado com sucesso.")
 
         # Repercute a movimentação no Google Drive
-        self.gestor_drive.mover_arquivo(nome_arquivo, pasta_origem="Documentos_OK", pasta_destino="Encaminhados", caminho_local=destino)
+        self.gestor_drive.mover_arquivo(nome_arquivo, pasta_origem=pasta_origem, pasta_destino="Arquivados", caminho_local=destino)
 
-        return destino
+        return destino

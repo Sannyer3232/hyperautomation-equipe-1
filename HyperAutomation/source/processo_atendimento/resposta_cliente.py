@@ -8,7 +8,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from pathlib import Path
 from dotenv import load_dotenv
-from common.protocolo import gerar_protocolo_unico
+from source.common.protocolo import gerar_protocolo_unico
 
 load_dotenv()
 

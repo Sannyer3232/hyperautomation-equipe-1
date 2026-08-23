@@ -7,7 +7,7 @@ import email
 from email.header import decode_header
 from pathlib import Path
 from dotenv import load_dotenv
-from common.protocolo import gerar_protocolo_unico
+from source.common.protocolo import gerar_protocolo_unico
 
 load_dotenv()
 

@@ -21,6 +21,7 @@ from processo_atendimento.gestor_arquivos import GestorArquivos
 from processo_atendimento.resposta_cliente import NotificadorCliente
 from processo_atendimento.leitor_email import LeitorEmail
 from processo_atendimento.validador_docs import ValidadorDocumentos
+from processo_atendimento.processo_sac import ProcessoSAC, executar_processo_sac
 from processo_cadastro import executar_processo3, OrquestradorCadastro
 
 
@@ -32,7 +33,7 @@ def main():
         maestro = BotMaestroSDK()
 
     parser = argparse.ArgumentParser(
-        description="Orquestrador HyperAutomation - Processo Integrado (Atendimento, Organização e Cadastro)",
+        description="Orquestrador HyperAutomation - Processo Integrado (Atendimento, Organização, Cadastro e SAC)",
         formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument(
@@ -41,13 +42,14 @@ def main():
         default=None,
         help="Modo de execução posicional:\n"
              "  cadastro            : Executa FASE 3 (Cadastro no Portal Fake lendo somente a Planilha Mestra)\n"
+             "  sac / processo4     : Executa FASE 4 (SAC e registro de atendimentos na planilha de SAC)\n"
              "  processar_retornos  : Executa FASE 2 & 3 (leitura de e-mails/documentos, gravação na Planilha Mestra e cadastro)\n"
              "  enviar_solicitacoes : Executa FASE 1 (leitura do CSV, geração e envio da ficha de assinatura)\n"
-             "  demo_completo       : Executa FASES 1, 2 e 3 integradas (demonstração completa)"
+             "  demo_completo       : Executa FASES 1, 2, 3 e 4 integradas (demonstração completa)"
     )
     parser.add_argument(
         "-m", "--modo",
-        choices=["cadastro", "processo3", "processar_retornos", "enviar_solicitacoes", "demo_completo"],
+        choices=["cadastro", "processo3", "sac", "processo4", "processar_retornos", "enviar_solicitacoes", "demo_completo", "completo"],
         default=None,
         help="Modo de execução (sobrescreve o argumento posicional)"
     )
@@ -467,6 +469,21 @@ def executar_orquestracao(modo="cadastro", row_index=2, id_solicitacao=None, cpf
 
         for err in erros:
             print(f"    [FASE 3] Falha no cadastro de {err.get('nome_completo')}: {err.get('motivo')}")
+
+    # =========================================================================
+    # FASE 4: PROCESSAMENTO DE SAC E COMUNICAÇÃO DE ATENDIMENTO (PROCESSO 4)
+    # =========================================================================
+    if modo in ["sac", "processo4", "demo_completo", "completo"]:
+        print("\n" + "-" * 60)
+        print(f"[FASE 4] PROCESSAMENTO DE SAC E ATENDIMENTO AO CLIENTE (PROCESSO 4)")
+        print("-" * 60)
+
+        caminho_sac = gestor_erp.dir_sistema_integrador / "atendimentos_sac.xlsx"
+        res_sac = executar_processo_sac(
+            caminho_planilha_mestra=caminho_planilha,
+            caminho_planilha_sac=caminho_sac
+        )
+        print(f"  [FASE 4 - RESUMO] SAC Concluído: {res_sac.get('total_processados', 0)} registros processados / registrados em '{caminho_sac.name}'.")
 
     print("\n" + "=" * 75)
     print("ORQUESTRAÇÃO HYPERAUTOMATION FINALIZADA COM SUCESSO!")

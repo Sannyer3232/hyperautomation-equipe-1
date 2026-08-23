@@ -26,26 +26,52 @@ class ErroPlanilhaMestra(Exception):
 
 
 def get_project_root():
-    return Path(__file__).parent.parent.parent.parent
+    current = Path(__file__).resolve().parent
+    for parent in [current] + list(current.parents):
+        if (parent / "ERP_Portal_Fake").exists() or (parent / "HyperAutomation").exists():
+            return parent
+    return Path(__file__).resolve().parents[3]
 
-PLANILHA_MESTRA = get_project_root() / "ERP_Portal_Fake" / "Sistema_Integrador_Portal_Fake" / "planilha_mestra.xlsx"
-PLANILHA_SAC = get_project_root() / "ERP_Portal_Fake" / "Sistema_Integrador_Portal_Fake" / "atendimentos_sac.xlsx"
+
+def get_default_planilha_mestra():
+    root = get_project_root()
+    p1 = root / "ERP_Portal_Fake" / "Sistema_Integrador_Portal_Fake" / "Planilha_Mestra.xlsx"
+    p2 = root / "ERP_Portal_Fake" / "Sistema_Integrador_Portal_Fake" / "planilha_mestra.xlsx"
+    if p1.exists():
+        return p1
+    if p2.exists():
+        return p2
+    return p1
+
+
+def get_default_planilha_sac():
+    root = get_project_root()
+    return root / "ERP_Portal_Fake" / "Sistema_Integrador_Portal_Fake" / "atendimentos_sac.xlsx"
+
+
+PLANILHA_MESTRA = get_default_planilha_mestra()
+PLANILHA_SAC = get_default_planilha_sac()
 
 
 # ============================================================
 # LOG
 # ============================================================
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s",
-    handlers=[
-        logging.FileHandler("sac.log", encoding="utf-8"),
-        logging.StreamHandler()
-    ]
-)
-
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("processo4_sac")
+if not logger.handlers:
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
+    
+    log_dir = get_project_root() / "logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    file_handler = logging.FileHandler(str(log_dir / "processo4_sac.log"), encoding="utf-8")
+    file_handler.setFormatter(formatter)
+    
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
 
 
 # ============================================================
@@ -235,27 +261,31 @@ class ProcessoSAC:
 
     def __init__(
         self,
-        caminho_planilha_mestra,
-        caminho_planilha_sac
+        caminho_planilha_mestra=None,
+        caminho_planilha_sac=None
     ):
 
         self.caminho_mestra = Path(
-            caminho_planilha_mestra
+            caminho_planilha_mestra or PLANILHA_MESTRA
         )
 
         self.registro = RegistroAtendimento(
-            caminho_planilha_sac
+            caminho_planilha_sac or PLANILHA_SAC
         )
 
     def carregar_planilha_mestra(self):
 
         try:
             if not self.caminho_mestra.exists():
-
-                raise FileNotFoundError(
-                    f"Planilha mestra não encontrada: "
-                    f"{self.caminho_mestra}"
-                )
+                alt_name = "Planilha_Mestra.xlsx" if self.caminho_mestra.name == "planilha_mestra.xlsx" else "planilha_mestra.xlsx"
+                alt_path = self.caminho_mestra.parent / alt_name
+                if alt_path.exists():
+                    self.caminho_mestra = alt_path
+                else:
+                    raise FileNotFoundError(
+                        f"Planilha mestra não encontrada: "
+                        f"{self.caminho_mestra}"
+                    )
 
             self.wb = load_workbook(
                 self.caminho_mestra
@@ -330,9 +360,9 @@ class ProcessoSAC:
 
     def definir_atendimento(self, cliente):
 
-        status = cliente.get("Status")
+        status = str(cliente.get("Status") or "").strip()
 
-        if status in ("ATIVO", "CONCLUIDO_P2"):
+        if status in ("ATIVO", "CONCLUIDO_P2", "CONCLUIDO_P3", "CADASTRADO", "CONCLUIDO"):
 
             return {
                 "tipo": "CADASTRO_OK",
@@ -470,12 +500,17 @@ class ProcessoSAC:
 
         try:
             self.carregar_planilha_mestra()
-        except ErroPlanilhaMestra as erro:
+        except Exception as erro:
             logger.error(
                 "Falha no acesso à planilha mestra: %s",
                 erro
             )
-            return
+            return {
+                "sucesso": False,
+                "erro": str(erro),
+                "total_processados": 0,
+                "total_registros": 0
+            }
         
         self.localizar_colunas()
 
@@ -486,15 +521,32 @@ class ProcessoSAC:
             len(clientes)
         )
 
+        processados = 0
         for cliente in clientes:
 
             self.processar_cliente(
                 cliente
             )
+            processados += 1
 
         logger.info(
             "Processo 4 - SAC finalizado"
         )
+        return {
+            "sucesso": True,
+            "total_processados": processados,
+            "total_registros": len(clientes)
+        }
+
+
+def executar_processo_sac(caminho_planilha_mestra=None, caminho_planilha_sac=None):
+    """Função utilitária para execução programática do Processo 4 (SAC)."""
+    processo = ProcessoSAC(
+        caminho_planilha_mestra=caminho_planilha_mestra,
+        caminho_planilha_sac=caminho_planilha_sac
+    )
+    return processo.executar()
+
 
 # ============================================================
 # EXECUÇÃO

@@ -151,4 +151,72 @@ class TestOrquestradorIntegrado:
         assert dados["nome_completo"] == "Sannyer Nery"
         assert dados["email"] == "sannyer@teste.com"
 
+    @patch("orquestrador.executar_processo_sac")
+    def test_modo_sac_executa_processo_sac(self, mock_exec_sac):
+        """Valida que o modo sac chama diretamente o Processo 4 (SAC)."""
+        mock_exec_sac.return_value = {
+            "sucesso": True,
+            "total_processados": 3,
+            "total_registros": 3
+        }
+
+        executar_orquestracao(modo="sac", headless=True)
+
+        mock_exec_sac.assert_called_once()
+        kwargs_sac = mock_exec_sac.call_args[1]
+        assert "Planilha_Mestra.xlsx" in str(kwargs_sac["caminho_planilha_mestra"])
+        assert "atendimentos_sac.xlsx" in str(kwargs_sac["caminho_planilha_sac"])
+
+    @patch("orquestrador.executar_processo_sac")
+    @patch("orquestrador.executar_processo3")
+    @patch("orquestrador.LeitorEmail")
+    @patch("orquestrador.ValidadorDocumentos")
+    @patch("orquestrador.NotificadorCliente")
+    @patch("orquestrador.criar_documento")
+    @patch("orquestrador.carregar_usuarios")
+    def test_modo_demo_completo_executa_todas_as_fases(
+        self, mock_carregar_csv, mock_criar_doc, mock_notificador_cls,
+        mock_validador_cls, mock_leitor_cls, mock_exec_p3, mock_exec_sac
+    ):
+        """Valida a execução integrada das 4 fases no modo demo_completo."""
+        mock_carregar_csv.return_value = [{
+            "id_solicitacao": "1",
+            "nome": "Ana",
+            "sobrenome": "Silva",
+            "cpf": "10000012482",
+            "email": "ana@email.com",
+            "telefone": "(92) 99888-1122",
+            "nascimento": "1995-01-01",
+            "endereco": "Manaus/AM"
+        }]
+        mock_criar_doc.return_value = "/tmp/fake_ficha.docx"
+        mock_notificador = MagicMock()
+        mock_notificador_cls.return_value = mock_notificador
+
+        mock_leitor = MagicMock()
+        mock_leitor.ler_emails_pendentes.return_value = []
+        mock_leitor_cls.return_value = mock_leitor
+
+        mock_exec_p3.return_value = {
+            "sucesso": True,
+            "total_processados": 1,
+            "cadastrados": [],
+            "duplicados": [],
+            "erros": []
+        }
+        mock_exec_sac.return_value = {
+            "sucesso": True,
+            "total_processados": 1,
+            "total_registros": 1
+        }
+
+        executar_orquestracao(modo="demo_completo", row_index=0, headless=True)
+
+        mock_criar_doc.assert_called_once()
+        mock_notificador.enviar_solicitacao_assinatura.assert_called_once()
+        mock_leitor.ler_emails_pendentes.assert_called_once()
+        mock_exec_p3.assert_called_once()
+        mock_exec_sac.assert_called_once()
+
+
 

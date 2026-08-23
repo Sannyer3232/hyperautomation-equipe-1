@@ -167,6 +167,24 @@ class TestOrquestradorIntegrado:
         assert "Planilha_Mestra.xlsx" in str(kwargs_sac["caminho_planilha_mestra"])
         assert "atendimentos_sac.xlsx" in str(kwargs_sac["caminho_planilha_sac"])
 
+    @patch("orquestrador.executar_processo5")
+    def test_modo_relatorios_executa_processo5(self, mock_exec_p5):
+        """Valida que o modo relatorios chama diretamente o Processo 5."""
+        mock_exec_p5.return_value = {
+            "sucesso": True,
+            "total_clientes": 5,
+            "metricas": {},
+            "relatorios": {}
+        }
+
+        executar_orquestracao(modo="relatorios", headless=True)
+
+        mock_exec_p5.assert_called_once()
+        kwargs_p5 = mock_exec_p5.call_args[1]
+        assert "Planilha_Mestra.xlsx" in str(kwargs_p5["caminho_planilha_mestra"])
+        assert "atendimentos_sac.xlsx" in str(kwargs_p5["caminho_planilha_sac"])
+
+    @patch("orquestrador.executar_processo5")
     @patch("orquestrador.executar_processo_sac")
     @patch("orquestrador.executar_processo3")
     @patch("orquestrador.LeitorEmail")
@@ -176,9 +194,9 @@ class TestOrquestradorIntegrado:
     @patch("orquestrador.carregar_usuarios")
     def test_modo_demo_completo_executa_todas_as_fases(
         self, mock_carregar_csv, mock_criar_doc, mock_notificador_cls,
-        mock_validador_cls, mock_leitor_cls, mock_exec_p3, mock_exec_sac
+        mock_validador_cls, mock_leitor_cls, mock_exec_p3, mock_exec_sac, mock_exec_p5
     ):
-        """Valida a execução integrada das 4 fases no modo demo_completo."""
+        """Valida a execução integrada das 5 fases no modo demo_completo."""
         mock_carregar_csv.return_value = [{
             "id_solicitacao": "1",
             "nome": "Ana",
@@ -209,6 +227,12 @@ class TestOrquestradorIntegrado:
             "total_processados": 1,
             "total_registros": 1
         }
+        mock_exec_p5.return_value = {
+            "sucesso": True,
+            "total_clientes": 1,
+            "metricas": {},
+            "relatorios": {}
+        }
 
         executar_orquestracao(modo="demo_completo", row_index=0, headless=True)
 
@@ -217,6 +241,7 @@ class TestOrquestradorIntegrado:
         mock_leitor.ler_emails_pendentes.assert_called_once()
         mock_exec_p3.assert_called_once()
         mock_exec_sac.assert_called_once()
+        mock_exec_p5.assert_called_once()
 
 
 

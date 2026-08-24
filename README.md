@@ -313,6 +313,9 @@ O workflow [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml) é dispa
 
 ## 👥 Equipe e Autoria
 
-- **Sannyer Cardoso Carvalho Nery** — Engenharia de Automação / RPA
+- **Sannyer Cardoso Carvalho Nery**
+- **Kauã Sales Viana**
+- **Daniele Greice**
+- **Ericle Luna**
 - **Disciplina:** Hyperautomation  
 - **Professor:** Moisés Levy  
